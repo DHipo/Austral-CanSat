@@ -30,5 +30,11 @@ Every investigation file should ideally include:
 *   **Results/Findings:** The key takeaways.
 *   **Next Steps:** Any recommendations based on the findings.
 
+## Templates
+To make things easier, use the templates located in the `templates/` folder:
+
+*   **Simple Investigation:** Copy the contents of `templates/simple_investigation_template.md` into a new `.md` file in the root of the `investigation/` folder.
+*   **Complex Investigation:** Copy the entire `templates/complex_structure/` folder into the `investigation/` folder and rename it to your topic (e.g., `telemetry-range-tests/`). Fill out the `index.md` inside it.
+
 ---
 *Note: This workflow ensures that our research is searchable, sortable, and easy for any team member to understand.*
