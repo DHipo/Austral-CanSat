@@ -9,6 +9,8 @@
 
   body {
     font-family: var(--font-sans);
+    background-color: #090a0d;
+    color: #e2e4e9;
   }
 
   h1, h2, h3, h4, h5, h6, .font-heading {
@@ -20,57 +22,109 @@
   }
 }
 
-/* Custom background grid & radial glow effects */
-.bg-grid-pattern {
-  background-size: 40px 40px;
+/* Metallic Theme Surfaces and Accents */
+.bg-metal-void {
+  background-color: #090a0d;
+}
+
+.bg-metal-titanium {
+  background-color: #12151e;
+}
+
+.metal-panel {
+  background: linear-gradient(135deg, rgba(22, 27, 38, 0.75) 0%, rgba(14, 17, 24, 0.85) 100%);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(200, 125, 85, 0.15);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+}
+
+.metal-panel-hover {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.metal-panel-hover:hover {
+  border-color: rgba(224, 155, 104, 0.35);
+  box-shadow: 0 0 25px -5px rgba(200, 125, 85, 0.2), 0 8px 30px rgba(0, 0, 0, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Metallic text gradient (Bronze / Titanium Steel) */
+.text-bronze-metallic {
+  background: linear-gradient(135deg, #f3cfb3 0%, #c87d55 50%, #995530 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-steel-metallic {
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Bronze glow effects */
+.glow-bronze {
+  box-shadow: 0 0 35px -5px rgba(200, 125, 85, 0.25);
+}
+
+.border-metal {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.border-bronze {
+  border-color: rgba(200, 125, 85, 0.3);
+}
+
+/* Subtle aerospace metallic dot grid */
+.bg-metal-grid {
+  background-size: 32px 32px;
   background-image: 
-    linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
 }
 
-.bg-dot-pattern {
-  background-size: 24px 24px;
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-}
-
-/* Glassmorphism utility */
-.glass-panel {
-  background: rgba(15, 23, 42, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-panel-hover {
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-panel-hover:hover {
-  background: rgba(30, 41, 59, 0.75);
-  border-color: rgba(56, 189, 248, 0.3);
-  box-shadow: 0 0 25px rgba(56, 189, 248, 0.12);
-}
-
-/* Glow effects */
-.glow-cyan {
-  box-shadow: 0 0 35px -5px rgba(6, 182, 212, 0.4);
-}
-
-.glow-amber {
-  box-shadow: 0 0 35px -5px rgba(245, 158, 11, 0.4);
-}
-
-/* Smooth custom scrollbars */
+/* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: #090a0d;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1f2937;
+  background: #232a3b;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #374151;
+  background: #c87d55;
+}
+
+/* Print Styles for Formal Document Generation (A4 Formal Report with Watermark) */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #111827 !important;
+  }
+
+  .no-print, header, nav, footer, .sidebar, button:not(.keep-print) {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .print-document {
+    background: #ffffff !important;
+    color: #111827 !important;
+    box-shadow: none !important;
+    border: none !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
 }
