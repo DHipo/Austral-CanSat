@@ -84,6 +84,25 @@
   transform: translateY(-2px);
 }
 
+.apple-kanban-column {
+  background: #141416;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.apple-task-card {
+  background-color: #1a1a1e;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.4);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-task-card:hover {
+  background-color: #202026;
+  border-color: rgba(255, 255, 255, 0.16);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+}
+
 /* Apple text gradients */
 .apple-headline-gradient {
   background: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
@@ -194,6 +213,94 @@ html.light .bg-\[\#161618\] {
 html.light .bg-\[\#161618\]:hover {
   background-color: #ffffff !important;
   border-color: rgba(0, 0, 0, 0.16) !important;
+}
+
+html.light .apple-kanban-column {
+  background-color: #edf0f5 !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light .apple-task-card {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px -1px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light .apple-task-card:hover {
+  background-color: #ffffff !important;
+  border-color: rgba(200, 125, 85, 0.45) !important;
+  box-shadow: 0 10px 25px -4px rgba(0, 0, 0, 0.09) !important;
+  transform: translateY(-2px);
+}
+
+html.light .apple-task-card h3 {
+  color: #1d1d1f !important;
+}
+
+html.light .apple-task-card p {
+  color: #48484a !important;
+}
+
+html.light .apple-task-card .text-\[\#86868b\] {
+  color: #6e6e73 !important;
+}
+
+html.light .apple-task-card .text-\[\#a1a1a6\] {
+  color: #48484a !important;
+}
+
+html.light .apple-task-card .border-t {
+  border-color: rgba(0, 0, 0, 0.07) !important;
+}
+
+html.light .apple-task-card button {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  color: #515154 !important;
+  border: 1px solid rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light .apple-task-card button:hover {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  color: #1d1d1f !important;
+}
+
+html.light .apple-task-card .bg-red-500\/15 {
+  background-color: rgba(239, 68, 68, 0.12) !important;
+  color: #dc2626 !important;
+  border-color: rgba(239, 68, 68, 0.25) !important;
+}
+
+html.light .apple-task-card .bg-amber-500\/15 {
+  background-color: rgba(245, 158, 11, 0.14) !important;
+  color: #b45309 !important;
+  border-color: rgba(245, 158, 11, 0.28) !important;
+}
+
+html.light .apple-task-card .bg-\[\#c87d55\]\/15 {
+  background-color: rgba(200, 125, 85, 0.12) !important;
+  color: #a45a33 !important;
+  border-color: rgba(200, 125, 85, 0.25) !important;
+}
+
+html.light .apple-kanban-column .border-dashed {
+  border-color: rgba(0, 0, 0, 0.14) !important;
+  color: #8e8e93 !important;
+}
+
+html.light .apple-mobile-kanban-tabs {
+  background-color: #e5e6ea !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .apple-mobile-kanban-tabs button {
+  color: #6e6e73 !important;
+}
+
+html.light .apple-mobile-kanban-tabs button.bg-white {
+  background-color: #ffffff !important;
+  color: #1d1d1f !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
 }
 
 /* 5. Typography */

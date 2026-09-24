@@ -12,9 +12,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, navigate }) => {
   const { effectiveTheme, systemTheme, toggleTheme } = useTheme()
 
   const navItems = [
-    { path: '/', label: 'Visión General' },
-    { path: '/informes', label: 'Informes' },
-    { path: '/todo', label: 'Tareas' },
+    { path: '/', label: 'Visión General', shortLabel: 'Inicio' },
+    { path: '/informes', label: 'Informes', shortLabel: 'Informes' },
+    { path: '/todo', label: 'Tareas', shortLabel: 'Tareas' },
   ]
 
   return (
@@ -25,7 +25,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, navigate }) => {
         <a 
           href="/" 
           onClick={(e) => handleLinkClick(e, '/', navigate)}
-          className="flex items-center gap-2.5 group opacity-90 hover:opacity-100 transition-opacity"
+          className="flex items-center gap-2 group opacity-90 hover:opacity-100 transition-opacity shrink-0"
         >
           <img 
             src="/logo.png" 
@@ -33,12 +33,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, navigate }) => {
             className="w-6 h-6 object-contain" 
           />
           <span className="text-sm font-semibold tracking-tight text-[#f5f5f7]">
-            AuSat <span className="text-[#86868b] font-normal">Orbit</span>
+            AuSat <span className="text-[#86868b] font-normal hidden sm:inline">Orbit</span>
           </span>
         </a>
 
         {/* Center Navigation Links (Apple Style: 12px text, high contrast, clean) */}
-        <nav className="flex items-center gap-6 sm:gap-8">
+        <nav className="flex items-center gap-3.5 sm:gap-8">
           {navItems.map((item) => {
             const isActive = currentPath === item.path
             return (
@@ -46,41 +46,36 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, navigate }) => {
                 key={item.path}
                 href={item.path}
                 onClick={(e) => handleLinkClick(e, item.path, navigate)}
-                className={`text-xs tracking-tight transition-colors ${
+                className={`text-xs tracking-tight transition-colors whitespace-nowrap ${
                   isActive
                     ? 'text-[#f5f5f7] font-semibold'
                     : 'text-[#86868b] hover:text-[#f5f5f7]'
                 }`}
               >
-                {item.label}
+                <span className="hidden sm:inline">{item.label}</span>
+                <span className="sm:hidden">{item.shortLabel}</span>
               </a>
             )
           })}
         </nav>
 
-        {/* Right Action: Intelligent Theme Switcher Button */}
+        {/* Right Action: Intelligent Theme Switcher Button (Icon Only) */}
         <div className="flex items-center">
           <button
             type="button"
             onClick={toggleTheme}
             title={
               effectiveTheme === 'dark'
-                ? `Cambiar a Modo Claro (Sistema del equipo: ${systemTheme === 'dark' ? 'Oscuro' : 'Claro'})`
-                : `Cambiar a Modo Oscuro (Sistema del equipo: ${systemTheme === 'dark' ? 'Oscuro' : 'Claro'})`
+                ? `Cambiar a Modo Claro (Sistema: ${systemTheme === 'dark' ? 'Oscuro' : 'Claro'})`
+                : `Cambiar a Modo Oscuro (Sistema: ${systemTheme === 'dark' ? 'Oscuro' : 'Claro'})`
             }
             aria-label="Cambiar tema de color"
-            className="p-1.5 sm:px-2.5 sm:py-1 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-[#a1a1a6] hover:text-white border border-white/[0.08] transition-all flex items-center gap-1.5 text-xs font-mono group"
+            className="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-[#a1a1a6] hover:text-white border border-white/[0.08] transition-all flex items-center justify-center group"
           >
             {effectiveTheme === 'dark' ? (
-              <>
-                <Sun className="w-3.5 h-3.5 text-[#e29b68] group-hover:rotate-45 transition-transform duration-300" />
-                <span className="hidden sm:inline text-[11px] text-[#a1a1a6] group-hover:text-white transition-colors">Claro</span>
-              </>
+              <Sun className="w-4 h-4 text-[#e29b68] group-hover:rotate-45 transition-transform duration-300" />
             ) : (
-              <>
-                <Moon className="w-3.5 h-3.5 text-[#0071e3] group-hover:-rotate-12 transition-transform duration-300" />
-                <span className="hidden sm:inline text-[11px] text-[#1d1d1f] transition-colors">Oscuro</span>
-              </>
+              <Moon className="w-4 h-4 text-[#0071e3] group-hover:-rotate-12 transition-transform duration-300" />
             )}
           </button>
         </div>

@@ -171,6 +171,8 @@ export const TodoPage: React.FC = () => {
     { status: 'DONE', title: 'Completado', color: '#30d158', icon: CheckCircle2 }
   ]
 
+  const [mobileColumn, setMobileColumn] = useState<'ALL' | TodoStatus>('ALL')
+
   const filteredTodos = todos.filter(t => {
     const matchesSearch = 
       t.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -353,16 +355,51 @@ export const TodoPage: React.FC = () => {
           )}
         </AnimatePresence>
 
+        {/* Mobile Segmented Column Controller (Mobile only) */}
+        <div className="flex md:hidden items-center gap-1 p-1 rounded-2xl bg-white/[0.04] border border-white/[0.08] mb-6 overflow-x-auto apple-mobile-kanban-tabs">
+          <button
+            type="button"
+            onClick={() => setMobileColumn('ALL')}
+            className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all text-center ${
+              mobileColumn === 'ALL'
+                ? 'bg-white text-black font-semibold shadow-sm'
+                : 'text-[#86868b] hover:text-white'
+            }`}
+          >
+            Todas ({filteredTodos.length})
+          </button>
+          {columns.map(col => {
+            const count = filteredTodos.filter(t => t.status === col.status).length
+            return (
+              <button
+                key={col.status}
+                type="button"
+                onClick={() => setMobileColumn(col.status)}
+                className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-medium whitespace-nowrap transition-all text-center ${
+                  mobileColumn === col.status
+                    ? 'bg-white text-black font-semibold shadow-sm'
+                    : 'text-[#86868b] hover:text-white'
+                }`}
+              >
+                {col.title} ({count})
+              </button>
+            )
+          })}
+        </div>
+
         {/* Kanban Board Columns */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
           {columns.map((col) => {
             const ColIcon = col.icon
             const colTodos = filteredTodos.filter(t => t.status === col.status)
+            const isVisibleOnMobile = mobileColumn === 'ALL' || mobileColumn === col.status
+
+            if (!isVisibleOnMobile) return null
 
             return (
               <div 
                 key={col.status}
-                className="apple-bento-card p-5 flex flex-col min-h-[520px]"
+                className="apple-bento-card apple-kanban-column p-4 sm:p-5 flex flex-col min-h-[440px] sm:min-h-[520px]"
               >
                 {/* Column Header */}
                 <div className="flex items-center justify-between pb-3 mb-4 border-b border-white/[0.08]">
@@ -388,11 +425,11 @@ export const TodoPage: React.FC = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.96 }}
                         transition={{ duration: 0.2 }}
-                        className="rounded-2xl p-4 bg-[#0a0a0c] border border-white/[0.08] hover:border-white/[0.2] transition-all group relative"
+                        className="apple-task-card rounded-2xl p-4 transition-all group relative"
                       >
                         {/* Issue Header: Number & Priority */}
                         <div className="flex items-center justify-between text-xs font-mono text-[#86868b] mb-2">
-                          <span className="text-[#6e6e73] font-semibold group-hover:text-white transition-colors">
+                          <span className="font-semibold group-hover:text-white transition-colors">
                             #{task.number}
                           </span>
 
