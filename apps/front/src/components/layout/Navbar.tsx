@@ -54,16 +54,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPath, navigate }) => {
           })}
         </nav>
 
-        {/* Apple-style Right CTA: Direct access to Reports */}
-        <div className="hidden sm:flex items-center">
-          <a
-            href="/informes"
-            onClick={(e) => handleLinkClick(e, '/informes', navigate)}
-            className="apple-pill-primary px-3.5 py-1 text-xs tracking-tight"
-          >
-            Informes
-          </a>
-        </div>
+
 
       </div>
     </header>

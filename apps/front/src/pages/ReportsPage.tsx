@@ -11,7 +11,15 @@ import {
   Edit3, 
   Trash2, 
   Check, 
-  BookOpen
+  BookOpen,
+  Bold,
+  List,
+  ListOrdered,
+  Code,
+  Sparkles,
+  FileText,
+  Tag,
+  CheckCircle2
 } from 'lucide-react'
 
 export interface ReportItem {
@@ -64,7 +72,7 @@ const DEFAULT_REPORTS: ReportItem[] = [
     id: 'rep-003',
     title: 'Estudio de Radiocomunicaciones LoRa vs XBee',
     subtitle: 'Comparativa de alcance, consumo y modulación para telemetría a 1 Hz en 915 MHz.',
-    author: 'Equipo de Aviónica',
+    author: 'Mateo Fernández',
     date: '2026-06-02',
     category: 'Investigación',
     subsystem: 'Aviónica',
@@ -76,6 +84,143 @@ const DEFAULT_REPORTS: ReportItem[] = [
     nextSteps: 'Diseñar el PCB preliminar de aviónica integrando IMU MPU-6050 y barómetro BMP280.'
   }
 ]
+
+const TEAM_MEMBERS_QUICK = [
+  'Bautista D\'Hipólito',
+  'Mateo Fernández',
+  'Sofía Rossi',
+  'Lucas Benítez',
+  'Valentina Gómez',
+  'Ignacio Álvarez',
+  'Equipo AuSat'
+]
+
+// Professional Engineering Textarea Component
+interface ProfessionalTextareaProps {
+  step: string
+  label: string
+  helper: string
+  value: string
+  onChange: (val: string) => void
+  placeholder: string
+  rows?: number
+  required?: boolean
+  quickSnippets?: { label: string; text: string }[]
+}
+
+const ProfessionalTextarea: React.FC<ProfessionalTextareaProps> = ({
+  step,
+  label,
+  helper,
+  value,
+  onChange,
+  placeholder,
+  rows = 4,
+  required = false,
+  quickSnippets = []
+}) => {
+  const insertText = (before: string, after: string = '') => {
+    onChange(`${value}${before}${after}`)
+  }
+
+  const wordCount = value.trim() ? value.trim().split(/\s+/).length : 0
+  const charCount = value.length
+
+  return (
+    <div className="rounded-2xl bg-[#0e0e11] border border-white/[0.08] hover:border-white/[0.14] transition-all p-4 sm:p-5 space-y-3">
+      {/* Header with Step, Title, Helper and Toolbar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/[0.06]">
+        <div className="flex items-start gap-2.5">
+          <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-[#e29b68]/15 text-[#e29b68] border border-[#e29b68]/30">
+            {step}
+          </span>
+          <div>
+            <label className="text-xs font-bold tracking-tight text-white flex items-center gap-1.5 uppercase">
+              {label} {required && <span className="text-[#e29b68]">*</span>}
+            </label>
+            <p className="text-[11px] text-[#86868b] mt-0.5 leading-snug">
+              {helper}
+            </p>
+          </div>
+        </div>
+
+        {/* Markdown Toolbar */}
+        <div className="flex items-center gap-1 self-start sm:self-center bg-black/40 p-1 rounded-lg border border-white/[0.06]">
+          <button
+            type="button"
+            onClick={() => insertText('**', '**')}
+            title="Texto en negrita (**texto**)"
+            className="p-1.5 rounded hover:bg-white/[0.08] text-[#86868b] hover:text-white transition-colors"
+          >
+            <Bold className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertText('\n- ')}
+            title="Lista con viñetas"
+            className="p-1.5 rounded hover:bg-white/[0.08] text-[#86868b] hover:text-white transition-colors"
+          >
+            <List className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertText('\n1. ')}
+            title="Lista numerada"
+            className="p-1.5 rounded hover:bg-white/[0.08] text-[#86868b] hover:text-white transition-colors"
+          >
+            <ListOrdered className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => insertText('\n```\n', '\n```')}
+            title="Bloque de código o datos de telemetría"
+            className="p-1.5 rounded hover:bg-white/[0.08] text-[#86868b] hover:text-white transition-colors"
+          >
+            <Code className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Optional Quick Snippets */}
+      {quickSnippets.length > 0 && (
+        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+          <span className="text-[10px] uppercase font-mono text-[#6e6e73] mr-1 flex items-center gap-1">
+            <Sparkles className="w-2.5 h-2.5 text-[#e29b68]" />
+            Insertar:
+          </span>
+          {quickSnippets.map((snippet, idx) => (
+            <button
+              key={idx}
+              type="button"
+              onClick={() => insertText(snippet.text)}
+              className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-[#a1a1a6] hover:text-white transition-all"
+            >
+              + {snippet.label}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* Textarea */}
+      <textarea
+        required={required}
+        rows={rows}
+        placeholder={placeholder}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className="w-full px-4 py-3 rounded-xl bg-[#08080a] border border-white/[0.08] text-[#f5f5f7] text-xs sm:text-sm font-mono leading-relaxed focus:border-[#e29b68]/60 focus:ring-1 focus:ring-[#e29b68]/20 focus:outline-none transition-all placeholder-[#48484a]"
+      />
+
+      {/* Word & Char Counter Footer */}
+      <div className="flex items-center justify-between text-[10px] text-[#6e6e73] font-mono pt-1">
+        <span>Soporta Markdown y tablas estándar</span>
+        <span className="bg-white/[0.04] px-2 py-0.5 rounded border border-white/[0.04]">
+          {wordCount} palabras • {charCount} caracteres
+        </span>
+      </div>
+    </div>
+  )
+}
 
 export const ReportsPage: React.FC = () => {
   const [reports, setReports] = useState<ReportItem[]>(() => {
@@ -92,6 +237,7 @@ export const ReportsPage: React.FC = () => {
 
   const [activeReport, setActiveReport] = useState<ReportItem | null>(null)
   const [isEditing, setIsEditing] = useState(false)
+  const [editorTab, setEditorTab] = useState<'edit' | 'preview'>('edit')
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string>('TODOS')
 
@@ -118,7 +264,7 @@ export const ReportsPage: React.FC = () => {
       id: `rep-${Date.now().toString().slice(-4)}`,
       title: '',
       subtitle: '',
-      author: '',
+      author: 'Bautista D\'Hipólito',
       date: new Date().toISOString().split('T')[0],
       category: 'Investigación',
       subsystem: 'General',
@@ -127,12 +273,14 @@ export const ReportsPage: React.FC = () => {
       conclusions: '',
       nextSteps: ''
     })
+    setEditorTab('edit')
     setIsEditing(true)
     setActiveReport(null)
   }
 
   const handleStartEdit = (report: ReportItem) => {
     setFormData({ ...report })
+    setEditorTab('edit')
     setIsEditing(true)
   }
 
@@ -154,7 +302,7 @@ export const ReportsPage: React.FC = () => {
   }
 
   const handleDeleteReport = (id: string) => {
-    if (window.confirm('¿Seguro que deseas eliminar este informe?')) {
+    if (window.confirm('¿Seguro que deseas eliminar este informe técnico?')) {
       setReports(prev => prev.filter(r => r.id !== id))
       if (activeReport?.id === id) {
         setActiveReport(null)
@@ -211,7 +359,8 @@ ${report.nextSteps}
     const matchesSearch = 
       r.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       r.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      r.findings.toLowerCase().includes(searchTerm.toLowerCase())
+      r.findings.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      r.id.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesCat = categoryFilter === 'TODOS' || r.category === categoryFilter
     return matchesSearch && matchesCat
   })
@@ -220,19 +369,19 @@ ${report.nextSteps}
     <div className="bg-[#000000] min-h-screen text-[#f5f5f7]">
       
       {/* ========================================================================= */}
-      {/* MODO 1: VISTA DE DOCUMENTO FORMAL APPLE-STYLE */}
+      {/* MODO 1: VISTA DE DOCUMENTO FORMAL A4 (APPLE STYLE CON MARCA DE AGUA) */}
       {/* ========================================================================= */}
       {activeReport && !isEditing ? (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
           
-          {/* Top Control Bar (Apple Pill Actions) */}
+          {/* Top Control Bar */}
           <div className="no-print flex items-center justify-between mb-8 pb-4 border-b border-white/[0.08]">
             <button
               onClick={() => setActiveReport(null)}
               className="apple-pill-secondary px-4 py-2 text-xs flex items-center gap-1.5"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Volver a Informes</span>
+              <span>Volver a la Lista</span>
             </button>
 
             <div className="flex items-center gap-2.5">
@@ -404,181 +553,362 @@ ${report.nextSteps}
       ) : null}
 
       {/* ========================================================================= */}
-      {/* MODO 2: FORMULARIO CREADOR / EDITOR APPLE STYLE */}
+      {/* MODO 2: EDITOR TÉCNICO PROFESIONAL (ESTUDIO DE REDACCIÓN DE INFORMES) */}
       {/* ========================================================================= */}
       {isEditing ? (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/[0.08]">
+          
+          {/* Header Bar with Tabs */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-5 border-b border-white/[0.08]">
             <div>
-              <h2 className="text-2xl font-bold tracking-tight text-white">
-                {formData.title ? 'Editar Informe' : 'Redactar Nuevo Informe Técnico'}
+              <div className="flex items-center gap-2 mb-1">
+                <span className="font-mono text-[10px] uppercase tracking-wider text-[#e29b68] bg-[#e29b68]/10 border border-[#e29b68]/20 px-2 py-0.5 rounded">
+                  ESTUDIO DOCUMENTAL
+                </span>
+                <span className="text-xs text-[#6e6e73] font-mono">
+                  ID: {formData.id || 'NUEVO'}
+                </span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                {formData.title ? 'Editar Informe Técnico' : 'Redactar Nuevo Informe'}
               </h2>
-              <p className="text-xs text-[#86868b] mt-0.5">
-                Generador oficial con portada, marca de agua institucional y exportación Markdown.
-              </p>
             </div>
 
-            <button
-              onClick={() => setIsEditing(false)}
-              className="apple-pill-secondary px-4 py-1.5 text-xs"
-            >
-              Cancelar
-            </button>
-          </div>
-
-          <form onSubmit={handleSaveReport} className="apple-bento-card p-6 sm:p-10 space-y-6">
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">TÍTULO DEL INFORME *</label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="Ej: Calibración del Sensor de Altitud y Despliegue de Huevo"
-                  value={formData.title}
-                  onChange={e => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none"
-                />
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">AUTOR / INVESTIGADOR *</label>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="Nombre de la persona o sub-equipo"
-                  value={formData.author}
-                  onChange={e => setFormData({ ...formData, author: e.target.value })}
-                  className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">DE QUÉ SE TRATA (SUBTÍTULO / RESUMEN) *</label>
-              <input 
-                type="text" 
-                required
-                placeholder="Breve descripción del alcance del reporte para la portada"
-                value={formData.subtitle}
-                onChange={e => setFormData({ ...formData, subtitle: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div>
-                <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">CATEGORÍA</label>
-                <select
-                  value={formData.category}
-                  onChange={e => setFormData({ ...formData, category: e.target.value as any })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-xs focus:border-white/[0.3] focus:outline-none"
+            {/* Mode Switcher: Redacción vs Vista Previa */}
+            <div className="flex items-center gap-2 self-start sm:self-center">
+              <div className="flex items-center bg-[#141417] p-1 rounded-full border border-white/[0.08]">
+                <button
+                  type="button"
+                  onClick={() => setEditorTab('edit')}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    editorTab === 'edit'
+                      ? 'bg-white text-black shadow-sm'
+                      : 'text-[#86868b] hover:text-white'
+                  }`}
                 >
-                  <option value="Investigación">Investigación</option>
-                  <option value="PDR / CDR">PDR / CDR</option>
-                  <option value="Ensayo Ambiental">Ensayo Ambiental</option>
-                  <option value="Minuta de Reunión">Minuta de Reunión</option>
-                  <option value="Contrato">Contrato</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">SUBSISTEMA</label>
-                <select
-                  value={formData.subsystem}
-                  onChange={e => setFormData({ ...formData, subsystem: e.target.value as any })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-xs focus:border-white/[0.3] focus:outline-none"
+                  Editor
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditorTab('preview')}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                    editorTab === 'preview'
+                      ? 'bg-white text-black shadow-sm'
+                      : 'text-[#86868b] hover:text-white'
+                  }`}
                 >
-                  <option value="General">General</option>
-                  <option value="Aviónica">Aviónica & Sensores</option>
-                  <option value="Mecánica & Paraglider">Mecánica & Paraglider</option>
-                  <option value="Software & Telemetría">Software & Telemetría</option>
-                  <option value="Carga Crítica (Huevo)">Carga Crítica (Huevo)</option>
-                </select>
+                  Vista Previa
+                </button>
               </div>
 
-              <div>
-                <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">FECHA</label>
-                <input 
-                  type="date" 
-                  value={formData.date}
-                  onChange={e => setFormData({ ...formData, date: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-xs focus:border-white/[0.3] focus:outline-none"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">1. OBJETIVO *</label>
-              <textarea
-                required
-                rows={3}
-                placeholder="¿Qué se buscaba investigar o solucionar?"
-                value={formData.objective}
-                onChange={e => setFormData({ ...formData, objective: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none font-mono"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">2. DESARROLLO, PRUEBAS Y RESULTADOS *</label>
-              <textarea
-                required
-                rows={5}
-                placeholder="Detalla las investigaciones, pruebas o mediciones..."
-                value={formData.findings}
-                onChange={e => setFormData({ ...formData, findings: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none font-mono"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">3. CONCLUSIONES *</label>
-              <textarea
-                required
-                rows={3}
-                placeholder="Resumen de aprendizajes..."
-                value={formData.conclusions}
-                onChange={e => setFormData({ ...formData, conclusions: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none font-mono"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">4. PRÓXIMOS PASOS</label>
-              <textarea
-                rows={2}
-                placeholder="Acciones resultantes..."
-                value={formData.nextSteps}
-                onChange={e => setFormData({ ...formData, nextSteps: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none font-mono"
-              />
-            </div>
-
-            <div className="pt-4 border-t border-white/[0.08] flex justify-end gap-3">
               <button
                 type="button"
                 onClick={() => setIsEditing(false)}
-                className="apple-pill-secondary px-5 py-2.5 text-xs"
+                className="apple-pill-secondary px-3.5 py-1.5 text-xs"
               >
                 Cancelar
               </button>
-
-              <button
-                type="submit"
-                className="apple-pill-primary px-7 py-2.5 text-xs font-semibold flex items-center gap-2"
-              >
-                <Check className="w-4 h-4" />
-                <span>Guardar y Ver Documento</span>
-              </button>
             </div>
+          </div>
 
-          </form>
+          {/* TAB 1: EDITOR FORM */}
+          {editorTab === 'edit' ? (
+            <form onSubmit={handleSaveReport} className="space-y-8">
+              
+              {/* BLOQUE 1: DATOS DE PORTADA Y METADATOS */}
+              <div className="apple-bento-card p-6 sm:p-8 space-y-6">
+                <div className="flex items-center gap-2 pb-3 border-b border-white/[0.06]">
+                  <FileText className="w-4 h-4 text-[#e29b68]" />
+                  <h3 className="text-xs uppercase font-bold tracking-widest text-[#a1a1a6]">
+                    BLOQUE 01 • PORTADA Y CLASIFICACIÓN
+                  </h3>
+                </div>
+
+                {/* Título Principal */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-bold text-white uppercase">
+                      TÍTULO DEL INFORME <span className="text-[#e29b68]">*</span>
+                    </label>
+                    <span className="text-[10px] font-mono text-[#6e6e73]">
+                      {formData.title.length}/120
+                    </span>
+                  </div>
+                  <input 
+                    type="text" 
+                    required
+                    maxLength={120}
+                    placeholder="Ej: Calibración del Sensor de Altitud y Despliegue de Huevo"
+                    value={formData.title}
+                    onChange={e => setFormData({ ...formData, title: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-[#08080a] border border-white/[0.1] text-white text-sm font-semibold focus:border-[#e29b68]/60 focus:ring-1 focus:ring-[#e29b68]/20 focus:outline-none transition-all placeholder-[#48484a]"
+                  />
+                </div>
+
+                {/* Subtítulo / Resumen */}
+                <div>
+                  <label className="block text-xs font-bold text-white uppercase mb-2">
+                    DE QUÉ SE TRATA (RESUMEN EJECUTIVO PARA LA PORTADA) <span className="text-[#e29b68]">*</span>
+                  </label>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="Breve síntesis (1-2 oraciones) que figurará en el encabezado oficial"
+                    value={formData.subtitle}
+                    onChange={e => setFormData({ ...formData, subtitle: e.target.value })}
+                    className="w-full px-4 py-3 rounded-xl bg-[#08080a] border border-white/[0.1] text-white text-sm focus:border-[#e29b68]/60 focus:ring-1 focus:ring-[#e29b68]/20 focus:outline-none transition-all placeholder-[#48484a]"
+                  />
+                </div>
+
+                {/* Quick Author Selection */}
+                <div>
+                  <label className="block text-xs font-bold text-white uppercase mb-2">
+                    AUTOR / RESPONSABLE TÉCNICO <span className="text-[#e29b68]">*</span>
+                  </label>
+                  <div className="flex flex-wrap items-center gap-1.5 mb-2.5">
+                    {TEAM_MEMBERS_QUICK.map((authorName) => (
+                      <button
+                        key={authorName}
+                        type="button"
+                        onClick={() => setFormData({ ...formData, author: authorName })}
+                        className={`text-xs px-2.5 py-1 rounded-full border transition-all ${
+                          formData.author === authorName
+                            ? 'bg-[#e29b68]/20 text-[#e29b68] border-[#e29b68]/50 font-medium'
+                            : 'bg-white/[0.04] text-[#86868b] border-white/[0.06] hover:text-white'
+                        }`}
+                      >
+                        {authorName}
+                      </button>
+                    ))}
+                  </div>
+                  <input 
+                    type="text" 
+                    required
+                    placeholder="O escribe otro nombre de autor..."
+                    value={formData.author}
+                    onChange={e => setFormData({ ...formData, author: e.target.value })}
+                    className="w-full px-4 py-2.5 rounded-xl bg-[#08080a] border border-white/[0.1] text-white text-xs focus:border-[#e29b68]/60 focus:outline-none transition-all"
+                  />
+                </div>
+
+                {/* Categoría, Subsistema y Fecha */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                  <div>
+                    <label className="block text-xs font-bold text-[#a1a1a6] uppercase mb-1.5">
+                      CATEGORÍA
+                    </label>
+                    <select
+                      value={formData.category}
+                      onChange={e => setFormData({ ...formData, category: e.target.value as any })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#08080a] border border-white/[0.1] text-white text-xs focus:border-[#e29b68]/60 focus:outline-none cursor-pointer"
+                    >
+                      <option value="Investigación">Investigación</option>
+                      <option value="PDR / CDR">PDR / CDR</option>
+                      <option value="Ensayo Ambiental">Ensayo Ambiental</option>
+                      <option value="Minuta de Reunión">Minuta de Reunión</option>
+                      <option value="Contrato">Contrato</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#a1a1a6] uppercase mb-1.5">
+                      SUBSISTEMA
+                    </label>
+                    <select
+                      value={formData.subsystem}
+                      onChange={e => setFormData({ ...formData, subsystem: e.target.value as any })}
+                      className="w-full px-3.5 py-2.5 rounded-xl bg-[#08080a] border border-white/[0.1] text-white text-xs focus:border-[#e29b68]/60 focus:outline-none cursor-pointer"
+                    >
+                      <option value="General">General</option>
+                      <option value="Aviónica">Aviónica & Sensores</option>
+                      <option value="Mecánica & Paraglider">Mecánica & Paraglider</option>
+                      <option value="Software & Telemetría">Software & Telemetría</option>
+                      <option value="Carga Crítica (Huevo)">Carga Crítica (Huevo)</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-xs font-bold text-[#a1a1a6] uppercase mb-1.5">
+                      FECHA DE EMISIÓN
+                    </label>
+                    <input 
+                      type="date" 
+                      value={formData.date}
+                      onChange={e => setFormData({ ...formData, date: e.target.value })}
+                      className="w-full px-3.5 py-2 rounded-xl bg-[#08080a] border border-white/[0.1] text-white text-xs focus:border-[#e29b68]/60 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+              </div>
+
+              {/* BLOQUE 2: DESARROLLO TÉCNICO Y TEXTAREAS PROFESIONALES */}
+              <div className="space-y-5">
+                <div className="flex items-center gap-2 pb-1">
+                  <Tag className="w-4 h-4 text-[#e29b68]" />
+                  <h3 className="text-xs uppercase font-bold tracking-widest text-[#a1a1a6]">
+                    BLOQUE 02 • CUERPO TÉCNICO ESTRUCTURADO
+                  </h3>
+                </div>
+
+                {/* 1. OBJETIVO */}
+                <ProfessionalTextarea
+                  step="01"
+                  label="Objetivo del Estudio o Ensayo"
+                  helper="¿Qué requerimiento, hipótesis o desafío de misión se buscaba abordar?"
+                  required
+                  rows={3}
+                  placeholder="Ej: Validar la tasa de transmisión de paquetes de telemetría a 1000m simulados garantizando un PER inferior al 1%..."
+                  value={formData.objective}
+                  onChange={val => setFormData({ ...formData, objective: val })}
+                  quickSnippets={[
+                    { label: 'Requisito CONAE', text: 'Validar cumplimiento de la norma de seguridad CONAE para...' },
+                    { label: 'Masa 1000g', text: 'Verificar que la masa del subsistema no supere el presupuesto asignado de...' }
+                  ]}
+                />
+
+                {/* 2. DESARROLLO Y RESULTADOS */}
+                <ProfessionalTextarea
+                  step="02"
+                  label="Desarrollo Técnico, Mediciones y Resultados"
+                  helper="Detalla la metodología, pruebas realizadas, valores numéricos o conclusiones de laboratorio."
+                  required
+                  rows={6}
+                  placeholder={`1. Configuración de prueba: Parámetros del banco experimental...\n2. Mediciones obtenidas: Aceleración en 3 ejes, consumo en mA...\n3. Análisis de discrepancias y comportamiento observado.`}
+                  value={formData.findings}
+                  onChange={val => setFormData({ ...formData, findings: val })}
+                  quickSnippets={[
+                    { label: 'Drop Test 30G', text: '\n- Ensayo de impacto libre 30G: Integridad estructural verificada al 100% sin fisuras.' },
+                    { label: 'Horno 60°C', text: '\n- Ensayo térmico a 60°C durante 120 min: Temperatura interna de batería en 41.2°C nominal.' },
+                    { label: 'Mecanismo Huevo 2m', text: '\n- Despliegue ToF a 2.0m: Pestillo liberado con retardo de 42 ms. Huevo intacto.' }
+                  ]}
+                />
+
+                {/* 3. CONCLUSIONES */}
+                <ProfessionalTextarea
+                  step="03"
+                  label="Conclusiones Principales"
+                  helper="Síntesis de aprendizajes clave y validación de factibilidad técnica."
+                  required
+                  rows={3}
+                  placeholder="Ej: Se concluye que la configuración adoptada satisface los criterios de aceptación para la fase CDR..."
+                  value={formData.conclusions}
+                  onChange={val => setFormData({ ...formData, conclusions: val })}
+                  quickSnippets={[
+                    { label: 'Aprobación Técnica', text: 'Se aprueba la arquitectura propuesta para su integración en el modelo de vuelo.' }
+                  ]}
+                />
+
+                {/* 4. PRÓXIMOS PASOS */}
+                <ProfessionalTextarea
+                  step="04"
+                  label="Próximos Pasos y Asignación"
+                  helper="Acciones concretas resultantes, responsables y fechas estimadas de entrega."
+                  rows={3}
+                  placeholder="1. Fabricación del prototipo v2 en PETG con fibra de carbono...\n2. Ensayos en cámara de vacío programados para el 15/07."
+                  value={formData.nextSteps}
+                  onChange={val => setFormData({ ...formData, nextSteps: val })}
+                  quickSnippets={[
+                    { label: 'Revisión CAD', text: 'Actualizar ensamble final en SolidWorks antes de la reunión de subsistema.' },
+                    { label: 'Firma de Integrantes', text: 'Presentar resultados al panel asesor para homologación.' }
+                  ]}
+                />
+              </div>
+
+              {/* STICKY BOTTOM ACTION BAR */}
+              <div className="sticky bottom-6 p-4 rounded-2xl bg-[#141418]/90 backdrop-blur-xl border border-white/[0.1] shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-3 z-30">
+                <div className="text-xs text-[#86868b] flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#e29b68]" />
+                  <span>Todos los cambios se compilarán en formato oficial A4 y Markdown</span>
+                </div>
+
+                <div className="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditing(false)}
+                    className="apple-pill-secondary px-4 py-2 text-xs"
+                  >
+                    Descartar
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="apple-pill-primary px-6 py-2 text-xs font-semibold flex items-center gap-1.5"
+                  >
+                    <Check className="w-4 h-4" />
+                    <span>Guardar y Ver Documento</span>
+                  </button>
+                </div>
+              </div>
+
+            </form>
+          ) : (
+            /* TAB 2: LIVE PREVIEW BEFORE SAVING */
+            <div className="space-y-6">
+              <div className="p-4 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs text-[#a1a1a6] flex items-center justify-between">
+                <span>Esta es la vista previa de cómo quedará el documento formal una vez guardado:</span>
+                <button
+                  type="button"
+                  onClick={() => setEditorTab('edit')}
+                  className="text-[#e29b68] hover:underline font-semibold"
+                >
+                  Volver a editar
+                </button>
+              </div>
+
+              {/* Render Document Sheet with Watermark */}
+              <div className="relative bg-[#121214] border border-white/[0.08] rounded-[2rem] p-8 sm:p-12 shadow-2xl overflow-hidden">
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
+                  <img 
+                    src="/logo.png" 
+                    alt="AuSat Watermark" 
+                    className="w-[350px] h-[350px] object-contain opacity-[0.035] filter grayscale contrast-125" 
+                  />
+                </div>
+
+                <div className="relative z-10 space-y-8">
+                  <div className="border-b border-white/[0.1] pb-6">
+                    <p className="font-bold text-sm text-white">AuSat • PROYECTO ORBIT</p>
+                    <h1 className="text-2xl sm:text-3xl font-bold text-white mt-3">
+                      {formData.title || 'Título sin definir'}
+                    </h1>
+                    <p className="text-sm text-[#86868b] mt-1">
+                      {formData.subtitle || 'Sin descripción'}
+                    </p>
+                    <div className="mt-4 flex flex-wrap gap-4 text-xs font-mono text-[#86868b]">
+                      <span>Autor: <strong className="text-white">{formData.author}</strong></span>
+                      <span>Subsistema: <strong className="text-[#e29b68]">{formData.subsystem}</strong></span>
+                      <span>Categoría: <strong className="text-white">{formData.category}</strong></span>
+                      <span>Fecha: <strong className="text-white">{formData.date}</strong></span>
+                    </div>
+                  </div>
+
+                  <div className="space-y-6 text-sm text-[#e5e5ea]">
+                    <section>
+                      <h4 className="font-bold text-xs uppercase text-[#e29b68] mb-1 font-mono">01. Objetivo</h4>
+                      <p className="whitespace-pre-line text-[#a1a1a6]">{formData.objective || 'Sin contenido'}</p>
+                    </section>
+                    <section>
+                      <h4 className="font-bold text-xs uppercase text-[#e29b68] mb-1 font-mono">02. Desarrollo y Resultados</h4>
+                      <p className="whitespace-pre-line font-mono text-xs text-[#a1a1a6] bg-black/30 p-3 rounded-lg border border-white/[0.06]">
+                        {formData.findings || 'Sin contenido'}
+                      </p>
+                    </section>
+                    <section>
+                      <h4 className="font-bold text-xs uppercase text-[#e29b68] mb-1 font-mono">03. Conclusiones</h4>
+                      <p className="whitespace-pre-line text-[#a1a1a6]">{formData.conclusions || 'Sin contenido'}</p>
+                    </section>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
         </div>
       ) : null}
 
       {/* ========================================================================= */}
-      {/* MODO 3: LISTA GENERAL DE INFORMES APPLE BENTO */}
+      {/* MODO 3: VISTA DE INFORMES EN FORMA DE LISTA (LIST VIEW) */}
       {/* ========================================================================= */}
       {!activeReport && !isEditing ? (
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14">
@@ -607,12 +937,12 @@ ${report.nextSteps}
           </div>
 
           {/* Search & Apple Pill Filters */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-10">
+          <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <div className="relative flex-grow">
               <Search className="w-4 h-4 text-[#86868b] absolute left-4 top-1/2 -translate-y-1/2" />
               <input 
                 type="text" 
-                placeholder="Buscar por título, autor o contenido..."
+                placeholder="Buscar por título, autor, subsistema o contenido..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 className="w-full pl-11 pr-4 py-2.5 rounded-full bg-[#161617] border border-white/[0.08] text-sm text-white placeholder-[#86868b] focus:border-white/[0.2] focus:outline-none"
@@ -620,7 +950,7 @@ ${report.nextSteps}
             </div>
 
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-              {['TODOS', 'Investigación', 'PDR / CDR', 'Ensayo Ambiental', 'Minuta de Reunión'].map(cat => (
+              {['TODOS', 'Investigación', 'PDR / CDR', 'Ensayo Ambiental', 'Minuta de Reunión', 'Contrato'].map(cat => (
                 <button
                   key={cat}
                   onClick={() => setCategoryFilter(cat)}
@@ -636,78 +966,119 @@ ${report.nextSteps}
             </div>
           </div>
 
-          {/* Reports Bento Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* Reports Count Bar */}
+          <div className="flex items-center justify-between text-xs text-[#86868b] font-mono px-1 mb-4">
+            <span>{filteredReports.length} {filteredReports.length === 1 ? 'informe registrado' : 'informes registrados'}</span>
+            <span>Vista de Lista • Orden cronológico</span>
+          </div>
+
+          {/* Reports List View (Forma de Lista con Botones Completos) */}
+          <div className="space-y-3">
             {filteredReports.map((report) => (
               <div 
                 key={report.id}
-                className="apple-bento-card p-7 flex flex-col justify-between group"
+                className="apple-bento-card p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-5 group hover:border-[#c87d55]/40 transition-all duration-200"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-4 text-xs font-medium">
-                    <span className="px-2.5 py-0.5 rounded-full bg-white/[0.06] text-[#a1a1a6] border border-white/[0.08]">
+                {/* Left: Metadata, Title & Subtitle */}
+                <div className="flex-1 min-w-0">
+                  
+                  {/* Category, Subsystem, ID & Date Tags */}
+                  <div className="flex flex-wrap items-center gap-2 mb-2 text-xs">
+                    <span className="font-mono text-[11px] font-bold text-[#e29b68] bg-[#e29b68]/10 border border-[#e29b68]/25 px-2 py-0.5 rounded">
+                      {report.id.toUpperCase()}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full bg-white/[0.06] text-[#a1a1a6] border border-white/[0.08] font-medium text-[11px]">
                       {report.category}
                     </span>
-                    <span className="text-[#86868b] flex items-center gap-1 text-[11px]">
-                      <Calendar className="w-3 h-3" />
+                    <span className="px-2.5 py-0.5 rounded-full bg-white/[0.04] text-[#86868b] border border-white/[0.06] text-[11px]">
+                      {report.subsystem}
+                    </span>
+                    <span className="text-[#6e6e73] text-[11px] flex items-center gap-1 font-mono ml-auto sm:ml-0">
+                      <Calendar className="w-3 h-3 text-[#86868b]" />
                       {report.date}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white tracking-tight group-hover:text-[#f5f5f7] transition-colors mb-2 leading-snug">
+                  {/* Title (Clickable to View) */}
+                  <h3 
+                    onClick={() => setActiveReport(report)}
+                    className="text-base sm:text-lg font-bold text-white tracking-tight group-hover:text-white transition-colors cursor-pointer mb-1 leading-snug hover:underline"
+                  >
                     {report.title}
                   </h3>
 
-                  <p className="text-xs text-[#86868b] line-clamp-2 leading-relaxed mb-6">
+                  {/* Subtitle / Scope */}
+                  <p className="text-xs text-[#86868b] line-clamp-1 leading-relaxed mb-3">
                     {report.subtitle}
                   </p>
+
+                  {/* Author Line */}
+                  <div className="flex items-center gap-2 text-xs text-[#a1a1a6]">
+                    <div className="flex items-center gap-1.5">
+                      <User className="w-3.5 h-3.5 text-[#e29b68]" />
+                      <span className="font-medium text-white">{report.author}</span>
+                    </div>
+                  </div>
+
                 </div>
 
-                <div className="pt-5 border-t border-white/[0.06] space-y-4">
-                  <div className="flex items-center justify-between text-xs text-[#86868b]">
-                    <span className="flex items-center gap-1.5 text-[#f5f5f7]">
-                      <User className="w-3.5 h-3.5 text-[#e29b68]" />
-                      <span className="truncate max-w-[130px]">{report.author}</span>
-                    </span>
-                    <span className="text-[11px] text-[#6e6e73]">{report.subsystem}</span>
-                  </div>
+                {/* Right: Action Buttons (Ver, Editar, Descargar, Imprimir, Borrar) */}
+                <div className="flex items-center gap-2 pt-3 lg:pt-0 border-t lg:border-t-0 border-white/[0.06] shrink-0">
+                  <button
+                    onClick={() => setActiveReport(report)}
+                    className="apple-pill-primary px-4 py-2 text-xs font-semibold flex items-center gap-1.5"
+                    title="Ver informe en modo documento oficial"
+                  >
+                    <Eye className="w-3.5 h-3.5" />
+                    <span>Ver</span>
+                  </button>
 
-                  <div className="flex items-center justify-between gap-2">
-                    <button
-                      onClick={() => setActiveReport(report)}
-                      className="flex-1 apple-pill-primary py-2 text-xs flex items-center justify-center gap-1"
-                    >
-                      <Eye className="w-3.5 h-3.5" />
-                      <span>Ver Documento</span>
-                    </button>
+                  <button
+                    onClick={() => handleStartEdit(report)}
+                    className="p-2 rounded-full bg-white/[0.04] hover:bg-white/[0.1] text-[#a1a1a6] hover:text-[#e29b68] border border-white/[0.08] transition-all"
+                    title="Editar informe técnico"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" />
+                  </button>
 
-                    <button
-                      onClick={() => handleDownloadMarkdown(report)}
-                      title="Descargar .md"
-                      className="p-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-[#a1a1a6] hover:text-white transition-colors border border-white/[0.08]"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                    </button>
+                  <button
+                    onClick={() => handleDownloadMarkdown(report)}
+                    title="Descargar Markdown (.md)"
+                    className="p-2 rounded-full bg-white/[0.04] hover:bg-white/[0.1] text-[#a1a1a6] hover:text-white border border-white/[0.08] transition-all"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                  </button>
 
-                    <button
-                      onClick={() => handleDeleteReport(report.id)}
-                      title="Eliminar"
-                      className="p-2 rounded-full bg-white/[0.06] hover:bg-red-950/60 text-[#a1a1a6] hover:text-red-400 transition-colors border border-white/[0.08]"
-                    >
-                      <Trash2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => {
+                      setActiveReport(report)
+                      setTimeout(() => window.print(), 100)
+                    }}
+                    title="Imprimir / Guardar en PDF"
+                    className="p-2 rounded-full bg-white/[0.04] hover:bg-white/[0.1] text-[#a1a1a6] hover:text-white border border-white/[0.08] transition-all"
+                  >
+                    <Printer className="w-3.5 h-3.5" />
+                  </button>
+
+                  <button
+                    onClick={() => handleDeleteReport(report.id)}
+                    title="Eliminar informe"
+                    className="p-2 rounded-full bg-white/[0.04] hover:bg-red-950/60 text-[#a1a1a6] hover:text-red-400 border border-white/[0.08] transition-all"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
                 </div>
 
               </div>
             ))}
           </div>
 
+          {/* Empty State */}
           {filteredReports.length === 0 && (
             <div className="text-center py-20 apple-bento-card">
               <BookOpen className="w-8 h-8 text-[#86868b] mx-auto mb-3" />
               <p className="text-white font-semibold text-sm">No se encontraron informes</p>
-              <p className="text-xs text-[#86868b] mt-1">Prueba con otro término de búsqueda o crea uno nuevo.</p>
+              <p className="text-xs text-[#86868b] mt-1">Prueba con otro término de búsqueda o crea un nuevo informe técnico.</p>
             </div>
           )}
 
