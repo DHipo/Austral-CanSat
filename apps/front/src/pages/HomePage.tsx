@@ -157,7 +157,8 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       subsystem: 'Arquitectura & Aviónica',
       initials: 'BD',
       email: 'bdhipolito@austral.edu.ar',
-      linkedin: 'https://linkedin.com/in/bautistadhipolito'
+      linkedin: 'https://linkedin.com/in/bautistadhipolito',
+      image: '/placeholder-member.svg'
     },
     {
       name: 'Mateo Fernández',
@@ -167,7 +168,8 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       subsystem: 'Aviónica & Sensores',
       initials: 'MF',
       email: 'mfernandez@austral.edu.ar',
-      linkedin: 'https://linkedin.com/in/mateo-fernandez'
+      linkedin: 'https://linkedin.com/in/mateo-fernandez',
+      image: '/placeholder-member.svg'
     },
     {
       name: 'Sofía Rossi',
@@ -177,7 +179,8 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       subsystem: 'Recuperación & Aerodinámica',
       initials: 'SR',
       email: 'srossi@austral.edu.ar',
-      linkedin: 'https://linkedin.com/in/sofia-rossi'
+      linkedin: 'https://linkedin.com/in/sofia-rossi',
+      image: '/placeholder-member.svg'
     },
     {
       name: 'Lucas Benítez',
@@ -187,7 +190,8 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       subsystem: 'Estructura Mecánica',
       initials: 'LB',
       email: 'lbenitez@austral.edu.ar',
-      linkedin: 'https://linkedin.com/in/lucas-benitez'
+      linkedin: 'https://linkedin.com/in/lucas-benitez',
+      image: '/placeholder-member.svg'
     },
     {
       name: 'Valentina Gómez',
@@ -197,7 +201,8 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       subsystem: 'Software & Telemetría',
       initials: 'VG',
       email: 'vgomez@austral.edu.ar',
-      linkedin: 'https://linkedin.com/in/valentina-gomez'
+      linkedin: 'https://linkedin.com/in/valentina-gomez',
+      image: '/placeholder-member.svg'
     },
     {
       name: 'Ignacio Álvarez',
@@ -207,7 +212,8 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       subsystem: 'Aseguramiento de Calidad',
       initials: 'IA',
       email: 'ialvarez@austral.edu.ar',
-      linkedin: 'https://linkedin.com/in/ignacio-alvarez'
+      linkedin: 'https://linkedin.com/in/ignacio-alvarez',
+      image: '/placeholder-member.svg'
     }
   ]
 
@@ -534,61 +540,75 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
           </p>
         </div>
 
-        {/* 6 Members Grid (2 Columns, Wide Cards) */}
+        {/* 6 Members Grid (2 Columns, Wide Cards with Member Image) */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {teamMembers.map((member, i) => (
             <div 
               key={i}
-              className="apple-bento-card p-6 sm:p-7 flex flex-col justify-between group hover:border-[#c87d55]/40 transition-all duration-300"
+              className="apple-bento-card overflow-hidden flex flex-col sm:flex-row group hover:border-[#c87d55]/40 transition-all duration-300"
             >
-              <div>
-                {/* Header: Avatar, Name, Role & Subsystem Badge */}
-                <div className="flex items-start justify-between gap-4 mb-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-[#1f1f23] to-[#2e2e34] border border-white/[0.12] flex items-center justify-center text-sm font-mono font-bold text-white shadow-inner group-hover:border-[#e29b68] transition-colors shrink-0">
-                      {member.initials}
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-bold text-white tracking-tight">
-                        {member.name}
-                      </h3>
-                      <p className="text-xs font-medium text-[#e29b68]">
-                        {member.role}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-white/[0.06] text-[#a1a1a6] border border-white/[0.08] shrink-0">
-                    {member.subsystem}
-                  </span>
-                </div>
+              {/* Member Image Portion (occupies left side on sm+, top on mobile) */}
+              <div className="w-full sm:w-44 md:w-48 shrink-0 relative bg-[#121215] border-b sm:border-b-0 sm:border-r border-white/[0.06] overflow-hidden min-h-[190px] sm:min-h-full">
+                <img 
+                  src={member.image} 
+                  alt={member.name} 
+                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                />
+                
+                {/* Subtle Ambient Vignette Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t sm:bg-gradient-to-r from-black/60 via-transparent to-transparent pointer-events-none" />
 
-                {/* University and Career */}
-                <div className="flex items-center gap-1.5 text-xs text-[#86868b] pl-1">
-                  <GraduationCap className="w-3.5 h-3.5 text-[#6e6e73]" />
-                  <span>{member.university} • {member.career}</span>
+                {/* Initials Badge Overlay on Image */}
+                <div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-black/60 backdrop-blur-md border border-white/[0.12] flex items-center justify-center text-xs font-mono font-bold text-white shadow-sm">
+                  {member.initials}
                 </div>
               </div>
 
-              {/* Action Links: LinkedIn & Email */}
-              <div className="pt-5 mt-5 border-t border-white/[0.06] flex flex-wrap items-center gap-3">
-                <a
-                  href={member.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-[#0077b5]/15 border border-white/[0.08] hover:border-[#0077b5]/40 text-xs font-medium text-[#a1a1a6] hover:text-[#38bdf8] transition-all"
-                >
-                  <Linkedin className="w-3.5 h-3.5 text-[#38bdf8]" />
-                  <span>LinkedIn</span>
-                </a>
+              {/* Information & Action Links */}
+              <div className="p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  {/* Subsystem Badge */}
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-white/[0.06] text-[#a1a1a6] border border-white/[0.08]">
+                      {member.subsystem}
+                    </span>
+                  </div>
 
-                <a
-                  href={`mailto:${member.email}`}
-                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.2] text-xs font-medium text-[#a1a1a6] hover:text-white transition-all font-mono"
-                >
-                  <Mail className="w-3.5 h-3.5 text-[#e29b68]" />
-                  <span>{member.email}</span>
-                </a>
+                  {/* Name & Role */}
+                  <h3 className="text-lg font-bold text-white tracking-tight mb-1">
+                    {member.name}
+                  </h3>
+                  <p className="text-xs font-medium text-[#e29b68] mb-3">
+                    {member.role}
+                  </p>
+
+                  {/* University & Career */}
+                  <div className="flex items-center gap-1.5 text-xs text-[#86868b]">
+                    <GraduationCap className="w-3.5 h-3.5 text-[#6e6e73] shrink-0" />
+                    <span>{member.university} • {member.career}</span>
+                  </div>
+                </div>
+
+                {/* Action Links: LinkedIn & Email */}
+                <div className="pt-5 mt-5 border-t border-white/[0.06] flex flex-wrap items-center gap-2.5">
+                  <a
+                    href={member.linkedin}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-[#0077b5]/15 border border-white/[0.08] hover:border-[#0077b5]/40 text-xs font-medium text-[#a1a1a6] hover:text-[#38bdf8] transition-all"
+                  >
+                    <Linkedin className="w-3.5 h-3.5 text-[#38bdf8]" />
+                    <span>LinkedIn</span>
+                  </a>
+
+                  <a
+                    href={`mailto:${member.email}`}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.2] text-xs font-medium text-[#a1a1a6] hover:text-white transition-all font-mono"
+                  >
+                    <Mail className="w-3.5 h-3.5 text-[#e29b68]" />
+                    <span className="truncate max-w-[170px] sm:max-w-none">{member.email}</span>
+                  </a>
+                </div>
               </div>
 
             </div>
