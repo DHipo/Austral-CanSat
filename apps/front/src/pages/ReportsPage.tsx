@@ -95,7 +95,6 @@ export const ReportsPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState<string>('TODOS')
 
-  // Form State
   const [formData, setFormData] = useState<ReportItem>({
     id: '',
     title: '',
@@ -193,7 +192,7 @@ ${report.conclusions}
 ${report.nextSteps}
 
 ---
-*Documento generado desde la plataforma oficial AuSat Orbit (Universidad Austral - CanSat 2026)*
+*Documento oficial generado desde la plataforma AuSat Orbit (Universidad Austral - CanSat 2026)*
 `
     const blob = new Blob([mdContent], { type: 'text/markdown;charset=utf-8' })
     const link = document.createElement('a')
@@ -218,28 +217,28 @@ ${report.nextSteps}
   })
 
   return (
-    <div className="bg-[#090a0d] min-h-screen text-slate-200">
+    <div className="bg-[#000000] min-h-screen text-[#f5f5f7]">
       
       {/* ========================================================================= */}
-      {/* MODO 1: VISTA DE DOCUMENTO OFICIAL FORMAL (CON PORTADA, WATERMARK Y HEADER) */}
+      {/* MODO 1: VISTA DE DOCUMENTO FORMAL APPLE-STYLE */}
       {/* ========================================================================= */}
       {activeReport && !isEditing ? (
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
           
-          {/* Top Control Bar (Hidden when printing) */}
-          <div className="no-print flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
+          {/* Top Control Bar (Apple Pill Actions) */}
+          <div className="no-print flex items-center justify-between mb-8 pb-4 border-b border-white/[0.08]">
             <button
               onClick={() => setActiveReport(null)}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-mono font-medium text-slate-300 bg-[#141722] hover:bg-[#1a1f2e] border border-slate-700 transition-all"
+              className="apple-pill-secondary px-4 py-2 text-xs flex items-center gap-1.5"
             >
-              <ArrowLeft className="w-4 h-4" />
-              <span>Volver a la Lista</span>
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Volver a Informes</span>
             </button>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2.5">
               <button
                 onClick={() => handleStartEdit(activeReport)}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-mono font-medium text-slate-300 bg-[#161a24] hover:bg-slate-800 border border-slate-700 transition-all"
+                className="apple-pill-secondary px-4 py-2 text-xs flex items-center gap-1.5"
               >
                 <Edit3 className="w-3.5 h-3.5 text-[#e29b68]" />
                 <span>Editar</span>
@@ -247,8 +246,8 @@ ${report.nextSteps}
 
               <button
                 onClick={() => handleDownloadMarkdown(activeReport)}
-                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono font-medium text-[#f3cfb3] bg-[#c87d55]/20 hover:bg-[#c87d55]/30 border border-[#c87d55]/50 transition-all"
-                title="Descargar archivo Markdown formateado para commitear al repo"
+                className="apple-pill-secondary px-4 py-2 text-xs flex items-center gap-1.5 text-[#e29b68]"
+                title="Descargar Markdown para commitear al repo"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Descargar .md</span>
@@ -256,151 +255,146 @@ ${report.nextSteps}
 
               <button
                 onClick={handlePrint}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-mono font-bold text-slate-950 bg-gradient-to-r from-[#e29b68] to-[#c87d55] hover:from-[#f3cfb3] hover:to-[#e29b68] transition-all shadow-md shadow-[#c87d55]/20 active:scale-95"
+                className="apple-pill-primary px-5 py-2 text-xs font-semibold flex items-center gap-1.5"
               >
                 <Printer className="w-3.5 h-3.5" />
-                <span>Imprimir / Guardar PDF</span>
+                <span>Guardar PDF</span>
               </button>
             </div>
           </div>
 
-          {/* OFFICIAL FORMAL REPORT SHEET (A4 Document Style with Watermark & Cover Page) */}
-          <div className="print-document relative bg-[#0f121a] print:bg-white text-slate-100 print:text-slate-900 border border-[#c87d55]/30 print:border-none rounded-2xl p-8 sm:p-14 shadow-2xl overflow-hidden">
+          {/* DOCUMENT SHEET WITH WATERMARK & COVER */}
+          <div className="print-document relative bg-[#121214] print:bg-white text-[#f5f5f7] print:text-black border border-white/[0.08] print:border-none rounded-[2rem] p-8 sm:p-14 shadow-2xl overflow-hidden">
             
-            {/* WATERMARK: Large Centered Semi-Transparent Team Logo */}
+            {/* WATERMARK: Large Centered Medallion */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
               <img 
                 src="/logo.png" 
                 alt="AuSat Watermark" 
-                className="w-[450px] h-[450px] object-contain opacity-[0.04] print:opacity-[0.06] filter grayscale contrast-125" 
+                className="w-[450px] h-[450px] object-contain opacity-[0.035] print:opacity-[0.05] filter grayscale contrast-125" 
               />
             </div>
 
-            {/* Content layer above watermark */}
+            {/* Document Content */}
             <div className="relative z-10 space-y-12">
               
-              {/* --- PORTADA / ENCABEZADO FORMAL --- */}
-              <div className="border-b-2 border-[#c87d55]/40 pb-8">
+              {/* --- PORTADA / HEADER FORMAL --- */}
+              <div className="border-b border-white/[0.1] print:border-slate-300 pb-8">
                 
-                {/* Header Row: Logo & Mission Tag */}
-                <div className="flex items-center justify-between gap-4 mb-6">
-                  <div className="flex items-center gap-3">
+                <div className="flex items-center justify-between gap-4 mb-8">
+                  <div className="flex items-center gap-3.5">
                     <img 
                       src="/logo.png" 
                       alt="AuSat Logo" 
-                      className="w-16 h-16 object-contain drop-shadow-md" 
+                      className="w-14 h-14 object-contain" 
                     />
                     <div>
-                      <p className="font-heading font-extrabold text-lg text-white print:text-slate-950 tracking-wider">
+                      <p className="font-bold text-base text-white print:text-black tracking-tight">
                         AuSat • PROYECTO ORBIT
                       </p>
-                      <p className="text-xs font-mono text-[#e29b68] print:text-amber-800 font-semibold">
+                      <p className="text-xs text-[#e29b68] print:text-amber-800 font-medium">
                         Universidad Austral • Competencia CanSat 2026
                       </p>
                     </div>
                   </div>
 
-                  <div className="text-right font-mono text-xs text-slate-400 print:text-slate-600 space-y-0.5">
-                    <p className="font-bold text-white print:text-slate-900">REPORTE TÉCNICO OFICIAL</p>
+                  <div className="text-right text-xs text-[#86868b] print:text-slate-600 font-mono space-y-0.5">
+                    <p className="font-semibold text-white print:text-black">REPORTE TÉCNICO</p>
                     <p>DOC ID: <span className="text-[#e29b68] font-bold">{activeReport.id.toUpperCase()}</span></p>
                     <p>FECHA: {activeReport.date}</p>
                   </div>
                 </div>
 
-                {/* Report Title & Subtitle */}
-                <div className="mt-8 space-y-3">
-                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded bg-[#c87d55]/15 border border-[#c87d55]/30 text-[#e29b68] text-xs font-mono">
-                    <span>{activeReport.category.toUpperCase()}</span>
+                {/* Title & Subtitle */}
+                <div className="mt-8 space-y-2.5">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.06] text-[#a1a1a6] text-xs font-medium border border-white/[0.08]">
+                    <span>{activeReport.category}</span>
                     <span>•</span>
-                    <span>{activeReport.subsystem.toUpperCase()}</span>
+                    <span>{activeReport.subsystem}</span>
                   </div>
 
-                  <h1 className="text-2xl sm:text-4xl font-extrabold text-white print:text-slate-950 font-heading leading-tight">
+                  <h1 className="text-3xl sm:text-4xl font-bold text-white print:text-black tracking-tight leading-tight">
                     {activeReport.title}
                   </h1>
 
-                  <p className="text-sm sm:text-base text-slate-300 print:text-slate-700 italic leading-relaxed">
+                  <p className="text-base text-[#86868b] print:text-slate-700 font-normal leading-relaxed">
                     {activeReport.subtitle}
                   </p>
                 </div>
 
-                {/* Author Metadata Box */}
-                <div className="mt-8 p-4 rounded-xl bg-[#141724] print:bg-slate-100 border border-slate-800 print:border-slate-300 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
+                {/* Metadata Strip */}
+                <div className="mt-8 p-4 rounded-2xl bg-black/40 print:bg-slate-100 border border-white/[0.06] print:border-slate-300 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs font-mono">
                   <div>
-                    <span className="text-slate-400 print:text-slate-600 block text-[10px]">AUTOR</span>
-                    <span className="font-bold text-white print:text-slate-900">{activeReport.author}</span>
+                    <span className="text-[#86868b] print:text-slate-600 block text-[10px] uppercase">Autor</span>
+                    <span className="font-semibold text-white print:text-black">{activeReport.author}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 print:text-slate-600 block text-[10px]">SUBSISTEMA</span>
-                    <span className="font-bold text-[#e29b68] print:text-amber-900">{activeReport.subsystem}</span>
+                    <span className="text-[#86868b] print:text-slate-600 block text-[10px] uppercase">Subsistema</span>
+                    <span className="font-semibold text-[#e29b68] print:text-amber-900">{activeReport.subsystem}</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 print:text-slate-600 block text-[10px]">ESTADO</span>
-                    <span className="font-bold text-emerald-400 print:text-emerald-700">APROBADO</span>
+                    <span className="text-[#86868b] print:text-slate-600 block text-[10px] uppercase">Estado</span>
+                    <span className="font-semibold text-emerald-400 print:text-emerald-700">Aprobado</span>
                   </div>
                   <div>
-                    <span className="text-slate-400 print:text-slate-600 block text-[10px]">VERSIÓN</span>
-                    <span className="font-bold text-white print:text-slate-900">v1.0 (Final)</span>
+                    <span className="text-[#86868b] print:text-slate-600 block text-[10px] uppercase">Versión</span>
+                    <span className="font-semibold text-white print:text-black">v1.0 (Oficial)</span>
                   </div>
                 </div>
 
               </div>
 
-              {/* --- CUERPO DEL INFORME --- */}
-              <div className="space-y-8 text-sm sm:text-base text-slate-200 print:text-slate-800 leading-relaxed">
+              {/* --- CUERPO --- */}
+              <div className="space-y-8 text-sm sm:text-base text-[#e5e5ea] print:text-slate-800 leading-relaxed font-normal">
                 
-                {/* 1. Objetivo */}
                 <section>
-                  <h2 className="text-lg font-bold text-white print:text-slate-950 font-heading flex items-center gap-2 mb-3 pb-1 border-b border-slate-800 print:border-slate-300">
-                    <span className="text-[#e29b68] font-mono">1.</span>
-                    <span>Objetivo de la Investigación / Tarea</span>
+                  <h2 className="text-lg font-bold text-white print:text-black tracking-tight mb-2 flex items-center gap-2">
+                    <span className="text-[#e29b68] font-mono text-sm">01.</span>
+                    <span>Objetivo</span>
                   </h2>
-                  <p className="whitespace-pre-line text-slate-300 print:text-slate-800">
+                  <p className="whitespace-pre-line text-[#a1a1a6] print:text-slate-800">
                     {activeReport.objective}
                   </p>
                 </section>
 
-                {/* 2. Hallazgos / Pruebas */}
                 <section>
-                  <h2 className="text-lg font-bold text-white print:text-slate-950 font-heading flex items-center gap-2 mb-3 pb-1 border-b border-slate-800 print:border-slate-300">
-                    <span className="text-[#e29b68] font-mono">2.</span>
+                  <h2 className="text-lg font-bold text-white print:text-black tracking-tight mb-2 flex items-center gap-2">
+                    <span className="text-[#e29b68] font-mono text-sm">02.</span>
                     <span>Desarrollo Técnico y Resultados</span>
                   </h2>
-                  <div className="p-4 rounded-xl bg-[#121622] print:bg-slate-50 border border-slate-800/80 print:border-slate-200">
-                    <p className="whitespace-pre-line font-mono text-xs sm:text-sm text-slate-300 print:text-slate-800 leading-relaxed">
+                  <div className="p-4 rounded-xl bg-black/30 print:bg-slate-50 border border-white/[0.06] print:border-slate-200">
+                    <p className="whitespace-pre-line font-mono text-xs sm:text-sm text-[#e5e5ea] print:text-slate-800 leading-relaxed">
                       {activeReport.findings}
                     </p>
                   </div>
                 </section>
 
-                {/* 3. Conclusiones */}
                 <section>
-                  <h2 className="text-lg font-bold text-white print:text-slate-950 font-heading flex items-center gap-2 mb-3 pb-1 border-b border-slate-800 print:border-slate-300">
-                    <span className="text-[#e29b68] font-mono">3.</span>
+                  <h2 className="text-lg font-bold text-white print:text-black tracking-tight mb-2 flex items-center gap-2">
+                    <span className="text-[#e29b68] font-mono text-sm">03.</span>
                     <span>Conclusiones Principales</span>
                   </h2>
-                  <p className="whitespace-pre-line text-slate-300 print:text-slate-800">
+                  <p className="whitespace-pre-line text-[#a1a1a6] print:text-slate-800">
                     {activeReport.conclusions}
                   </p>
                 </section>
 
-                {/* 4. Próximos Pasos */}
                 <section>
-                  <h2 className="text-lg font-bold text-white print:text-slate-950 font-heading flex items-center gap-2 mb-3 pb-1 border-b border-slate-800 print:border-slate-300">
-                    <span className="text-[#e29b68] font-mono">4.</span>
-                    <span>Próximos Pasos & Acciones Recomendadas</span>
+                  <h2 className="text-lg font-bold text-white print:text-black tracking-tight mb-2 flex items-center gap-2">
+                    <span className="text-[#e29b68] font-mono text-sm">04.</span>
+                    <span>Próximos Pasos</span>
                   </h2>
-                  <p className="whitespace-pre-line text-slate-300 print:text-slate-800">
+                  <p className="whitespace-pre-line text-[#a1a1a6] print:text-slate-800">
                     {activeReport.nextSteps}
                   </p>
                 </section>
 
               </div>
 
-              {/* --- PIE DE PÁGINA FORMAL DEL DOCUMENTO --- */}
-              <div className="pt-10 mt-12 border-t border-slate-800 print:border-slate-300 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-slate-500 print:text-slate-500 gap-2">
+              {/* --- PIE FORMAL --- */}
+              <div className="pt-8 border-t border-white/[0.08] print:border-slate-300 flex flex-col sm:flex-row items-center justify-between text-xs text-[#86868b] print:text-slate-500 gap-2">
                 <span>AuSat • CanSat Argentina 2026 • Universidad Austral</span>
-                <span>Documento de Ingeniería Oficial — Confidencial para el Equipo</span>
+                <span>Documento de Ingeniería Oficial</span>
               </div>
 
             </div>
@@ -410,78 +404,75 @@ ${report.nextSteps}
       ) : null}
 
       {/* ========================================================================= */}
-      {/* MODO 2: EDITOR / CREADOR DE INFORME FORMAL */}
+      {/* MODO 2: FORMULARIO CREADOR / EDITOR APPLE STYLE */}
       {/* ========================================================================= */}
       {isEditing ? (
-        <div className="max-w-4xl mx-auto px-4 py-8">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-800">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
+          <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/[0.08]">
             <div>
-              <h2 className="text-2xl font-bold font-heading text-white">
+              <h2 className="text-2xl font-bold tracking-tight text-white">
                 {formData.title ? 'Editar Informe' : 'Redactar Nuevo Informe Técnico'}
               </h2>
-              <p className="text-xs text-slate-400 font-mono mt-0.5">
-                Generador de informes oficial con portada, marca de agua institucional y exportación Markdown.
+              <p className="text-xs text-[#86868b] mt-0.5">
+                Generador oficial con portada, marca de agua institucional y exportación Markdown.
               </p>
             </div>
 
             <button
               onClick={() => setIsEditing(false)}
-              className="px-3.5 py-1.5 rounded-lg text-xs font-mono text-slate-400 hover:text-white bg-slate-900 border border-slate-700"
+              className="apple-pill-secondary px-4 py-1.5 text-xs"
             >
               Cancelar
             </button>
           </div>
 
-          <form onSubmit={handleSaveReport} className="metal-panel rounded-2xl p-6 sm:p-8 space-y-6 border-metal">
+          <form onSubmit={handleSaveReport} className="apple-bento-card p-6 sm:p-10 space-y-6">
             
-            {/* Header info */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1 font-semibold">TÍTULO DEL INFORME *</label>
+                <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">TÍTULO DEL INFORME *</label>
                 <input 
                   type="text" 
                   required
                   placeholder="Ej: Calibración del Sensor de Altitud y Despliegue de Huevo"
                   value={formData.title}
                   onChange={e => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-slate-700 text-white text-sm focus:border-[#e29b68] focus:outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1 font-semibold">AUTOR / INVESTIGADOR *</label>
+                <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">AUTOR / INVESTIGADOR *</label>
                 <input 
                   type="text" 
                   required
                   placeholder="Nombre de la persona o sub-equipo"
                   value={formData.author}
                   onChange={e => setFormData({ ...formData, author: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-slate-700 text-white text-sm focus:border-[#e29b68] focus:outline-none"
+                  className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none"
                 />
               </div>
             </div>
 
-            {/* Subtitle / Description */}
             <div>
-              <label className="block text-xs font-mono text-slate-300 mb-1 font-semibold">DE QUÉ SE TRATA (SUBTÍTULO / RESUMEN) *</label>
+              <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">DE QUÉ SE TRATA (SUBTÍTULO / RESUMEN) *</label>
               <input 
                 type="text" 
                 required
                 placeholder="Breve descripción del alcance del reporte para la portada"
                 value={formData.subtitle}
                 onChange={e => setFormData({ ...formData, subtitle: e.target.value })}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-slate-700 text-white text-sm focus:border-[#e29b68] focus:outline-none"
+                className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none"
               />
             </div>
 
-            {/* Category, Subsystem, Date */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1 font-semibold">CATEGORÍA</label>
+                <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">CATEGORÍA</label>
                 <select
                   value={formData.category}
                   onChange={e => setFormData({ ...formData, category: e.target.value as any })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-slate-700 text-white text-sm focus:border-[#e29b68] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-xs focus:border-white/[0.3] focus:outline-none"
                 >
                   <option value="Investigación">Investigación</option>
                   <option value="PDR / CDR">PDR / CDR</option>
@@ -492,11 +483,11 @@ ${report.nextSteps}
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1 font-semibold">SUBSISTEMA</label>
+                <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">SUBSISTEMA</label>
                 <select
                   value={formData.subsystem}
                   onChange={e => setFormData({ ...formData, subsystem: e.target.value as any })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-slate-700 text-white text-sm focus:border-[#e29b68] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-xs focus:border-white/[0.3] focus:outline-none"
                 >
                   <option value="General">General</option>
                   <option value="Aviónica">Aviónica & Sensores</option>
@@ -507,77 +498,75 @@ ${report.nextSteps}
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-slate-300 mb-1 font-semibold">FECHA (YYYY-MM-DD)</label>
+                <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">FECHA</label>
                 <input 
                   type="date" 
                   value={formData.date}
                   onChange={e => setFormData({ ...formData, date: e.target.value })}
-                  className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-slate-700 text-white text-sm focus:border-[#e29b68] focus:outline-none"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-xs focus:border-white/[0.3] focus:outline-none"
                 />
               </div>
             </div>
 
-            {/* Sections of the Report */}
             <div>
-              <label className="block text-xs font-mono text-slate-300 mb-1 font-semibold">1. OBJETIVO *</label>
+              <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">1. OBJETIVO *</label>
               <textarea
                 required
                 rows={3}
                 placeholder="¿Qué se buscaba investigar o solucionar?"
                 value={formData.objective}
                 onChange={e => setFormData({ ...formData, objective: e.target.value })}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-slate-700 text-white text-sm focus:border-[#e29b68] focus:outline-none font-mono"
+                className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-mono text-slate-300 mb-1 font-semibold">2. DESARROLLO, PRUEBAS Y RESULTADOS *</label>
+              <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">2. DESARROLLO, PRUEBAS Y RESULTADOS *</label>
               <textarea
                 required
                 rows={5}
-                placeholder="Detalla las investigaciones, pruebas de laboratorio, mediciones o datos obtenidos..."
+                placeholder="Detalla las investigaciones, pruebas o mediciones..."
                 value={formData.findings}
                 onChange={e => setFormData({ ...formData, findings: e.target.value })}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-slate-700 text-white text-sm focus:border-[#e29b68] focus:outline-none font-mono"
+                className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-mono text-slate-300 mb-1 font-semibold">3. CONCLUSIONES *</label>
+              <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">3. CONCLUSIONES *</label>
               <textarea
                 required
                 rows={3}
-                placeholder="Resumen de aprendizajes o decisiones tomadas..."
+                placeholder="Resumen de aprendizajes..."
                 value={formData.conclusions}
                 onChange={e => setFormData({ ...formData, conclusions: e.target.value })}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-slate-700 text-white text-sm focus:border-[#e29b68] focus:outline-none font-mono"
+                className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none font-mono"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-mono text-slate-300 mb-1 font-semibold">4. PRÓXIMOS PASOS</label>
+              <label className="block text-xs font-medium text-[#a1a1a6] mb-1.5">4. PRÓXIMOS PASOS</label>
               <textarea
                 rows={2}
-                placeholder="Acciones resultantes o tareas a coordinar..."
+                placeholder="Acciones resultantes..."
                 value={formData.nextSteps}
                 onChange={e => setFormData({ ...formData, nextSteps: e.target.value })}
-                className="w-full px-3.5 py-2 rounded-xl bg-[#090b10] border border-slate-700 text-white text-sm focus:border-[#e29b68] focus:outline-none font-mono"
+                className="w-full px-4 py-2.5 rounded-xl bg-black border border-white/[0.1] text-white text-sm focus:border-white/[0.3] focus:outline-none font-mono"
               />
             </div>
 
-            {/* Save Buttons */}
-            <div className="pt-4 border-t border-slate-800 flex justify-end gap-3">
+            <div className="pt-4 border-t border-white/[0.08] flex justify-end gap-3">
               <button
                 type="button"
                 onClick={() => setIsEditing(false)}
-                className="px-4 py-2.5 rounded-xl text-xs font-mono text-slate-400 bg-slate-900 hover:bg-slate-800 border border-slate-700"
+                className="apple-pill-secondary px-5 py-2.5 text-xs"
               >
                 Cancelar
               </button>
 
               <button
                 type="submit"
-                className="flex items-center gap-2 px-6 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-slate-950 bg-gradient-to-r from-[#e29b68] to-[#c87d55] hover:from-[#f3cfb3] hover:to-[#e29b68] transition-all shadow-md shadow-[#c87d55]/20 active:scale-95"
+                className="apple-pill-primary px-7 py-2.5 text-xs font-semibold flex items-center gap-2"
               >
                 <Check className="w-4 h-4" />
                 <span>Guardar y Ver Documento</span>
@@ -589,60 +578,56 @@ ${report.nextSteps}
       ) : null}
 
       {/* ========================================================================= */}
-      {/* MODO 3: LISTA GENERAL DE INFORMES CENTRALIZADOS */}
+      {/* MODO 3: LISTA GENERAL DE INFORMES APPLE BENTO */}
       {/* ========================================================================= */}
       {!activeReport && !isEditing ? (
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-14">
           
-          {/* Header section */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4 pb-6 border-b border-slate-800">
+          {/* Header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6 pb-8 border-b border-white/[0.08]">
             <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="w-2 h-2 rounded-full bg-[#e29b68] animate-pulse"></span>
-                <span className="font-mono text-xs uppercase tracking-wider text-[#e29b68]">
-                  GESTIÓN DOCUMENTAL CENTRALIZADA
-                </span>
-              </div>
-              <h1 className="text-3xl font-extrabold text-white font-heading">
-                Informes del Proyecto Orbit
+              <p className="text-xs uppercase font-semibold text-[#86868b] tracking-widest mb-1.5">
+                CENTRO DOCUMENTAL
+              </p>
+              <h1 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
+                Informes de Misión.
               </h1>
-              <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-xl">
-                Repositorio unificado de investigaciones, minutas de reunión y entregables oficiales de AuSat con formato institucional.
+              <p className="text-sm sm:text-base text-[#86868b] mt-1 max-w-xl">
+                Repositorio unificado de investigaciones, minutas y entregables oficiales de AuSat.
               </p>
             </div>
 
             <button
               onClick={handleStartCreate}
-              className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-xs sm:text-sm text-slate-950 bg-gradient-to-r from-[#e29b68] to-[#c87d55] hover:from-[#f3cfb3] hover:to-[#e29b68] transition-all shadow-md shadow-[#c87d55]/20 active:scale-95"
+              className="apple-pill-primary px-5 py-2.5 text-xs font-semibold flex items-center gap-1.5 self-start md:self-auto"
             >
               <Plus className="w-4 h-4" />
-              <span>Redactar Nuevo Informe</span>
+              <span>Nuevo Informe</span>
             </button>
           </div>
 
-          {/* Search & Filter Toolbar */}
-          <div className="flex flex-col sm:flex-row gap-3 mb-8">
+          {/* Search & Apple Pill Filters */}
+          <div className="flex flex-col sm:flex-row gap-4 mb-10">
             <div className="relative flex-grow">
-              <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-[#86868b] absolute left-4 top-1/2 -translate-y-1/2" />
               <input 
                 type="text" 
                 placeholder="Buscar por título, autor o contenido..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#12151e] border border-slate-800 text-sm text-white placeholder-slate-500 focus:border-[#e29b68] focus:outline-none"
+                className="w-full pl-11 pr-4 py-2.5 rounded-full bg-[#161617] border border-white/[0.08] text-sm text-white placeholder-[#86868b] focus:border-white/[0.2] focus:outline-none"
               />
             </div>
 
-            {/* Filter pills */}
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
               {['TODOS', 'Investigación', 'PDR / CDR', 'Ensayo Ambiental', 'Minuta de Reunión'].map(cat => (
                 <button
                   key={cat}
                   onClick={() => setCategoryFilter(cat)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-mono whitespace-nowrap transition-all ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
                     categoryFilter === cat
-                      ? 'bg-[#c87d55]/25 text-[#f3cfb3] border border-[#c87d55]/50'
-                      : 'bg-[#12151e] text-slate-400 border border-slate-800 hover:text-white'
+                      ? 'bg-white text-black'
+                      : 'bg-[#161617] text-[#86868b] border border-white/[0.08] hover:text-white'
                   }`}
                 >
                   {cat}
@@ -651,50 +636,46 @@ ${report.nextSteps}
             </div>
           </div>
 
-          {/* Reports Grid */}
+          {/* Reports Bento Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredReports.map((report) => (
               <div 
                 key={report.id}
-                className="metal-panel rounded-2xl p-6 border-metal hover:border-[#c87d55]/40 transition-all flex flex-col justify-between group hover:-translate-y-1"
+                className="apple-bento-card p-7 flex flex-col justify-between group"
               >
                 <div>
-                  {/* Category & Date */}
-                  <div className="flex items-center justify-between mb-3 text-xs font-mono">
-                    <span className="px-2 py-0.5 rounded bg-[#c87d55]/15 text-[#e29b68] border border-[#c87d55]/30">
+                  <div className="flex items-center justify-between mb-4 text-xs font-medium">
+                    <span className="px-2.5 py-0.5 rounded-full bg-white/[0.06] text-[#a1a1a6] border border-white/[0.08]">
                       {report.category}
                     </span>
-                    <span className="text-slate-400 flex items-center gap-1">
+                    <span className="text-[#86868b] flex items-center gap-1 text-[11px]">
                       <Calendar className="w-3 h-3" />
                       {report.date}
                     </span>
                   </div>
 
-                  {/* Title */}
-                  <h3 className="text-lg font-bold text-white font-heading group-hover:text-[#f3cfb3] transition-colors mb-2 leading-snug">
+                  <h3 className="text-xl font-bold text-white tracking-tight group-hover:text-[#f5f5f7] transition-colors mb-2 leading-snug">
                     {report.title}
                   </h3>
 
-                  {/* Subtitle / summary */}
-                  <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed mb-4">
+                  <p className="text-xs text-[#86868b] line-clamp-2 leading-relaxed mb-6">
                     {report.subtitle}
                   </p>
                 </div>
 
-                <div className="pt-4 border-t border-slate-800/80 space-y-3">
-                  <div className="flex items-center justify-between text-xs text-slate-400 font-mono">
-                    <span className="flex items-center gap-1.5 text-slate-300">
+                <div className="pt-5 border-t border-white/[0.06] space-y-4">
+                  <div className="flex items-center justify-between text-xs text-[#86868b]">
+                    <span className="flex items-center gap-1.5 text-[#f5f5f7]">
                       <User className="w-3.5 h-3.5 text-[#e29b68]" />
                       <span className="truncate max-w-[130px]">{report.author}</span>
                     </span>
-                    <span className="text-[11px] text-slate-500">{report.subsystem}</span>
+                    <span className="text-[11px] text-[#6e6e73]">{report.subsystem}</span>
                   </div>
 
-                  {/* Action buttons */}
-                  <div className="flex items-center justify-between gap-2 pt-1">
+                  <div className="flex items-center justify-between gap-2">
                     <button
                       onClick={() => setActiveReport(report)}
-                      className="flex-1 flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-medium text-slate-900 bg-[#e29b68] hover:bg-[#f3cfb3] transition-all"
+                      className="flex-1 apple-pill-primary py-2 text-xs flex items-center justify-center gap-1"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       <span>Ver Documento</span>
@@ -703,7 +684,7 @@ ${report.nextSteps}
                     <button
                       onClick={() => handleDownloadMarkdown(report)}
                       title="Descargar .md"
-                      className="p-1.5 rounded-lg bg-[#141724] hover:bg-slate-800 border border-slate-700 text-slate-300 transition-colors"
+                      className="p-2 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-[#a1a1a6] hover:text-white transition-colors border border-white/[0.08]"
                     >
                       <Download className="w-3.5 h-3.5" />
                     </button>
@@ -711,7 +692,7 @@ ${report.nextSteps}
                     <button
                       onClick={() => handleDeleteReport(report.id)}
                       title="Eliminar"
-                      className="p-1.5 rounded-lg bg-[#141724] hover:bg-red-950/60 border border-slate-700 hover:border-red-800 text-slate-400 hover:text-red-400 transition-colors"
+                      className="p-2 rounded-full bg-white/[0.06] hover:bg-red-950/60 text-[#a1a1a6] hover:text-red-400 transition-colors border border-white/[0.08]"
                     >
                       <Trash2 className="w-3.5 h-3.5" />
                     </button>
@@ -723,10 +704,10 @@ ${report.nextSteps}
           </div>
 
           {filteredReports.length === 0 && (
-            <div className="text-center py-16 metal-panel rounded-2xl border-metal">
-              <BookOpen className="w-8 h-8 text-slate-500 mx-auto mb-3" />
-              <p className="text-slate-300 font-semibold text-sm">No se encontraron informes</p>
-              <p className="text-xs text-slate-500 mt-1">Prueba con otro término de búsqueda o crea uno nuevo.</p>
+            <div className="text-center py-20 apple-bento-card">
+              <BookOpen className="w-8 h-8 text-[#86868b] mx-auto mb-3" />
+              <p className="text-white font-semibold text-sm">No se encontraron informes</p>
+              <p className="text-xs text-[#86868b] mt-1">Prueba con otro término de búsqueda o crea uno nuevo.</p>
             </div>
           )}
 

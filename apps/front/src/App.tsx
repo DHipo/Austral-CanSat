@@ -3,13 +3,10 @@ import { Navbar } from './components/layout/Navbar'
 import { HomePage } from './pages/HomePage'
 import { ReportsPage } from './pages/ReportsPage'
 import { TodoPage } from './pages/TodoPage'
-import { DashboardPage } from './pages/DashboardPage'
 import { useRouter } from './router/useRouter'
-import { useTelemetrySim } from './hooks/useTelemetrySim'
 
 export const App: React.FC = () => {
   const { currentPath, navigate } = useRouter()
-  const { telemetry, setTelemetry } = useTelemetrySim(true)
 
   const renderContent = () => {
     switch (currentPath) {
@@ -19,9 +16,6 @@ export const App: React.FC = () => {
       case '/todo':
       case '/tareas':
         return <TodoPage />
-      case '/dashboard':
-      case '/telemetria':
-        return <DashboardPage telemetry={telemetry} setTelemetry={setTelemetry} />
       case '/':
       default:
         return <HomePage navigate={navigate} />
@@ -29,7 +23,7 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#090a0d] text-slate-100 flex flex-col font-sans selection:bg-[#c87d55]/30 selection:text-[#f3cfb3]">
+    <div className="min-h-screen bg-[#000000] text-[#f5f5f7] flex flex-col font-sans selection:bg-white/20 selection:text-white">
       {/* Top Persistent Navbar */}
       <Navbar currentPath={currentPath} navigate={navigate} />
 
