@@ -1,11 +1,14 @@
-import React from 'react'
-import { motion } from 'motion/react'
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import { 
   ChevronRight, 
   Wind, 
   Egg, 
   Radio, 
-  Layers
+  Layers,
+  CheckCircle2,
+  ExternalLink,
+  GraduationCap
 } from 'lucide-react'
 import { handleLinkClick } from '../router/useRouter'
 
@@ -14,6 +17,8 @@ interface HomePageProps {
 }
 
 export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
+  const [activePhaseIndex, setActivePhaseIndex] = useState(0)
+
   const bentoSpecs = [
     {
       span: 'md:col-span-8',
@@ -60,43 +65,157 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
   const competitionPhases = [
     {
       step: '01',
+      badge: 'Fase de Factibilidad',
       name: 'PDR',
-      title: 'Diseño Preliminar',
-      desc: 'Revisión y aprobación de la arquitectura conceptual, balance de masa y viabilidad de los subsistemas.'
+      fullTitle: 'Preliminary Design Review (Diseño Preliminar)',
+      summary: 'Aprobación del concepto de misión y solvencia técnica por el jurado evaluador.',
+      description: 'En esta etapa teórica y de cálculo se demuestra la viabilidad global del satélite. Se presenta la arquitectura de descenso dual, el dimensionamiento de masa bajo el límite estricto de 1000g ± 10g, el presupuesto de potencia con celdas de litio 18650 y la selección de componentes de aviónica.',
+      deliverables: [
+        'Informe PDR formal con balance de masas y centro de gravedad',
+        'Diagrama de bloques de aviónica, potencia y bus de sensores',
+        'Modelo matemático de descenso en paracaídas y paraglider',
+        'Cronograma y presupuesto inicial del equipo de la Universidad Austral'
+      ],
+      metric: '1000g ± 10g',
+      metricLabel: 'Límite Estricto de Masa'
     },
     {
       step: '02',
+      badge: 'Ingeniería de Detalle',
       name: 'CDR',
-      title: 'Diseño Crítico',
-      desc: 'Congelamiento de esquemáticos electrónicos, planos CAD y algoritmos de control de vuelo.'
+      fullTitle: 'Critical Design Review (Diseño Crítico)',
+      summary: 'Validación exhaustiva de planos y circuitos antes de la manufactura final.',
+      description: 'Demostración de que el diseño está completamente maduro para pasar al taller. Se congelan los modelos CAD con ajuste cilíndrico de 136 mm, los esquemáticos y layouts de PCBs de a bordo, el algoritmo de control de servomotores y la calibración del sensor de proximidad para el huevo.',
+      deliverables: [
+        'Planos CAD completos del chasis cilíndrico y mecanismo de pestillo',
+        'Ruteo de PCB para microcontrolador ESP32-S3 y módulo LoRa',
+        'Código de vuelo preliminar con arquitectura de máquina de estados',
+        'Plan formal para la ejecución de ensayos ambientales'
+      ],
+      metric: '136 mm',
+      metricLabel: 'Diámetro de Contenedor'
     },
     {
       step: '03',
+      badge: 'Instancia Eliminatoria',
       name: 'Calificación',
-      title: 'Ensayos Ambientales',
-      desc: 'Superación de 4 pruebas obligatorias: Caída libre (30G), horno térmico (60°C), vibración (0-233 Hz) y vacío.'
+      fullTitle: 'Ensayos Ambientales Obligatorios',
+      summary: '4 pruebas físicas continuas grabadas en video para certificar la supervivencia en vuelo.',
+      description: 'Para recibir autorización de lanzamiento, el CanSat debe superar y documentar en video sin cortes 4 ensayos de laboratorio extremos: 1) Drop Test de 30G para anclajes; 2) Horno térmico a 60°C por 2 horas; 3) Vibración aleatoria de 0 a 233 Hz con lijadora orbital; 4) Prueba de despresurización en cámara de vacío.',
+      deliverables: [
+        'Video continuo de la prueba de impacto Drop Test (~30G)',
+        'Gráfico térmico de 2 horas a 60°C continuo con batería activa',
+        'Ensayo de vibración (0-233 Hz) sin desprendimiento de soldaduras',
+        'Verificación de despliegue mecánico por cambio de presión'
+      ],
+      metric: '30 G',
+      metricLabel: 'Resistencia a Impacto'
     },
     {
       step: '04',
+      badge: 'Operación en Campo',
       name: 'Lanzamiento',
-      title: 'Campaña en Cohete',
-      desc: 'Integración en el morro del vector lanzador en el Centro Espacial de CONAE y vuelo a 1000 metros.'
+      fullTitle: 'Campaña de Vuelo en el Centro Espacial',
+      summary: 'Vuelo real a bordo del cohete lanzador en las instalaciones de CONAE en Córdoba.',
+      description: 'El CanSat se integra como morro del vector. A 1000m de apogeo se eyecta del lanzador, abre su paracaídas primario (≤ 15 m/s) y, al 80% de altitud, despliega el paraglider guiado hacia la zona de recuperación. A 2 metros del suelo, activa el mecanismo para soltar el huevo sin romperse.',
+      deliverables: [
+        'Pesaje oficial y verificación de seguridad en base CETT',
+        'Transmisión ininterrumpida de paquetes de telemetría a 1 Hz',
+        'Planeo autónomo hacia el punto de aterrizaje diana',
+        'Liberación milimétrica de la carga frágil a exactamente 2m'
+      ],
+      metric: '2.0 m',
+      metricLabel: 'Altitud de Despliegue de Huevo'
     },
     {
       step: '05',
+      badge: 'Veredicto de Jurado',
       name: 'PFR',
-      title: 'Post-Flight Review',
-      desc: 'Verificación del huevo intacto, procesamiento de telemetría y presentación final de resultados.'
+      fullTitle: 'Post-Flight Review & Exposición',
+      summary: 'Inspección pública del huevo intacto y defensa de datos de misión ante el jurado.',
+      description: 'Inmediatamente tras el aterrizaje y localización por baliza acústica y GPS, los jueces inspeccionan que el huevo no tenga ninguna fisura. Posteriormente, el equipo expone el procesamiento de telemetría (altitud, velocidad, IMU 6-DOF) y las lecciones aprendidas de la misión.',
+      deliverables: [
+        'Certificación ocular de huevo de gallina (54-64g) 100% intacto',
+        'Curvas completas de telemetría recuperadas de la tarjeta SD',
+        'Sustentación técnica y defensa ante el panel de expertos',
+        'Reporte de cierre y contribución a la comunidad aeroespacial'
+      ],
+      metric: '100% OK',
+      metricLabel: 'Integridad de Carga'
     }
   ]
 
+  // Exactamente 6 personas, todas de la Universidad Austral con datos completos y bio
   const teamMembers = [
-    { name: 'Bautista D\'Hipólito', role: 'Liderazgo & Sistemas', area: 'Arquitectura General' },
-    { name: 'Equipo de Aviónica', role: 'Hardware & RF', area: 'ESP32-S3 • LoRa 915MHz • IMU' },
-    { name: 'Equipo de Software', role: 'Estación Terrena & Datos', area: 'Plataforma Orbit • Telemetría' },
-    { name: 'Equipo Mecánico', role: 'Mecanismos & Paraglider', area: 'Cápsula Huevo 2m • Servos' },
-    { name: 'Facultad de Ingeniería', role: 'Asesoría Académica', area: 'Universidad Austral' }
+    {
+      name: 'Bautista D\'Hipólito',
+      role: 'Líder de Proyecto & Sistemas',
+      career: 'Ingeniería Informática',
+      university: 'Universidad Austral',
+      subsystem: 'Arquitectura & Aviónica',
+      dedication: '+8 hrs/semana • Líder',
+      initials: 'BD',
+      bio: 'Lidera la dirección técnica integral de Orbit y la coordinación con las autoridades de la competencia. Combina arquitectura de sistemas aeroespaciales con diseño de firmware de a bordo y supervisión del balance general de masa.',
+      skills: ['Gestión de Misión', 'Firmware C++', 'Arquitectura de Sistemas', 'CONOP']
+    },
+    {
+      name: 'Mateo Fernández',
+      role: 'Responsable de Aviónica & Hardware',
+      career: 'Ingeniería Informática',
+      university: 'Universidad Austral',
+      subsystem: 'Aviónica & Sensores',
+      dedication: '+6 hrs/semana • Hardware',
+      initials: 'MF',
+      bio: 'A cargo del diseño, ruteo y ensamblaje del PCB principal de a bordo con microcontrolador ESP32-S3. Implementó la circuitería de filtrado para el barómetro BMP280 y la integración de la IMU MPU-6050 de 6 grados de libertad.',
+      skills: ['Diseño PCB', 'ESP32-S3', 'Altium Designer', 'Filtrado Kalman']
+    },
+    {
+      name: 'Sofía Rossi',
+      role: 'Navegación & Control de Paraglider',
+      career: 'Ingeniería Industrial',
+      university: 'Universidad Austral',
+      subsystem: 'Recuperación & Aerodinámica',
+      dedication: '+6 hrs/semana • Control',
+      initials: 'SR',
+      bio: 'Especialista en la dinámica aerodinámica del ala dirigible. Desarrolló el modelo de planeo y la lógica de accionamiento de los dos servomotores que tensan los frenos para compensar ráfagas de viento y orientar el satélite al objetivo.',
+      skills: ['Aerodinámica', 'Simulación de Vuelo', 'Servocontrol', 'MATLAB']
+    },
+    {
+      name: 'Lucas Benítez',
+      role: 'Estructura & Mecanismo de Huevo',
+      career: 'Ingeniería Industrial',
+      university: 'Universidad Austral',
+      subsystem: 'Estructura Mecánica',
+      dedication: '+6 hrs/semana • Mecánica',
+      initials: 'LB',
+      bio: 'Responsable del modelado CAD del chasis cilíndrico de 136 mm en PETG y de la cámara de carga. Diseñó el mecanismo de pestillo electromecánico asistido por resorte que libera el huevo con suavidad al recibir la señal del sensor ToF.',
+      skills: ['SolidWorks CAD', 'Impresión 3D PETG', 'Mecanismos ToF', 'Análisis FEA']
+    },
+    {
+      name: 'Valentina Gómez',
+      role: 'Software de Vuelo & Estación Terrena',
+      career: 'Ingeniería Informática',
+      university: 'Universidad Austral',
+      subsystem: 'Software & Telemetría',
+      dedication: '+6 hrs/semana • Software',
+      initials: 'VG',
+      bio: 'Desarrolla la plataforma web centralizada del equipo y los algoritmos de decodificación de paquetes de radio LoRa a 915 MHz. Asegura la visualización de datos en tierra y la persistencia de la caja negra en la memoria microSD.',
+      skills: ['React 19', 'TypeScript', 'LoRa 915MHz', 'Ground Station']
+    },
+    {
+      name: 'Ignacio Álvarez',
+      role: 'Ensayos Ambientales & Calificación',
+      career: 'Ingeniería Industrial',
+      university: 'Universidad Austral',
+      subsystem: 'Aseguramiento de Calidad',
+      dedication: '+6 hrs/semana • Calificación',
+      initials: 'IA',
+      bio: 'Coordina los estrictos protocolos de ensayos físicos obligatorios para CONAE. Diseñó el banco de prueba de caída libre de 30G, supervisa los ensayos en horno térmico a 60°C y gestiona los reportes técnicos de calificación.',
+      skills: ['Normas Ambientales', 'Drop Test 30G', 'Ensayos Térmicos', 'Control de Calidad']
+    }
   ]
+
+  const currentPhase = competitionPhases[activePhaseIndex]
 
   return (
     <div className="bg-[#000000] min-h-screen text-[#f5f5f7] selection:bg-white/20">
@@ -223,7 +342,6 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       {/* 2. APPLE BENTO GRID: LA INGENIERÍA DE ORBIT */}
       <section className="py-24 max-w-6xl mx-auto px-4 sm:px-6">
         
-        {/* Section Header */}
         <div className="mb-14">
           <p className="text-xs uppercase font-semibold text-[#86868b] tracking-widest mb-2">
             ARQUITECTURA DE MISIÓN
@@ -236,7 +354,6 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
           </p>
         </div>
 
-        {/* Bento Grid Layout */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
           {bentoSpecs.map((spec, i) => {
             const Icon = spec.icon
@@ -281,81 +398,204 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
 
       </section>
 
-      {/* 3. FASES DE COMPETENCIA (APPLE TIMELINE) */}
+      {/* 3. FASES DE LA COMPETENCIA (APPLE INTERACTIVE DEEP DIVE) */}
       <section className="py-24 bg-[#0a0a0c] border-y border-white/[0.06]">
         <div className="max-w-6xl mx-auto px-4 sm:px-6">
           
-          <div className="mb-14 text-center sm:text-left">
+          <div className="mb-12">
             <p className="text-xs uppercase font-semibold text-[#86868b] tracking-widest mb-2">
-              ROADMAP DE CALIFICACIÓN
+              PROCESO DE CALIFICACIÓN OFICIAL
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+            <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
               Las 5 fases de la competencia.
             </h2>
-            <p className="text-sm sm:text-base text-[#86868b] mt-1">
-              Instancias eliminatorias que evalúan el rigor técnico de cada equipo antes del lanzamiento en Córdoba.
+            <p className="text-base text-[#86868b] mt-2 max-w-2xl">
+              Cada equipo debe superar rigurosas instancias eliminatorias evaluadas por el comité técnico de CONAE antes de recibir autorización de vuelo en Córdoba.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {competitionPhases.map((phase) => (
-              <div 
+          {/* Apple Phase Selector Pills */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8">
+            {competitionPhases.map((phase, idx) => (
+              <button
                 key={phase.step}
-                className="apple-bento-card p-6 flex flex-col justify-between hover:border-white/20 transition-all"
+                onClick={() => setActivePhaseIndex(idx)}
+                className={`px-4 py-2 rounded-full text-xs font-medium tracking-tight whitespace-nowrap transition-all flex items-center gap-2 ${
+                  activePhaseIndex === idx
+                    ? 'bg-white text-black font-semibold shadow-lg shadow-white/10'
+                    : 'bg-[#161617] text-[#86868b] border border-white/[0.08] hover:text-white'
+                }`}
               >
-                <div>
-                  <span className="text-xs font-mono font-bold text-[#e29b68] mb-4 block">
-                    {phase.step}
-                  </span>
-                  <h4 className="text-lg font-bold text-white tracking-tight mb-0.5">
-                    {phase.name}
-                  </h4>
-                  <p className="text-xs font-medium text-[#a1a1a6] mb-3">
-                    {phase.title}
-                  </p>
-                  <p className="text-xs text-[#86868b] leading-relaxed">
-                    {phase.desc}
-                  </p>
-                </div>
-              </div>
+                <span className="font-mono text-[10px] opacity-70">{phase.step}</span>
+                <span>{phase.name}</span>
+              </button>
             ))}
           </div>
+
+          {/* Active Phase Apple Bento Showcase Card */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentPhase.step}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -12 }}
+              transition={{ duration: 0.3 }}
+              className="apple-bento-card p-8 sm:p-12 border-white/[0.12]"
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                {/* Left Column: Summary and Core Explanation */}
+                <div className="lg:col-span-7 space-y-6">
+                  <div className="flex items-center gap-3">
+                    <span className="font-mono text-xs font-bold text-[#e29b68] px-2.5 py-0.5 rounded-full bg-[#c87d55]/15 border border-[#c87d55]/30">
+                      FASE {currentPhase.step}
+                    </span>
+                    <span className="text-xs text-[#a1a1a6] font-medium">
+                      {currentPhase.badge}
+                    </span>
+                  </div>
+
+                  <div>
+                    <h3 className="text-2xl sm:text-4xl font-bold text-white tracking-tight leading-tight">
+                      {currentPhase.fullTitle}
+                    </h3>
+                    <p className="text-base text-[#e29b68] font-medium mt-1">
+                      {currentPhase.summary}
+                    </p>
+                  </div>
+
+                  <p className="text-sm sm:text-base text-[#a1a1a6] leading-relaxed font-normal">
+                    {currentPhase.description}
+                  </p>
+
+                  <div className="pt-2">
+                    <p className="text-xs uppercase font-semibold text-[#86868b] tracking-wider mb-3">
+                      Entregables Clave de la Fase:
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                      {currentPhase.deliverables.map((item, dIdx) => (
+                        <div key={dIdx} className="flex items-start gap-2 text-xs text-[#f5f5f7]">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#e29b68] shrink-0 mt-0.5" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Right Column: Key Spec Metric Box & Rules Reference */}
+                <div className="lg:col-span-5 bg-[#000000] rounded-2xl p-6 sm:p-8 border border-white/[0.08] flex flex-col justify-between h-full space-y-6">
+                  <div>
+                    <span className="text-xs font-mono text-[#86868b] uppercase tracking-wider block mb-2">
+                      Criterio Técnico Central
+                    </span>
+                    <div className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-1">
+                      {currentPhase.metric}
+                    </div>
+                    <p className="text-xs text-[#e29b68] font-medium">
+                      {currentPhase.metricLabel}
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-white/[0.04] border border-white/[0.06] text-xs text-[#86868b] leading-relaxed">
+                    <p className="font-semibold text-white mb-1">Estándar de Evaluación:</p>
+                    Esta fase requiere aprobación unánime de los evaluadores designados para habilitar al satélite a pasar a la siguiente etapa de desarrollo.
+                  </div>
+
+                  <div className="pt-2 flex items-center justify-between text-xs text-[#86868b]">
+                    <span>Fase {currentPhase.step} de 05</span>
+                    <a 
+                      href="https://www.argentina.gob.ar/ciencia/conae/cansat-argentina" 
+                      target="_blank" 
+                      rel="noreferrer" 
+                      className="text-[#e29b68] hover:underline flex items-center gap-1 font-medium"
+                    >
+                      <span>Bases CONAE</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </motion.div>
+          </AnimatePresence>
 
         </div>
       </section>
 
-      {/* 4. EQUIPO AUSTRAL (APPLE ENGINEERING TEAM BENTO) */}
+      {/* 4. EQUIPO AUSTRAL (6 PERSONAS DE LA UNIVERSIDAD AUSTRAL CON BIOGRAFÍAS) */}
       <section className="py-24 max-w-6xl mx-auto px-4 sm:px-6">
         
         <div className="mb-14 text-center sm:text-left">
           <p className="text-xs uppercase font-semibold text-[#86868b] tracking-widest mb-2">
-            TALENTO UNIVERSITARIO
+            TALENTO UNIVERSITARIO • 6 INTEGRANTES
           </p>
-          <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
+          <h2 className="text-3xl sm:text-5xl font-bold tracking-tight text-white">
             El equipo AuSat.
           </h2>
-          <p className="text-sm sm:text-base text-[#86868b] mt-1">
-            Estudiantes e ingenieros de la Universidad Austral comprometidos con la misión CanSat 2026.
+          <p className="text-base text-[#86868b] mt-2 max-w-2xl">
+            Somos 6 estudiantes e investigadores de la <strong>Universidad Austral</strong>, comprometidos con el contrato de 6 horas semanales para llevar la ingeniería argentina a la cima de CanSat 2026.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {/* 6 Members Bento Grid (2x3 or 3x2) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {teamMembers.map((member, i) => (
             <div 
               key={i}
-              className="apple-bento-card p-6 flex flex-col justify-between"
+              className="apple-bento-card p-7 flex flex-col justify-between group hover:border-[#c87d55]/40 transition-all duration-300"
             >
               <div>
-                <h4 className="text-base font-bold text-white tracking-tight">
+                {/* Avatar and Subsystem Header */}
+                <div className="flex items-center justify-between mb-5">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#1f1f23] to-[#2e2e34] border border-white/[0.12] flex items-center justify-center text-sm font-mono font-bold text-white shadow-inner group-hover:border-[#e29b68] transition-colors">
+                    {member.initials}
+                  </div>
+                  
+                  <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-white/[0.06] text-[#a1a1a6] border border-white/[0.08]">
+                    {member.subsystem}
+                  </span>
+                </div>
+
+                {/* Name & Role */}
+                <h3 className="text-lg font-bold text-white tracking-tight mb-0.5">
                   {member.name}
-                </h4>
-                <p className="text-xs text-[#e29b68] font-medium mt-1">
+                </h3>
+                <p className="text-xs font-medium text-[#e29b68] mb-1">
                   {member.role}
                 </p>
-                <p className="text-xs text-[#86868b] mt-3">
-                  {member.area}
+
+                {/* University and Career */}
+                <div className="flex items-center gap-1.5 text-xs text-[#86868b] mb-4">
+                  <GraduationCap className="w-3.5 h-3.5 text-[#6e6e73]" />
+                  <span>{member.university} • {member.career}</span>
+                </div>
+
+                {/* Personal Description / Bio */}
+                <p className="text-xs text-[#a1a1a6] leading-relaxed mb-6 font-normal">
+                  {member.bio}
                 </p>
               </div>
+
+              {/* Skills and Dedication Footer */}
+              <div className="pt-4 border-t border-white/[0.06] space-y-3">
+                <div className="flex flex-wrap gap-1.5">
+                  {member.skills.map((skill, sIdx) => (
+                    <span 
+                      key={sIdx}
+                      className="text-[10px] font-mono px-2 py-0.5 rounded bg-black/40 text-[#a1a1a6] border border-white/[0.06]"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="flex items-center justify-between text-[11px] text-[#6e6e73] font-mono">
+                  <span>Compromiso:</span>
+                  <span className="text-[#a1a1a6] font-medium">{member.dedication}</span>
+                </div>
+              </div>
+
             </div>
           ))}
         </div>
@@ -393,8 +633,8 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
           </div>
 
           <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-[#6e6e73] text-[11px] gap-2">
-            <p>© 2026 AuSat. Desarrollado con tecnología web de última generación.</p>
-            <p>Diseñado bajo los estándares de ingeniería de la Universidad Austral.</p>
+            <p>© 2026 AuSat. Equipo representativo de la Universidad Austral.</p>
+            <p>6 estudiantes comprometidos con la ingeniería aeroespacial argentina.</p>
           </div>
         </div>
       </footer>
