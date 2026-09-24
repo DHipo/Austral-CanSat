@@ -4,8 +4,9 @@ import { HomePage } from './pages/HomePage'
 import { ReportsPage } from './pages/ReportsPage'
 import { TodoPage } from './pages/TodoPage'
 import { useRouter } from './router/useRouter'
+import { ThemeProvider } from './context/ThemeContext'
 
-export const App: React.FC = () => {
+export const AppContent: React.FC = () => {
   const { currentPath, navigate } = useRouter()
 
   const renderContent = () => {
@@ -23,7 +24,7 @@ export const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#000000] text-[#f5f5f7] flex flex-col font-sans selection:bg-white/20 selection:text-white">
+    <div className="min-h-screen bg-[var(--apple-bg)] text-[var(--apple-text-primary)] flex flex-col font-sans selection:bg-white/20 selection:text-white transition-colors duration-300">
       {/* Top Persistent Navbar */}
       <Navbar currentPath={currentPath} navigate={navigate} />
 
@@ -32,6 +33,14 @@ export const App: React.FC = () => {
         {renderContent()}
       </main>
     </div>
+  )
+}
+
+export const App: React.FC = () => {
+  return (
+    <ThemeProvider>
+      <AppContent />
+    </ThemeProvider>
   )
 }
 
