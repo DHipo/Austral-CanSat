@@ -16,7 +16,6 @@ import {
   List,
   ListOrdered,
   Code,
-  Sparkles,
   FileText,
   Tag,
   CheckCircle2
@@ -105,7 +104,6 @@ interface ProfessionalTextareaProps {
   placeholder: string
   rows?: number
   required?: boolean
-  quickSnippets?: { label: string; text: string }[]
 }
 
 const ProfessionalTextarea: React.FC<ProfessionalTextareaProps> = ({
@@ -116,8 +114,7 @@ const ProfessionalTextarea: React.FC<ProfessionalTextareaProps> = ({
   onChange,
   placeholder,
   rows = 4,
-  required = false,
-  quickSnippets = []
+  required = false
 }) => {
   const insertText = (before: string, after: string = '') => {
     onChange(`${value}${before}${after}`)
@@ -127,7 +124,7 @@ const ProfessionalTextarea: React.FC<ProfessionalTextareaProps> = ({
   const charCount = value.length
 
   return (
-    <div className="rounded-2xl bg-[#0e0e11] border border-white/[0.08] hover:border-white/[0.14] transition-all p-4 sm:p-5 space-y-3">
+    <div className="rounded-2xl bg-[#0e0e11] border border-white/[0.08] hover:border-white/[0.14] transition-colors p-4 sm:p-5 space-y-3">
       {/* Header with Step, Title, Helper and Toolbar */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/[0.06]">
         <div className="flex items-start gap-2.5">
@@ -181,34 +178,14 @@ const ProfessionalTextarea: React.FC<ProfessionalTextareaProps> = ({
         </div>
       </div>
 
-      {/* Optional Quick Snippets */}
-      {quickSnippets.length > 0 && (
-        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-          <span className="text-[10px] uppercase font-mono text-[#6e6e73] mr-1 flex items-center gap-1">
-            <Sparkles className="w-2.5 h-2.5 text-[#e29b68]" />
-            Insertar:
-          </span>
-          {quickSnippets.map((snippet, idx) => (
-            <button
-              key={idx}
-              type="button"
-              onClick={() => insertText(snippet.text)}
-              className="text-[10px] font-mono px-2 py-0.5 rounded bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.06] text-[#a1a1a6] hover:text-white transition-all"
-            >
-              + {snippet.label}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {/* Textarea */}
+      {/* Textarea with smooth vertical resize and no transition lag */}
       <textarea
         required={required}
         rows={rows}
         placeholder={placeholder}
         value={value}
         onChange={e => onChange(e.target.value)}
-        className="w-full px-4 py-3 rounded-xl bg-[#08080a] border border-white/[0.08] text-[#f5f5f7] text-xs sm:text-sm font-mono leading-relaxed focus:border-[#e29b68]/60 focus:ring-1 focus:ring-[#e29b68]/20 focus:outline-none transition-all placeholder-[#48484a]"
+        className="w-full px-4 py-3 rounded-xl bg-[#08080a] border border-white/[0.08] text-[#f5f5f7] text-xs sm:text-sm font-mono leading-relaxed focus:border-[#e29b68]/60 focus:ring-1 focus:ring-[#e29b68]/20 focus:outline-none resize-y min-h-[90px] transition-colors placeholder-[#48484a]"
       />
 
       {/* Word & Char Counter Footer */}
@@ -558,55 +535,55 @@ ${report.nextSteps}
       {isEditing ? (
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
           
-          {/* Header Bar with Tabs */}
+          {/* Header Bar with Back Arrow and Tabs */}
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-5 border-b border-white/[0.08]">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="font-mono text-[10px] uppercase tracking-wider text-[#e29b68] bg-[#e29b68]/10 border border-[#e29b68]/20 px-2 py-0.5 rounded">
-                  ESTUDIO DOCUMENTAL
-                </span>
-                <span className="text-xs text-[#6e6e73] font-mono">
-                  ID: {formData.id || 'NUEVO'}
-                </span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                {formData.title ? 'Editar Informe Técnico' : 'Redactar Nuevo Informe'}
-              </h2>
-            </div>
-
-            {/* Mode Switcher: Redacción vs Vista Previa */}
-            <div className="flex items-center gap-2 self-start sm:self-center">
-              <div className="flex items-center bg-[#141417] p-1 rounded-full border border-white/[0.08]">
-                <button
-                  type="button"
-                  onClick={() => setEditorTab('edit')}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                    editorTab === 'edit'
-                      ? 'bg-white text-black shadow-sm'
-                      : 'text-[#86868b] hover:text-white'
-                  }`}
-                >
-                  Editor
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setEditorTab('preview')}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                    editorTab === 'preview'
-                      ? 'bg-white text-black shadow-sm'
-                      : 'text-[#86868b] hover:text-white'
-                  }`}
-                >
-                  Vista Previa
-                </button>
-              </div>
-
+            <div className="flex items-center gap-3.5">
               <button
                 type="button"
                 onClick={() => setIsEditing(false)}
-                className="apple-pill-secondary px-3.5 py-1.5 text-xs"
+                className="p-2.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] text-[#a1a1a6] hover:text-white border border-white/[0.08] transition-all"
+                title="Volver a la lista"
               >
-                Cancelar
+                <ArrowLeft className="w-4 h-4" />
+              </button>
+              <div>
+                <div className="flex items-center gap-2 mb-0.5">
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-[#e29b68] bg-[#e29b68]/10 border border-[#e29b68]/20 px-2 py-0.5 rounded">
+                    ESTUDIO DOCUMENTAL
+                  </span>
+                  <span className="text-xs text-[#6e6e73] font-mono">
+                    ID: {formData.id || 'NUEVO'}
+                  </span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                  {formData.title ? 'Editar Informe Técnico' : 'Redactar Nuevo Informe'}
+                </h2>
+              </div>
+            </div>
+
+            {/* Mode Switcher: Redacción vs Vista Previa */}
+            <div className="flex items-center bg-[#141417] p-1 rounded-full border border-white/[0.08] self-start sm:self-center">
+              <button
+                type="button"
+                onClick={() => setEditorTab('edit')}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                  editorTab === 'edit'
+                    ? 'bg-white text-black shadow-sm'
+                    : 'text-[#86868b] hover:text-white'
+                }`}
+              >
+                Editor
+              </button>
+              <button
+                type="button"
+                onClick={() => setEditorTab('preview')}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                  editorTab === 'preview'
+                    ? 'bg-white text-black shadow-sm'
+                    : 'text-[#86868b] hover:text-white'
+                }`}
+              >
+                Vista Previa
               </button>
             </div>
           </div>
@@ -761,10 +738,6 @@ ${report.nextSteps}
                   placeholder="Ej: Validar la tasa de transmisión de paquetes de telemetría a 1000m simulados garantizando un PER inferior al 1%..."
                   value={formData.objective}
                   onChange={val => setFormData({ ...formData, objective: val })}
-                  quickSnippets={[
-                    { label: 'Requisito CONAE', text: 'Validar cumplimiento de la norma de seguridad CONAE para...' },
-                    { label: 'Masa 1000g', text: 'Verificar que la masa del subsistema no supere el presupuesto asignado de...' }
-                  ]}
                 />
 
                 {/* 2. DESARROLLO Y RESULTADOS */}
@@ -777,11 +750,6 @@ ${report.nextSteps}
                   placeholder={`1. Configuración de prueba: Parámetros del banco experimental...\n2. Mediciones obtenidas: Aceleración en 3 ejes, consumo en mA...\n3. Análisis de discrepancias y comportamiento observado.`}
                   value={formData.findings}
                   onChange={val => setFormData({ ...formData, findings: val })}
-                  quickSnippets={[
-                    { label: 'Drop Test 30G', text: '\n- Ensayo de impacto libre 30G: Integridad estructural verificada al 100% sin fisuras.' },
-                    { label: 'Horno 60°C', text: '\n- Ensayo térmico a 60°C durante 120 min: Temperatura interna de batería en 41.2°C nominal.' },
-                    { label: 'Mecanismo Huevo 2m', text: '\n- Despliegue ToF a 2.0m: Pestillo liberado con retardo de 42 ms. Huevo intacto.' }
-                  ]}
                 />
 
                 {/* 3. CONCLUSIONES */}
@@ -794,9 +762,6 @@ ${report.nextSteps}
                   placeholder="Ej: Se concluye que la configuración adoptada satisface los criterios de aceptación para la fase CDR..."
                   value={formData.conclusions}
                   onChange={val => setFormData({ ...formData, conclusions: val })}
-                  quickSnippets={[
-                    { label: 'Aprobación Técnica', text: 'Se aprueba la arquitectura propuesta para su integración en el modelo de vuelo.' }
-                  ]}
                 />
 
                 {/* 4. PRÓXIMOS PASOS */}
@@ -808,10 +773,6 @@ ${report.nextSteps}
                   placeholder="1. Fabricación del prototipo v2 en PETG con fibra de carbono...\n2. Ensayos en cámara de vacío programados para el 15/07."
                   value={formData.nextSteps}
                   onChange={val => setFormData({ ...formData, nextSteps: val })}
-                  quickSnippets={[
-                    { label: 'Revisión CAD', text: 'Actualizar ensamble final en SolidWorks antes de la reunión de subsistema.' },
-                    { label: 'Firma de Integrantes', text: 'Presentar resultados al panel asesor para homologación.' }
-                  ]}
                 />
               </div>
 
@@ -949,20 +910,20 @@ ${report.nextSteps}
               />
             </div>
 
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-              {['TODOS', 'Investigación', 'PDR / CDR', 'Ensayo Ambiental', 'Minuta de Reunión', 'Contrato'].map(cat => (
-                <button
-                  key={cat}
-                  onClick={() => setCategoryFilter(cat)}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-all ${
-                    categoryFilter === cat
-                      ? 'bg-white text-black'
-                      : 'bg-[#161617] text-[#86868b] border border-white/[0.08] hover:text-white'
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
+            {/* Category Filter Select (Default: TODOS) */}
+            <div className="shrink-0 min-w-[200px]">
+              <select
+                value={categoryFilter}
+                onChange={e => setCategoryFilter(e.target.value)}
+                className="w-full px-4 py-2.5 rounded-full bg-[#161617] border border-white/[0.08] text-xs text-[#f5f5f7] focus:border-[#e29b68]/60 focus:outline-none cursor-pointer"
+              >
+                <option value="TODOS">Todas las categorías</option>
+                <option value="Investigación">Investigación</option>
+                <option value="PDR / CDR">PDR / CDR</option>
+                <option value="Ensayo Ambiental">Ensayo Ambiental</option>
+                <option value="Minuta de Reunión">Minuta de Reunión</option>
+                <option value="Contrato">Contrato</option>
+              </select>
             </div>
           </div>
 
