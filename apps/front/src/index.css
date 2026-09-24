@@ -6,29 +6,38 @@
     --font-heading: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
     --font-mono: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
     
+    /* Dark Mode (Default) */
     --apple-bg: #000000;
-    --apple-surface: #161617;
-    --apple-surface-hover: #1d1d1f;
+    --apple-surface: #141416;
+    --apple-surface-hover: #1c1c1f;
+    --apple-nested: #0c0c0e;
     --apple-border: rgba(255, 255, 255, 0.08);
-    --apple-border-focus: rgba(255, 255, 255, 0.2);
+    --apple-border-hover: rgba(255, 255, 255, 0.16);
+    --apple-border-focus: #e29b68;
+    
     --apple-text-primary: #f5f5f7;
-    --apple-text-secondary: #86868b;
-    --apple-text-tertiary: #6e6e73;
-    --apple-accent-bronze: #d48b5f;
-    --apple-accent-blue: #2997ff;
+    --apple-text-secondary: #a1a1a6;
+    --apple-text-tertiary: #71717a;
+    
+    --apple-accent-bronze: #e29b68;
+    --apple-accent-blue: #38bdf8;
     color-scheme: dark;
   }
 
-  /* Light Theme Variables */
+  /* Light Theme (Apple Studio Ceramic & Titanium) */
   html.light {
     --apple-bg: #f5f5f7;
     --apple-surface: #ffffff;
-    --apple-surface-hover: #f0f0f3;
+    --apple-surface-hover: #fbfbfd;
+    --apple-nested: #f2f2f5;
     --apple-border: rgba(0, 0, 0, 0.08);
-    --apple-border-focus: rgba(0, 0, 0, 0.2);
+    --apple-border-hover: rgba(0, 0, 0, 0.18);
+    --apple-border-focus: #c87d55;
+    
     --apple-text-primary: #1d1d1f;
-    --apple-text-secondary: #515154;
-    --apple-text-tertiary: #86868b;
+    --apple-text-secondary: #48484a;
+    --apple-text-tertiary: #6e6e73;
+    
     --apple-accent-bronze: #c87d55;
     --apple-accent-blue: #0071e3;
     color-scheme: light;
@@ -41,7 +50,7 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     letter-spacing: -0.015em;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -49,23 +58,27 @@
   }
 }
 
-/* Apple Pro Aesthetics: Dark (Default) */
+/* ========================================================================= */
+/* BASE SHARED STYLES */
+/* ========================================================================= */
+
 .apple-glass-nav {
   background: rgba(0, 0, 0, 0.75);
   backdrop-filter: saturate(180%) blur(20px);
   -webkit-backdrop-filter: saturate(180%) blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .apple-bento-card {
-  background: #161617;
+  background: #141416;
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1.75rem;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 .apple-bento-card:hover {
-  background: #1c1c1e;
+  background: #1a1a1d;
   border-color: rgba(255, 255, 255, 0.16);
   box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
   transform: translateY(-2px);
@@ -84,7 +97,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* Apple Pill Button */
+/* Apple Pill Buttons */
 .apple-pill-primary {
   border-radius: 9999px;
   background-color: #f5f5f7;
@@ -112,7 +125,6 @@
   border-color: rgba(255, 255, 255, 0.25);
 }
 
-/* Apple Spec Number */
 .apple-spec-number {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 700;
@@ -121,14 +133,15 @@
 }
 
 /* ========================================================================= */
-/* LIGHT MODE STYLES & OVERRIDES */
+/* COMPREHENSIVE LIGHT THEME ENGINE (ZERO CONTRAST INVERSIONS) */
 /* ========================================================================= */
+
 html.light body {
   background-color: #f5f5f7 !important;
   color: #1d1d1f !important;
 }
 
-/* Base surface backgrounds */
+/* 1. Page Backgrounds & Sections */
 html.light .bg-\[\#000000\],
 html.light div.bg-\[\#000000\],
 html.light section.bg-\[\#000000\] {
@@ -136,49 +149,54 @@ html.light section.bg-\[\#000000\] {
   color: #1d1d1f !important;
 }
 
+/* 2. Bento Cards in Light Mode */
+html.light .apple-bento-card {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04) !important;
+}
+
+html.light .apple-bento-card:hover {
+  background-color: #ffffff !important;
+  border-color: rgba(200, 125, 85, 0.4) !important;
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.09) !important;
+}
+
+/* 3. Nested Blocks Inside Cards (Critical: Prevents Black on Black) */
+html.light .apple-bento-card .bg-\[\#000000\],
+html.light .apple-bento-card div.bg-\[\#000000\],
 html.light .bg-\[\#121214\],
 html.light .bg-\[\#161617\],
 html.light .bg-\[\#141418\],
 html.light .bg-\[\#141417\],
 html.light .bg-\[\#0e0e11\],
-html.light .bg-\[\#08080a\] {
-  background-color: #ffffff !important;
-}
-
-html.light .bg-\[\#121215\] {
-  background-color: #ededf1 !important;
-}
-
-html.light .bg-black {
-  background-color: #e8e8ed !important;
-}
-
+html.light .bg-\[\#08080a\],
 html.light .bg-black\/30,
 html.light .bg-black\/40,
-html.light .bg-black\/60 {
-  background-color: rgba(0, 0, 0, 0.04) !important;
+html.light .bg-black\/50 {
+  background-color: #f4f4f7 !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: #1d1d1f !important;
 }
 
-/* Light Mode Navbar */
-html.light .apple-glass-nav {
-  background: rgba(245, 245, 247, 0.85) !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+/* 4. Kanban & Columns */
+html.light .bg-\[\#121215\] {
+  background-color: #eaebef !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Light Mode Bento Cards */
-html.light .apple-bento-card {
-  background: #ffffff !important;
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04) !important;
+html.light .bg-\[\#161618\] {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
 }
 
-html.light .apple-bento-card:hover {
-  background: #ffffff !important;
-  border-color: rgba(200, 125, 85, 0.45) !important;
-  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.1) !important;
+html.light .bg-\[\#161618\]:hover {
+  background-color: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.16) !important;
 }
 
-/* Light Mode Typography */
+/* 5. Typography */
 html.light .text-white,
 html.light .text-\[\#f5f5f7\] {
   color: #1d1d1f !important;
@@ -186,63 +204,24 @@ html.light .text-\[\#f5f5f7\] {
 
 html.light .text-\[\#a1a1a6\],
 html.light .text-\[\#e5e5ea\] {
-  color: #515154 !important;
+  color: #48484a !important;
 }
 
 html.light .text-\[\#86868b\] {
   color: #6e6e73 !important;
 }
 
+html.light .text-\[\#6e6e73\] {
+  color: #71717a !important;
+}
+
 html.light .apple-headline-gradient {
-  background: linear-gradient(180deg, #1d1d1f 0%, #434346 100%) !important;
+  background: linear-gradient(180deg, #111113 0%, #3f3f46 100%) !important;
   -webkit-background-clip: text !important;
   -webkit-text-fill-color: transparent !important;
 }
 
-/* Light Mode Borders */
-html.light .border-white\/\[0\.04\],
-html.light .border-white\/\[0\.06\],
-html.light .border-white\/\[0\.08\],
-html.light .border-white\/\[0\.1\],
-html.light .border-white\/\[0\.12\] {
-  border-color: rgba(0, 0, 0, 0.08) !important;
-}
-
-/* Light Mode Chips & Badges */
-html.light .bg-white\/\[0\.04\],
-html.light .bg-white\/\[0\.06\] {
-  background-color: rgba(0, 0, 0, 0.04) !important;
-  color: #48484a !important;
-}
-
-html.light .bg-white\/\[0\.08\],
-html.light .bg-white\/\[0\.1\] {
-  background-color: rgba(0, 0, 0, 0.07) !important;
-}
-
-/* Light Mode Buttons */
-html.light .apple-pill-primary {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-}
-
-html.light .apple-pill-primary:hover {
-  background-color: #1d1d1f !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2) !important;
-}
-
-html.light .apple-pill-secondary {
-  background: rgba(0, 0, 0, 0.05) !important;
-  color: #1d1d1f !important;
-  border-color: rgba(0, 0, 0, 0.1) !important;
-}
-
-html.light .apple-pill-secondary:hover {
-  background: rgba(0, 0, 0, 0.09) !important;
-  border-color: rgba(0, 0, 0, 0.2) !important;
-}
-
-/* Light Mode Inputs & Textareas */
+/* 6. Form Inputs, Textareas and Selects */
 html.light input:not([type="checkbox"]):not([type="radio"]),
 html.light textarea,
 html.light select {
@@ -251,19 +230,104 @@ html.light select {
   border-color: rgba(0, 0, 0, 0.14) !important;
 }
 
+html.light input:focus,
+html.light textarea:focus,
+html.light select:focus {
+  border-color: #c87d55 !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px rgba(200, 125, 85, 0.15) !important;
+}
+
 html.light input::placeholder,
 html.light textarea::placeholder {
-  color: #86868b !important;
+  color: #8e8e93 !important;
 }
 
-/* Light Mode Sticky Footer in Reports */
-html.light .sticky.bottom-6 {
-  background-color: rgba(255, 255, 255, 0.9) !important;
+/* 7. Badges, Chips & Small Tags */
+html.light .bg-white\/\[0\.04\],
+html.light .bg-white\/\[0\.06\],
+html.light .bg-white\/\[0\.08\],
+html.light .bg-white\/\[0\.1\] {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: #48484a !important;
+}
+
+/* 8. Light Mode Navbar */
+html.light .apple-glass-nav {
+  background: rgba(245, 245, 247, 0.85) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+}
+
+/* 9. Light Mode Buttons */
+html.light .apple-pill-primary {
+  background-color: #1d1d1f !important;
+  color: #ffffff !important;
+}
+
+html.light .apple-pill-primary:hover {
+  background-color: #000000 !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18) !important;
+}
+
+html.light .apple-pill-secondary {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  color: #1d1d1f !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+html.light .apple-pill-secondary:hover {
+  background-color: rgba(0, 0, 0, 0.09) !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 10. Team Member Photo Card & Avatar */
+html.light .apple-bento-card .from-\[\#1f1f23\] {
+  background-image: linear-gradient(to top right, #e2e2e7, #f0f0f4) !important;
+  color: #1d1d1f !important;
   border-color: rgba(0, 0, 0, 0.1) !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Print Styles for Formal Document Generation */
+html.light .bg-black\/60 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  color: #1d1d1f !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+}
+
+/* 11. Document Preview in Reports */
+html.light .print-document {
+  background-color: #ffffff !important;
+  color: #1d1d1f !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light .print-document .bg-black\/40,
+html.light .print-document .bg-black\/30 {
+  background-color: #f4f4f7 !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light .print-document img[alt="AuSat Watermark"] {
+  opacity: 0.035 !important;
+  filter: none !important;
+}
+
+/* 12. Sticky Action Bar in Editor */
+html.light .sticky.bottom-6 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.09) !important;
+  color: #1d1d1f !important;
+}
+
+/* 13. Phase Filter Pills in Light Mode */
+html.light .bg-white.text-black {
+  background-color: #1d1d1f !important;
+  color: #ffffff !important;
+}
+
+/* Print Styles */
 @media print {
   body {
     background: #ffffff !important;
