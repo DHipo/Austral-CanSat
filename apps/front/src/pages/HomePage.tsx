@@ -8,7 +8,9 @@ import {
   Layers,
   CheckCircle2,
   ExternalLink,
-  GraduationCap
+  GraduationCap,
+  Linkedin,
+  Mail
 } from 'lucide-react'
 import { handleLinkClick } from '../router/useRouter'
 
@@ -145,7 +147,7 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
     }
   ]
 
-  // Exactamente 6 personas, todas de la Universidad Austral con datos completos y bio
+  // Exactamente 6 personas, todas de la Universidad Austral con contacto directo
   const teamMembers = [
     {
       name: 'Bautista D\'Hipólito',
@@ -153,10 +155,9 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       career: 'Ingeniería Informática',
       university: 'Universidad Austral',
       subsystem: 'Arquitectura & Aviónica',
-      dedication: '+8 hrs/semana • Líder',
       initials: 'BD',
-      bio: 'Lidera la dirección técnica integral de Orbit y la coordinación con las autoridades de la competencia. Combina arquitectura de sistemas aeroespaciales con diseño de firmware de a bordo y supervisión del balance general de masa.',
-      skills: ['Gestión de Misión', 'Firmware C++', 'Arquitectura de Sistemas', 'CONOP']
+      email: 'bdhipolito@austral.edu.ar',
+      linkedin: 'https://linkedin.com/in/bautistadhipolito'
     },
     {
       name: 'Mateo Fernández',
@@ -164,10 +165,9 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       career: 'Ingeniería Informática',
       university: 'Universidad Austral',
       subsystem: 'Aviónica & Sensores',
-      dedication: '+6 hrs/semana • Hardware',
       initials: 'MF',
-      bio: 'A cargo del diseño, ruteo y ensamblaje del PCB principal de a bordo con microcontrolador ESP32-S3. Implementó la circuitería de filtrado para el barómetro BMP280 y la integración de la IMU MPU-6050 de 6 grados de libertad.',
-      skills: ['Diseño PCB', 'ESP32-S3', 'Altium Designer', 'Filtrado Kalman']
+      email: 'mfernandez@austral.edu.ar',
+      linkedin: 'https://linkedin.com/in/mateo-fernandez'
     },
     {
       name: 'Sofía Rossi',
@@ -175,10 +175,9 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       career: 'Ingeniería Industrial',
       university: 'Universidad Austral',
       subsystem: 'Recuperación & Aerodinámica',
-      dedication: '+6 hrs/semana • Control',
       initials: 'SR',
-      bio: 'Especialista en la dinámica aerodinámica del ala dirigible. Desarrolló el modelo de planeo y la lógica de accionamiento de los dos servomotores que tensan los frenos para compensar ráfagas de viento y orientar el satélite al objetivo.',
-      skills: ['Aerodinámica', 'Simulación de Vuelo', 'Servocontrol', 'MATLAB']
+      email: 'srossi@austral.edu.ar',
+      linkedin: 'https://linkedin.com/in/sofia-rossi'
     },
     {
       name: 'Lucas Benítez',
@@ -186,10 +185,9 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       career: 'Ingeniería Industrial',
       university: 'Universidad Austral',
       subsystem: 'Estructura Mecánica',
-      dedication: '+6 hrs/semana • Mecánica',
       initials: 'LB',
-      bio: 'Responsable del modelado CAD del chasis cilíndrico de 136 mm en PETG y de la cámara de carga. Diseñó el mecanismo de pestillo electromecánico asistido por resorte que libera el huevo con suavidad al recibir la señal del sensor ToF.',
-      skills: ['SolidWorks CAD', 'Impresión 3D PETG', 'Mecanismos ToF', 'Análisis FEA']
+      email: 'lbenitez@austral.edu.ar',
+      linkedin: 'https://linkedin.com/in/lucas-benitez'
     },
     {
       name: 'Valentina Gómez',
@@ -197,10 +195,9 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       career: 'Ingeniería Informática',
       university: 'Universidad Austral',
       subsystem: 'Software & Telemetría',
-      dedication: '+6 hrs/semana • Software',
       initials: 'VG',
-      bio: 'Desarrolla la plataforma web centralizada del equipo y los algoritmos de decodificación de paquetes de radio LoRa a 915 MHz. Asegura la visualización de datos en tierra y la persistencia de la caja negra en la memoria microSD.',
-      skills: ['React 19', 'TypeScript', 'LoRa 915MHz', 'Ground Station']
+      email: 'vgomez@austral.edu.ar',
+      linkedin: 'https://linkedin.com/in/valentina-gomez'
     },
     {
       name: 'Ignacio Álvarez',
@@ -208,10 +205,9 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
       career: 'Ingeniería Industrial',
       university: 'Universidad Austral',
       subsystem: 'Aseguramiento de Calidad',
-      dedication: '+6 hrs/semana • Calificación',
       initials: 'IA',
-      bio: 'Coordina los estrictos protocolos de ensayos físicos obligatorios para CONAE. Diseñó el banco de prueba de caída libre de 30G, supervisa los ensayos en horno térmico a 60°C y gestiona los reportes técnicos de calificación.',
-      skills: ['Normas Ambientales', 'Drop Test 30G', 'Ensayos Térmicos', 'Control de Calidad']
+      email: 'ialvarez@austral.edu.ar',
+      linkedin: 'https://linkedin.com/in/ignacio-alvarez'
     }
   ]
 
@@ -538,62 +534,61 @@ export const HomePage: React.FC<HomePageProps> = ({ navigate }) => {
           </p>
         </div>
 
-        {/* 6 Members Bento Grid (2x3 or 3x2) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* 6 Members Grid (2 Columns, Wide Cards) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {teamMembers.map((member, i) => (
             <div 
               key={i}
-              className="apple-bento-card p-7 flex flex-col justify-between group hover:border-[#c87d55]/40 transition-all duration-300"
+              className="apple-bento-card p-6 sm:p-7 flex flex-col justify-between group hover:border-[#c87d55]/40 transition-all duration-300"
             >
               <div>
-                {/* Avatar and Subsystem Header */}
-                <div className="flex items-center justify-between mb-5">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-tr from-[#1f1f23] to-[#2e2e34] border border-white/[0.12] flex items-center justify-center text-sm font-mono font-bold text-white shadow-inner group-hover:border-[#e29b68] transition-colors">
-                    {member.initials}
+                {/* Header: Avatar, Name, Role & Subsystem Badge */}
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-13 h-13 rounded-2xl bg-gradient-to-tr from-[#1f1f23] to-[#2e2e34] border border-white/[0.12] flex items-center justify-center text-sm font-mono font-bold text-white shadow-inner group-hover:border-[#e29b68] transition-colors shrink-0">
+                      {member.initials}
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white tracking-tight">
+                        {member.name}
+                      </h3>
+                      <p className="text-xs font-medium text-[#e29b68]">
+                        {member.role}
+                      </p>
+                    </div>
                   </div>
                   
-                  <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-white/[0.06] text-[#a1a1a6] border border-white/[0.08]">
+                  <span className="text-[11px] font-medium px-2.5 py-0.5 rounded-full bg-white/[0.06] text-[#a1a1a6] border border-white/[0.08] shrink-0">
                     {member.subsystem}
                   </span>
                 </div>
 
-                {/* Name & Role */}
-                <h3 className="text-lg font-bold text-white tracking-tight mb-0.5">
-                  {member.name}
-                </h3>
-                <p className="text-xs font-medium text-[#e29b68] mb-1">
-                  {member.role}
-                </p>
-
                 {/* University and Career */}
-                <div className="flex items-center gap-1.5 text-xs text-[#86868b] mb-4">
+                <div className="flex items-center gap-1.5 text-xs text-[#86868b] pl-1">
                   <GraduationCap className="w-3.5 h-3.5 text-[#6e6e73]" />
                   <span>{member.university} • {member.career}</span>
                 </div>
-
-                {/* Personal Description / Bio */}
-                <p className="text-xs text-[#a1a1a6] leading-relaxed mb-6 font-normal">
-                  {member.bio}
-                </p>
               </div>
 
-              {/* Skills and Dedication Footer */}
-              <div className="pt-4 border-t border-white/[0.06] space-y-3">
-                <div className="flex flex-wrap gap-1.5">
-                  {member.skills.map((skill, sIdx) => (
-                    <span 
-                      key={sIdx}
-                      className="text-[10px] font-mono px-2 py-0.5 rounded bg-black/40 text-[#a1a1a6] border border-white/[0.06]"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
+              {/* Action Links: LinkedIn & Email */}
+              <div className="pt-5 mt-5 border-t border-white/[0.06] flex flex-wrap items-center gap-3">
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-[#0077b5]/15 border border-white/[0.08] hover:border-[#0077b5]/40 text-xs font-medium text-[#a1a1a6] hover:text-[#38bdf8] transition-all"
+                >
+                  <Linkedin className="w-3.5 h-3.5 text-[#38bdf8]" />
+                  <span>LinkedIn</span>
+                </a>
 
-                <div className="flex items-center justify-between text-[11px] text-[#6e6e73] font-mono">
-                  <span>Compromiso:</span>
-                  <span className="text-[#a1a1a6] font-medium">{member.dedication}</span>
-                </div>
+                <a
+                  href={`mailto:${member.email}`}
+                  className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.08] hover:border-white/[0.2] text-xs font-medium text-[#a1a1a6] hover:text-white transition-all font-mono"
+                >
+                  <Mail className="w-3.5 h-3.5 text-[#e29b68]" />
+                  <span>{member.email}</span>
+                </a>
               </div>
 
             </div>
