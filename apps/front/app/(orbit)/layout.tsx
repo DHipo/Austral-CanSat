@@ -23,11 +23,13 @@ export default function OrbitLayout({
       {/* Orbit Top Navigation Bar */}
       <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-2xl border-b border-white/10 px-6 sm:px-10 py-4 flex items-center justify-between">
         
-        {/* Left: Brand */}
+        {/* Left: Brand with Official AuSat Logo */}
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#FF7A1A] to-[#D9620B] flex items-center justify-center shadow-lg shadow-[#FF7A1A]/30">
-            <Satellite className="w-5 h-5 text-white" />
-          </div>
+          <img
+            src="/logo.png"
+            alt="AuSat Orbit"
+            className="w-10 h-10 object-contain drop-shadow-[0_2px_12px_rgba(255,122,26,0.35)]"
+          />
           <div>
             <div className="flex items-center gap-2">
               <span className="text-lg font-bold text-[#F5F5F7]">Orbit</span>

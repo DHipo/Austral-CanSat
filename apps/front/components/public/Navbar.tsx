@@ -23,16 +23,18 @@ export const Navbar: React.FC<NavbarProps> = ({ onOrbitClick, onNavigateSection 
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-2xl border-b border-white/[0.08] transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
         
-        {/* Brand / Logo */}
+        {/* Brand / Official AuSat Logo */}
         <div 
           onClick={() => scrollToSection('hero')} 
-          className="flex items-center gap-3 cursor-pointer group"
+          className="flex items-center gap-3.5 cursor-pointer group"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#FF7A1A] to-[#D9620B] p-0.5 flex items-center justify-center shadow-md shadow-[#FF7A1A]/30 group-hover:scale-105 transition-transform">
-            <Satellite className="w-4 h-4 text-white" />
-          </div>
+          <img
+            src="/logo.png"
+            alt="AuSat CanSat Universidad Austral"
+            className="w-11 h-11 object-contain drop-shadow-[0_2px_14px_rgba(255,122,26,0.35)] group-hover:scale-105 transition-transform"
+          />
           <div>
             <div className="flex items-center gap-2">
               <span className="text-lg font-bold tracking-tight text-[#F5F5F7]">AuSat</span>
@@ -91,7 +93,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOrbitClick, onNavigateSection 
             className="p-2 rounded-xl bg-white/[0.08] text-[#C9D6F2] hover:text-white"
             aria-label="Abrir menú"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
 

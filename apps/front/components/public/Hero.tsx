@@ -16,10 +16,27 @@ export const Hero: React.FC<HeroProps> = ({
   onOrbitAccessClick,
 }) => {
   return (
-    <section className="relative pt-36 pb-24 md:pt-48 md:pb-32 overflow-hidden text-center">
+    <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden text-center">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
 
-        {/* Apple Headline: Poppins Bold (Balanced Scale) */}
+        {/* Official AuSat Metallic Emblem Centerpiece */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92, y: -12 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="flex justify-center mb-8"
+        >
+          <div className="relative group cursor-pointer" onClick={() => onSpecsClick?.() || onExploreClick?.()}>
+            <div className="absolute inset-0 bg-gradient-to-r from-[#FF7A1A]/30 via-[#C9D6F2]/20 to-[#17264F]/50 rounded-full blur-2xl opacity-60 group-hover:opacity-90 transition-opacity" />
+            <img
+              src="/logo.png"
+              alt="AuSat Emblema Oficial CanSat CONAE"
+              className="relative w-32 h-32 sm:w-40 sm:h-40 object-contain drop-shadow-[0_16px_40px_rgba(0,0,0,0.9)] group-hover:scale-105 transition-all duration-300"
+            />
+          </div>
+        </motion.div>
+
+        {/* Apple Headline: Poppins Bold */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -32,7 +49,7 @@ export const Hero: React.FC<HeroProps> = ({
           </span>
         </motion.h1>
 
-        {/* Apple Lead Text: Poppins Regular (Balanced Scale) */}
+        {/* Apple Lead Text: Poppins Regular */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -69,7 +86,7 @@ export const Hero: React.FC<HeroProps> = ({
           </button>
         </motion.div>
 
-        {/* Mission Telemetry & Specs Quick Bento Grid (Apple Precision without breathing dots) */}
+        {/* Mission Telemetry & Specs Quick Bento Grid */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}

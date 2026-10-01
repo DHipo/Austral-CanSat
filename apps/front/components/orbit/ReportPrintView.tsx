@@ -101,21 +101,28 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
 
           {/* Official Letterhead (Membrete Oficial) */}
           <div className="orbit-print-header flex items-start justify-between border-b-2 border-[#FF7A1A] pb-6 mb-8">
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-2xl sm:text-3xl font-black text-[#0B1633] tracking-tight">
-                  AuSat <span className="text-[#FF7A1A]">Orbit</span>
-                </span>
-                <span className="text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#0B1633] text-white">
-                  Oficial
-                </span>
+            <div className="flex items-center gap-3">
+              <img
+                src="/logo.png"
+                alt="AuSat Emblema Oficial"
+                className="w-14 h-14 object-contain shrink-0"
+              />
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-2xl sm:text-3xl font-black text-[#0B1633] tracking-tight">
+                    AuSat <span className="text-[#FF7A1A]">Orbit</span>
+                  </span>
+                  <span className="text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#0B1633] text-white">
+                    Oficial
+                  </span>
+                </div>
+                <p className="text-xs uppercase tracking-wider text-[#5A6785] font-semibold">
+                  Facultad de Ingeniería • Universidad Austral
+                </p>
+                <p className="text-[11px] text-[#5A6785]">
+                  Certamen Aeroespacial CanSat 2026 • CONAE
+                </p>
               </div>
-              <p className="text-xs uppercase tracking-wider text-[#5A6785] font-semibold">
-                Facultad de Ingeniería • Universidad Austral
-              </p>
-              <p className="text-[11px] text-[#5A6785]">
-                Certamen Aeroespacial CanSat 2026 • CONAE
-              </p>
             </div>
 
             <div className="text-right">

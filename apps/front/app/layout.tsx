@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   title: 'AuSat Orbit | CanSat CONAE 2026 - Universidad Austral',
   description:
     'Plataforma aeroespacial institucional y centro de control técnico Orbit para el satélite CanSat de la Universidad Austral en la competencia CONAE 2026.',
+  icons: {
+    icon: '/logo.png',
+    apple: '/logo.png',
+  },
   keywords: [
     'CanSat',
     'CONAE',

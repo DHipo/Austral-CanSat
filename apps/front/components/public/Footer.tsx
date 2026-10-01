@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Satellite, ExternalLink, ShieldCheck } from 'lucide-react';
+import { ExternalLink, Satellite } from 'lucide-react';
 
 interface FooterProps {
   onOrbitClick: () => void;
@@ -9,21 +9,28 @@ interface FooterProps {
 
 export const Footer: React.FC<FooterProps> = ({ onOrbitClick }) => {
   return (
-    <footer className="bg-black text-[#86868B] border-t border-white/10 py-16 text-xs">
+    <footer className="bg-black/60 backdrop-blur-xl border-t border-white/[0.08] py-16 text-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-14">
           
-          {/* Column 1: Brand & Identity */}
+          {/* Column 1: Brand & Identity with Official Logo */}
           <div className="md:col-span-1 space-y-3">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF7A1A] to-[#D9620B] flex items-center justify-center text-white shadow-md shadow-[#FF7A1A]/30">
-                <Satellite className="w-4 h-4" />
+            <div className="flex items-center gap-3">
+              <img
+                src="/logo.png"
+                alt="AuSat CanSat Universidad Austral"
+                className="w-11 h-11 object-contain drop-shadow-md"
+              />
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-lg font-bold text-[#F5F5F7]">AuSat</span>
+                  <span className="text-[10px] uppercase font-bold text-[#FF7A1A] px-2 py-0.5 rounded-full bg-[#FF7A1A]/20">
+                    Orbit
+                  </span>
+                </div>
+                <p className="text-[10px] text-[#86868B]">Universidad Austral</p>
               </div>
-              <span className="text-lg font-bold text-[#F5F5F7]">AuSat</span>
-              <span className="text-[10px] uppercase font-bold text-[#FF7A1A] px-2 py-0.5 rounded-full bg-[#FF7A1A]/20">
-                Orbit
-              </span>
             </div>
             <p className="text-xs text-[#86868B] leading-relaxed">
               Plataforma tecnológica y centro de control para la misión CanSat 2026 desarrollada por estudiantes de la Universidad Austral.
