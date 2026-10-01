@@ -54,8 +54,9 @@ RUN mkdir -p /app/back/uploads && \
     chown -R nestjs:nodejs /app/back/uploads
 
 # Copy built artifacts and dependencies
-COPY --from=dependencies /app/node_modules ./node_modules
-COPY --from=dependencies /app/back/node_modules ./back/node_modules
+# npm workspaces instala todo en /app/node_modules; se toma del builder para
+# llevar el cliente Prisma ya generado
+COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/packages/shared/dist ./packages/shared/dist
 COPY --from=builder /app/packages/shared/package.json ./packages/shared/package.json
 COPY --from=builder /app/back/dist ./back/dist
@@ -67,4 +68,4 @@ WORKDIR /app/back
 
 EXPOSE 3001
 
-CMD ["sh", "-c", "npx prisma generate && node dist/main.js"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node dist/main.js"]

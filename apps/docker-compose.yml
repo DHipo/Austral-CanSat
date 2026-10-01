@@ -51,6 +51,8 @@ services:
     build:
       context: .
       dockerfile: front/Dockerfile
+      args:
+        BACKEND_INTERNAL_URL: http://orbit-backend:3001
     container_name: orbit-frontend
     restart: unless-stopped
     depends_on:
@@ -58,7 +60,6 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
-      NEXT_PUBLIC_API_URL: http://localhost:3001/api
     ports:
       - "3000:3000"
     networks:

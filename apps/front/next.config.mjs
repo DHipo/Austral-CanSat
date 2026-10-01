@@ -7,7 +7,8 @@ const __dirname = path.dirname(__filename);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  outputFileTracingRoot: path.join(__dirname, '../../'),
+  // Raíz del monorepo (apps/): el server standalone queda en .next/standalone/front/server.js
+  outputFileTracingRoot: path.join(__dirname, '..'),
   transpilePackages: ['@orbit/shared'],
   reactStrictMode: true,
   images: {
@@ -26,7 +27,8 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: process.env.BACKEND_INTERNAL_URL || 'http://localhost:3001/api/:path*',
+        // Se resuelve en build: en Docker pasar BACKEND_INTERNAL_URL como build arg.
+        destination: `${process.env.BACKEND_INTERNAL_URL || 'http://localhost:3001'}/api/:path*`,
       },
     ];
   },

@@ -31,6 +31,9 @@ RUN npm run build:shared
 # Build Next.js in standalone mode
 WORKDIR /app/front
 ENV NEXT_TELEMETRY_DISABLED=1
+# El rewrite /api -> backend se fija en build time
+ARG BACKEND_INTERNAL_URL=http://orbit-backend:3001
+ENV BACKEND_INTERNAL_URL=$BACKEND_INTERNAL_URL
 RUN npm run build
 
 # Stage 4: Production Runner
@@ -47,7 +50,7 @@ RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
 # Copy Next.js standalone server and static assets
-COPY --from=builder /app/front/public ./public
+COPY --from=builder /app/front/public ./front/public
 COPY --from=builder --chown=nextjs:nodejs /app/front/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/front/.next/static ./front/.next/static
 

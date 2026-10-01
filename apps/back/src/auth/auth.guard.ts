@@ -12,8 +12,8 @@ import { PrismaService } from '../prisma/prisma.service';
 // The verified Austral CanSat 2026 Core Technical Team
 export const AUTHORIZED_ORBIT_EMAILS = [
   'bdhipolito@austral.edu.ar',
-  'mfernandez@austral.edu.ar',
-  'srossi@austral.edu.ar',
+  'mfogliato@austral.edu.ar',
+  'jviani@austral.edu.ar',
 ];
 
 export interface JwtPayload {

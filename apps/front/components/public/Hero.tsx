@@ -33,7 +33,7 @@ export const Hero: React.FC<HeroProps> = ({
           {/* AuSat Metallic Emblem - Enlarged */}
           <div 
             className="relative group cursor-pointer" 
-            onClick={() => onSpecsClick?.() || onExploreClick?.()}
+            onClick={() => (onSpecsClick ?? onExploreClick)?.()}
           >
             <div className={`absolute inset-0 rounded-full blur-3xl transition-opacity ${
               isLight ? 'bg-[#FF7A1A]/20 opacity-50' : 'bg-gradient-to-r from-[#FF7A1A]/30 to-[#17264F]/50 opacity-70'
