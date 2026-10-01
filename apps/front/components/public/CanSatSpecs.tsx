@@ -7,7 +7,11 @@ import {
   Egg, 
   Radio, 
   Box, 
-  ArrowRight
+  ArrowRight,
+  Shield,
+  CheckCircle2,
+  Clock,
+  ChevronRight
 } from 'lucide-react';
 
 export const CanSatSpecs: React.FC = () => {
@@ -72,83 +76,79 @@ export const CanSatSpecs: React.FC = () => {
     },
     {
       id: 'structure',
-      name: 'Chasis Estructural & Morro',
+      name: 'Estructura & Masa (1000g)',
       icon: Box,
-      chip: 'PETG / Fibra de Carbono',
-      badge: 'Calificación 30G',
-      summary: 'Cuerpo cilíndrico de 66mm de diámetro que aloja todos los módulos cumpliendo con la masa de 1000g ± 10g.',
+      chip: 'Chasis Híbrido PETG-CF & Aluminio',
+      badge: 'Factor de Forma CanSat',
+      summary: 'Chasis cilíndrico de 115mm de diámetro y 210mm de altura, reforzado con costillas de fibra de carbono para soportar hasta 20G de aceleración inicial.',
       specs: [
-        { label: 'Diámetro CanSat', value: '66 mm (Estándar CONAE)' },
-        { label: 'Altura Total', value: '185 mm' },
-        { label: 'Masa Total Calificada', value: '998 gramos' },
-        { label: 'Resistencia Estructural', value: 'Impacto axial 30G continuo' },
+        { label: 'Dimensiones', value: 'Ø 115 mm × 210 mm altura' },
+        { label: 'Masa Total Calibrada', value: '1000 g (Tolerancia CONAE ±10g)' },
+        { label: 'Material Chasis', value: 'PETG con 15% fibra de carbono' },
+        { label: 'Resistencia Térmica', value: '-10°C a +65°C operacional' },
       ],
     },
   ];
 
-  const missionStages = [
+  const conaeStages = [
     {
-      num: '01',
-      title: 'Preejecución & Rampa',
-      alt: '0 m',
-      desc: 'Comprobación de enlace LoRa 915MHz, calibración de presión barométrica y sellado de seguridad.',
+      phase: 'FASE 1',
+      title: 'Inscripción & Propuesta Técnica',
+      date: 'Marzo 2026',
+      status: 'completed',
+      desc: 'Validación del concepto de misión, presentación del equipo de 3 estudiantes y plan de trabajo de 6hs semanales.',
     },
     {
-      num: '02',
-      title: 'Lanzamiento Cohete',
-      alt: '0 - 1000 m',
-      desc: 'Ascenso propulsado sufriendo hasta 15G. CanSat en estado inercial registrando aceleración.',
+      phase: 'FASE 2',
+      title: 'Diseño Preliminar (PDR)',
+      date: 'Mayo 2026',
+      status: 'current',
+      desc: 'Revisión crítica de diagramas de circuitos, cálculos de masa (1000g), dimensionamiento de paraglider y enlace LoRa.',
     },
     {
-      num: '03',
-      title: 'Apogeo & Eyección',
-      alt: '1000 m',
-      desc: 'Separación del morro contenedor y apertura del paracaídas principal de frenado aerodinámico.',
+      phase: 'FASE 3',
+      title: 'Diseño Crítico (CDR) & Telemetría',
+      date: 'Julio 2026',
+      status: 'upcoming',
+      desc: 'Construcción del prototipo funcional, ensayos de caída libre (Drop Test huevo a 2m) y pruebas de alcance de radio.',
     },
     {
-      num: '04',
-      title: 'Descenso & Planeo',
-      alt: '800 - 10 m',
-      desc: 'Despliegue del paraglider guiado. Actuación de servomotores para orientación hacia la zona de recuperación.',
-    },
-    {
-      num: '05',
-      title: 'Entrega de Huevo a 2m',
-      alt: '2.0 m',
-      desc: 'Detección ToF de cota 2m, retracción de pestillo y entrega suave de la carga intacta.',
-    },
-    {
-      num: '06',
-      title: 'Aterrizaje & Baliza',
-      alt: '0 m',
-      desc: 'Toque de tierra, activación de buzzer de 95dB y baliza GPS para recuperación rápida por el equipo.',
+      phase: 'FASE 4',
+      title: 'Campaña de Lanzamiento CONAE',
+      date: 'Septiembre 2026',
+      status: 'upcoming',
+      desc: 'Lanzamiento a 1000 metros de apogeo en cohete sonda oficial de CONAE en Córdoba y recuperación de la carga intacta.',
     },
   ];
 
   const current = subsystems[activeSubsystem];
 
   return (
-    <section id="subsistemas" className="py-24 bg-[#0B1633] text-[#EEF2FA] relative">
+    <section id="subsistemas" className="py-36 bg-gradient-to-b from-[#000000] via-[#0B1633] to-[#050711] text-[#F5F5F7] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#17264F] text-[#FF7A1A] border border-white/10">
-            Ingeniería de Vuelo
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight mt-4 mb-4 text-[#EEF2FA]">
+        {/* Apple Section Header */}
+        <div className="text-center max-w-4xl mx-auto mb-24">
+          <div className="inline-block mb-6">
+            <span className="apple-label text-[#FF7A1A] px-6 py-2 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-xl">
+              Ingeniería de Vuelo
+            </span>
+          </div>
+          
+          <h2 className="apple-title-section text-[#F5F5F7] font-bold mb-6">
             Ficha Técnica del CanSat AuSat
           </h2>
-          <p className="text-base sm:text-lg text-[#C9D6F2] font-normal leading-relaxed">
+
+          <p className="apple-body-large text-[#C9D6F2] font-normal leading-relaxed">
             Arquitectura mecatrónica de 1000g diseñada para cumplir los rigurosos estándares de la competencia aeroespacial organizada por CONAE.
           </p>
         </div>
 
         {/* Subsystems Interactive Bento Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start mb-32">
           
           {/* Subsystems Tabs Menu (Left Column) */}
-          <div className="lg:col-span-5 space-y-3">
+          <div className="lg:col-span-5 space-y-4">
             {subsystems.map((sub, idx) => {
               const Icon = sub.icon;
               const isSelected = idx === activeSubsystem;
@@ -156,34 +156,34 @@ export const CanSatSpecs: React.FC = () => {
                 <button
                   key={sub.id}
                   onClick={() => setActiveSubsystem(idx)}
-                  className={`w-full text-left p-4 rounded-2xl border transition-all duration-200 flex items-center justify-between group ${
+                  className={`w-full text-left p-6 rounded-[28px] border transition-all duration-300 flex items-center justify-between group cursor-pointer ${
                     isSelected
-                      ? 'bg-[#17264F] border-[#FF7A1A] shadow-lg shadow-[#FF7A1A]/10'
-                      : 'bg-[#17264F]/40 border-white/5 hover:bg-[#17264F]/80 hover:border-white/15'
+                      ? 'bg-gradient-to-r from-[#17264F] to-[#1E3268] border-[#FF7A1A] shadow-[0_10px_35px_-10px_rgba(255,122,26,0.3)] scale-[1.02]'
+                      : 'bg-white/[0.04] border-white/8 hover:bg-white/[0.08] hover:border-white/20'
                   }`}
                 >
-                  <div className="flex items-center gap-3.5">
+                  <div className="flex items-center gap-4">
                     <div
-                      className={`p-2.5 rounded-xl transition-colors ${
+                      className={`p-3.5 rounded-2xl transition-all ${
                         isSelected
-                          ? 'bg-[#FF7A1A] text-white'
-                          : 'bg-[#0B1633] text-[#C9D6F2] group-hover:text-white'
+                          ? 'bg-[#FF7A1A] text-white shadow-md shadow-[#FF7A1A]/30'
+                          : 'bg-white/[0.08] text-[#C9D6F2] group-hover:text-white group-hover:bg-white/[0.12]'
                       }`}
                     >
-                      <Icon className="w-5 h-5" />
+                      <Icon className="w-6 h-6" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-[#EEF2FA] group-hover:text-white">
+                      <h4 className="text-base sm:text-lg font-bold text-[#F5F5F7] group-hover:text-white">
                         {sub.name}
                       </h4>
-                      <p className="text-xs text-[#5A6785]">{sub.chip}</p>
+                      <p className="text-xs sm:text-sm text-[#86868B] mt-0.5">{sub.chip}</p>
                     </div>
                   </div>
                   <ArrowRight
-                    className={`w-4 h-4 transition-transform ${
+                    className={`w-5 h-5 transition-transform ${
                       isSelected
-                        ? 'text-[#FF7A1A] translate-x-1'
-                        : 'text-[#5A6785] opacity-0 group-hover:opacity-100'
+                        ? 'text-[#FF7A1A] translate-x-1.5'
+                        : 'text-[#86868B] opacity-0 group-hover:opacity-100'
                     }`}
                   />
                 </button>
@@ -192,82 +192,113 @@ export const CanSatSpecs: React.FC = () => {
           </div>
 
           {/* Subsystem Details Card (Right Column) */}
-          <div className="lg:col-span-7 bg-[#17264F] border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-md relative overflow-hidden shadow-2xl">
-            <div className="flex items-center justify-between mb-6">
-              <span className="text-xs font-semibold uppercase tracking-wider px-2.5 py-1 rounded bg-[#FF7A1A]/20 text-[#FF7A1A]">
+          <div className="lg:col-span-7 rounded-[32px] bg-gradient-to-br from-[#17264F]/70 via-[#0B1633]/90 to-[#050711] border border-white/15 p-8 sm:p-12 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+            
+            {/* Header info */}
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+              <span className="apple-label-small px-4 py-1.5 rounded-full bg-[#FF7A1A]/20 text-[#FF7A1A] border border-[#FF7A1A]/40 font-bold">
                 {current.badge}
               </span>
-              <span className="text-xs text-[#5A6785] font-mono">
-                SUBSYSTEM-ID: 0{activeSubsystem + 1}
+              <span className="text-xs font-mono text-[#86868B]">
+                REF: AUSAT-SPEC-2026-REV-B
               </span>
             </div>
 
-            <h3 className="text-2xl sm:text-3xl font-bold text-[#EEF2FA] mb-3">
+            <h3 className="text-3xl sm:text-4xl font-bold text-[#F5F5F7] mb-4">
               {current.name}
             </h3>
 
-            <p className="text-sm sm:text-base text-[#C9D6F2] leading-relaxed mb-8">
+            <p className="apple-body-large text-[#C9D6F2] font-normal leading-relaxed mb-10">
               {current.summary}
             </p>
 
-            <div className="border-t border-white/10 pt-6">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-[#5A6785] mb-4">
-                Especificaciones Verificadas
-              </h4>
-
+            {/* Technical Parameters Apple Bento Rows */}
+            <div className="space-y-4">
+              <div className="apple-label-small text-[#86868B] mb-2">
+                Parámetros Técnicos Validados
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {current.specs.map((item, i) => (
-                  <div key={i} className="p-3.5 rounded-xl bg-[#0B1633]/60 border border-white/5">
-                    <div className="text-[11px] text-[#5A6785] uppercase tracking-wider">
+                  <div key={i} className="p-5 rounded-2xl bg-white/[0.05] border border-white/10 hover:border-white/20 transition-colors">
+                    <div className="text-xs font-semibold text-[#86868B] uppercase tracking-wider mb-1">
                       {item.label}
                     </div>
-                    <div className="text-sm font-semibold text-[#EEF2FA] mt-0.5">
+                    <div className="text-base sm:text-lg font-bold text-[#F5F5F7]">
                       {item.value}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
+
           </div>
 
         </div>
 
-        {/* CONAE Mission Stages Timeline */}
-        <div id="mision" className="pt-8 border-t border-white/10">
-          <div className="text-center max-w-2xl mx-auto mb-14">
-            <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#17264F] text-[#C9D6F2]">
-              CONOP • Perfil de Vuelo
+        {/* CONAE Mission Stages Timeline (Apple Minimalist Bento) */}
+        <div id="mision" className="mt-16">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="apple-label text-[#C9D6F2] px-6 py-2 rounded-full bg-white/[0.06] border border-white/15 inline-block mb-4">
+              Cronograma Oficial
             </span>
-            <h3 className="text-2xl sm:text-4xl font-extrabold text-[#EEF2FA] mt-3">
-              Fases de la Misión CanSat CONAE
+            <h3 className="apple-title-section text-[#F5F5F7] font-bold">
+              Etapas del Certamen CONAE
             </h3>
-            <p className="text-sm text-[#C9D6F2] mt-2">
-              Desde el encendido en rampa hasta la entrega a 2m y recuperación en el campo.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {missionStages.map((stage) => (
-              <div
-                key={stage.num}
-                className="p-5 rounded-2xl bg-[#17264F]/50 border border-white/10 hover:border-[#FF7A1A]/40 transition-all duration-200 group"
-              >
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-mono font-bold text-[#FF7A1A] px-2 py-0.5 rounded bg-[#FF7A1A]/10">
-                    FASE {stage.num}
-                  </span>
-                  <span className="text-xs font-semibold text-[#C9D6F2] font-mono">
-                    {stage.alt}
-                  </span>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {conaeStages.map((stage, i) => {
+              const isCurrent = stage.status === 'current';
+              const isCompleted = stage.status === 'completed';
+              return (
+                <div
+                  key={i}
+                  className={`rounded-[28px] p-7 border transition-all duration-300 flex flex-col justify-between ${
+                    isCurrent
+                      ? 'bg-gradient-to-b from-[#17264F] to-[#0B1633] border-[#FF7A1A] shadow-[0_10px_30px_-5px_rgba(255,122,26,0.3)] ring-1 ring-[#FF7A1A]/50'
+                      : isCompleted
+                      ? 'bg-white/[0.05] border-white/12'
+                      : 'bg-white/[0.02] border-white/5 opacity-80'
+                  }`}
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="apple-label-small text-[#FF7A1A]">
+                        {stage.phase}
+                      </span>
+                      {isCompleted && (
+                        <CheckCircle2 className="w-5 h-5 text-[#10B981]" />
+                      )}
+                      {isCurrent && (
+                        <span className="apple-label-small px-2.5 py-0.5 rounded-full bg-[#FF7A1A]/20 text-[#FF7A1A] border border-[#FF7A1A]/40 text-xs">
+                          EN CURSO
+                        </span>
+                      )}
+                      {!isCompleted && !isCurrent && (
+                        <Clock className="w-5 h-5 text-[#86868B]" />
+                      )}
+                    </div>
+
+                    <h4 className="text-xl font-bold text-[#F5F5F7] mb-2 leading-snug">
+                      {stage.title}
+                    </h4>
+                    
+                    <p className="text-xs text-[#FF7A1A] font-semibold mb-3">
+                      {stage.date}
+                    </p>
+
+                    <p className="text-sm text-[#C9D6F2] font-normal leading-relaxed">
+                      {stage.desc}
+                    </p>
+                  </div>
+
+                  <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-xs text-[#86868B]">
+                    <span>CONAE 2026</span>
+                    <span className="font-mono">F{i + 1}-OK</span>
+                  </div>
                 </div>
-                <h4 className="text-base font-bold text-[#EEF2FA] group-hover:text-white mb-2">
-                  {stage.title}
-                </h4>
-                <p className="text-xs text-[#C9D6F2] leading-relaxed">
-                  {stage.desc}
-                </p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

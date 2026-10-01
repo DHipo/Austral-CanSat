@@ -19,28 +19,28 @@ export default function OrbitLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-[#060C1E] text-[#EEF2FA] flex flex-col font-sans">
+    <div className="min-h-screen bg-black text-[#F5F5F7] flex flex-col font-sans selection:bg-[#FF7A1A]/30 selection:text-white">
       {/* Orbit Top Navigation Bar */}
-      <header className="sticky top-0 z-40 bg-[#0B1633]/90 backdrop-blur-xl border-b border-white/10 px-4 sm:px-8 py-3 flex items-center justify-between">
+      <header className="sticky top-0 z-40 bg-black/80 backdrop-blur-2xl border-b border-white/10 px-6 sm:px-10 py-4 flex items-center justify-between">
         
         {/* Left: Brand */}
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#FF7A1A] to-[#D9620B] flex items-center justify-center shadow-md shadow-[#FF7A1A]/30">
-            <Satellite className="w-4 h-4 text-white" />
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#FF7A1A] to-[#D9620B] flex items-center justify-center shadow-lg shadow-[#FF7A1A]/30">
+            <Satellite className="w-5 h-5 text-white" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-base font-extrabold text-[#EEF2FA]">Orbit</span>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-[#FF7A1A]/20 text-[#FF7A1A]">
-                Técnico
+              <span className="text-lg font-bold text-[#F5F5F7]">Orbit</span>
+              <span className="apple-label-small px-2.5 py-0.5 rounded-full bg-[#FF7A1A]/20 text-[#FF7A1A] border border-[#FF7A1A]/40 text-[10px]">
+                TÉCNICO
               </span>
             </div>
-            <p className="text-[10px] text-[#5A6785]">AuSat • Universidad Austral</p>
+            <p className="text-xs text-[#86868B]">AuSat • Universidad Austral</p>
           </div>
         </div>
 
-        {/* Center: Tabs */}
-        <nav className="hidden md:flex items-center gap-1 bg-[#17264F]/70 p-1 rounded-2xl border border-white/10">
+        {/* Center: Apple Rounded Pill Tabs */}
+        <nav className="hidden md:flex items-center gap-1.5 bg-white/[0.06] p-1.5 rounded-full border border-white/10 backdrop-blur-xl">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = pathname === item.href;
@@ -48,13 +48,13 @@ export default function OrbitLayout({
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-2 px-4 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+                className={`flex items-center gap-2 px-5 py-2 rounded-full text-xs font-bold transition-all ${
                   isActive
-                    ? 'bg-[#FF7A1A] text-white shadow-sm'
-                    : 'text-[#C9D6F2] hover:text-white hover:bg-white/5'
+                    ? 'bg-[#FF7A1A] text-white shadow-md shadow-[#FF7A1A]/30'
+                    : 'text-[#C9D6F2] hover:text-white hover:bg-white/[0.08]'
                 }`}
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className="w-4 h-4" />
                 <span>{item.label}</span>
               </Link>
             );
@@ -62,20 +62,20 @@ export default function OrbitLayout({
         </nav>
 
         {/* Right: User Status & Back to Landing */}
-        <div className="flex items-center gap-3">
-          <div className="hidden sm:flex items-center gap-2 text-right">
+        <div className="flex items-center gap-4">
+          <div className="hidden sm:flex items-center gap-2.5 text-right">
             <div>
-              <div className="text-xs font-bold text-[#EEF2FA]">Bautista D'Hipólito</div>
+              <div className="text-xs font-bold text-[#F5F5F7]">Bautista D'Hipólito</div>
               <div className="text-[10px] text-[#FF7A1A] font-semibold">Líder de Proyecto</div>
             </div>
-            <div className="w-7 h-7 rounded-full bg-[#17264F] border border-[#FF7A1A] flex items-center justify-center text-xs font-bold text-[#FF7A1A]">
+            <div className="w-8 h-8 rounded-full bg-[#17264F] border border-[#FF7A1A] flex items-center justify-center text-xs font-bold text-[#FF7A1A]">
               BD
             </div>
           </div>
 
           <Link
             href="/"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-[#17264F] hover:bg-[#1E3268] text-[#C9D6F2] border border-white/10 transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold bg-white/[0.08] hover:bg-white/[0.15] text-[#F5F5F7] border border-white/15 transition-all"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Landing Pública</span>
@@ -85,7 +85,7 @@ export default function OrbitLayout({
       </header>
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto p-6 sm:p-10">
         {children}
       </main>
     </div>

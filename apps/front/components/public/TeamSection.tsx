@@ -15,6 +15,7 @@ export const TeamSection: React.FC = () => {
       linkedin: 'https://linkedin.com/in/bautistadhipolito',
       bio: 'Coordinador general del proyecto y responsable de la arquitectura de telemetría y software embebido en ESP32-S3.',
       badge: 'Team Lead',
+      initials: 'BD',
     },
     {
       name: 'Mateo Fernández',
@@ -26,6 +27,7 @@ export const TeamSection: React.FC = () => {
       linkedin: 'https://linkedin.com/in/mateo-fernandez',
       bio: 'Diseñador del hardware de aviónica, bus de sensores I2C, gestión de energía LiPo y módulo de comunicación por radiofrecuencia.',
       badge: 'Hardware Lead',
+      initials: 'MF',
     },
     {
       name: 'Sofía Rossi',
@@ -37,114 +39,117 @@ export const TeamSection: React.FC = () => {
       linkedin: 'https://linkedin.com/in/sofia-rossi',
       bio: 'Especialista en aerodinámica de planeo guiado, accionamiento de servomotores y sistema de eyección amortiguada de la carga a 2m.',
       badge: 'Flight Lead',
+      initials: 'SR',
     },
   ];
 
   return (
-    <section id="equipo" className="py-24 bg-[#0B1633] text-[#EEF2FA] relative">
+    <section id="equipo" className="py-36 bg-gradient-to-b from-[#050711] via-[#000000] to-[#070B18] text-[#F5F5F7] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-[#17264F] text-[#FF7A1A] border border-white/10">
-            Universidad Austral
-          </span>
-          <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight mt-4 mb-4 text-[#EEF2FA]">
+        {/* Apple Section Header */}
+        <div className="text-center max-w-4xl mx-auto mb-24">
+          <div className="inline-block mb-6">
+            <span className="apple-label text-[#FF7A1A] px-6 py-2 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-xl">
+              Universidad Austral
+            </span>
+          </div>
+
+          <h2 className="apple-title-section text-[#F5F5F7] font-bold mb-6">
             Equipo Técnico AuSat
           </h2>
-          <p className="text-base sm:text-lg text-[#C9D6F2] font-normal leading-relaxed">
+
+          <p className="apple-body-large text-[#C9D6F2] font-normal leading-relaxed">
             Tres estudiantes de ingeniería de la Universidad Austral comprometidos bajo contrato de 6 horas semanales para representar a la institución en el certamen CanSat CONAE 2026.
           </p>
         </div>
 
-        {/* 3 Core Engineering Members Bento Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-16">
-          {teamMembers.map((member, idx) => (
+        {/* 3 Core Engineering Members Apple Bento Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+          {teamMembers.map((member, i) => (
             <div
-              key={idx}
-              className="rounded-3xl bg-[#17264F] border border-white/10 p-6 sm:p-8 backdrop-blur-md flex flex-col justify-between hover:border-[#FF7A1A]/40 transition-all duration-300 shadow-xl group hover:-translate-y-1"
+              key={i}
+              className="rounded-[32px] bg-gradient-to-b from-[#17264F]/50 via-[#0B1633]/70 to-[#050711] border border-white/12 p-8 backdrop-blur-2xl transition-all duration-300 hover:border-[#FF7A1A]/50 hover:-translate-y-2 hover:shadow-[0_20px_45px_-10px_rgba(0,0,0,0.8)] flex flex-col justify-between group"
             >
               <div>
-                {/* Header Badge */}
-                <div className="flex items-center justify-between mb-5">
-                  <span className="text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded bg-[#FF7A1A]/20 text-[#FF7A1A]">
+                {/* Header: Initials Badge & Role Pill */}
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1E3268] to-[#0B1633] border border-white/20 flex items-center justify-center font-bold text-xl text-[#FF7A1A] shadow-md group-hover:scale-105 transition-transform">
+                    {member.initials}
+                  </div>
+                  <span className="apple-label-small px-3.5 py-1 rounded-full bg-[#FF7A1A]/20 text-[#FF7A1A] border border-[#FF7A1A]/40 font-bold">
                     {member.badge}
                   </span>
-                  <div className="w-8 h-8 rounded-full bg-[#0B1633] flex items-center justify-center text-xs font-mono font-bold text-[#C9D6F2]">
-                    0{idx + 1}
-                  </div>
                 </div>
 
-                {/* Member Info */}
-                <h3 className="text-xl sm:text-2xl font-bold text-[#EEF2FA] group-hover:text-white mb-1">
+                <h3 className="text-2xl sm:text-3xl font-bold text-[#F5F5F7] mb-1">
                   {member.name}
                 </h3>
-                <p className="text-xs font-semibold text-[#FF7A1A] mb-3">
+
+                <p className="text-sm font-semibold text-[#FF7A1A] mb-4">
                   {member.role}
                 </p>
 
-                <div className="flex items-center gap-1.5 text-xs text-[#5A6785] mb-4">
-                  <GraduationCap className="w-3.5 h-3.5 text-[#C9D6F2]" />
-                  <span>{member.career} • {member.university}</span>
+                <div className="space-y-2 mb-6 text-xs text-[#86868B]">
+                  <div className="flex items-center gap-2">
+                    <GraduationCap className="w-4 h-4 text-[#C9D6F2]" />
+                    <span>{member.career} • {member.university}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Shield className="w-4 h-4 text-[#10B981]" />
+                    <span className="text-[#C9D6F2]">{member.subsystem}</span>
+                  </div>
                 </div>
 
-                <p className="text-xs sm:text-sm text-[#C9D6F2] leading-relaxed mb-6">
+                <p className="text-sm text-[#C9D6F2] font-normal leading-relaxed mb-6">
                   {member.bio}
                 </p>
               </div>
 
-              {/* Subsystem Focus & Contact */}
-              <div className="pt-4 border-t border-white/10 space-y-3">
-                <div className="text-[11px] text-[#5A6785] font-semibold uppercase tracking-wider">
-                  Foco: <span className="text-[#EEF2FA] font-normal">{member.subsystem}</span>
-                </div>
-
-                <div className="flex items-center gap-2 pt-1">
-                  <a
-                    href={`mailto:${member.email}`}
-                    className="p-2 rounded-xl bg-[#0B1633] text-[#C9D6F2] hover:text-[#FF7A1A] hover:bg-[#0B1633]/80 transition-colors"
-                    title={`Email ${member.name}`}
-                  >
-                    <Mail className="w-4 h-4" />
-                  </a>
-                  <a
-                    href={member.linkedin}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="p-2 rounded-xl bg-[#0B1633] text-[#C9D6F2] hover:text-[#FF7A1A] hover:bg-[#0B1633]/80 transition-colors"
-                    title="LinkedIn"
-                  >
-                    <Linkedin className="w-4 h-4" />
-                  </a>
-                  <span className="text-[11px] font-mono text-[#5A6785] ml-auto">
-                    {member.email.split('@')[0]}
-                  </span>
-                </div>
+              {/* Footer: Contacts & Links */}
+              <div className="pt-6 border-t border-white/10 flex items-center justify-between">
+                <a
+                  href={`mailto:${member.email}`}
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-[#86868B] hover:text-white transition-colors"
+                >
+                  <Mail className="w-4 h-4 text-[#FF7A1A]" />
+                  <span>{member.email}</span>
+                </a>
+                
+                <a
+                  href={member.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2.5 rounded-xl bg-white/[0.06] hover:bg-[#FF7A1A] text-[#C9D6F2] hover:text-white transition-all duration-200"
+                  title="Perfil LinkedIn"
+                >
+                  <Linkedin className="w-4 h-4" />
+                </a>
               </div>
             </div>
           ))}
         </div>
 
-        {/* Institutional Commitment & Agreement Highlight */}
-        <div className="rounded-3xl bg-[#17264F]/50 border border-white/10 p-6 sm:p-8 backdrop-blur-md">
-          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        {/* Commitment Banner: Apple Clean Pill Layout */}
+        <div className="max-w-4xl mx-auto rounded-[28px] bg-white/[0.04] border border-white/10 p-6 sm:p-8 backdrop-blur-xl flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-6 h-6 text-[#10B981]" />
+            </div>
             <div>
-              <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#10B981] mb-2">
-                <Shield className="w-4 h-4" />
-                Marco de Compromiso Ético & Técnico
+              <div className="apple-label-small text-[#F5F5F7] mb-1">
+                Dedicación Oficial Certificada
               </div>
-              <h4 className="text-lg sm:text-xl font-bold text-[#EEF2FA]">
-                Convenio Interno de Dedicación Semanal
-              </h4>
-              <p className="text-xs sm:text-sm text-[#C9D6F2] max-w-2xl mt-1">
-                Respaldado por el acuerdo de convivencia del equipo: 6 horas de laboratorio semanales, respuesta inmediata en menos de 24 horas y propiedad intelectual conjunta de la Universidad Austral.
+              <p className="text-sm text-[#86868B]">
+                6 horas semanales formalmente computadas para diseño, ensayos mecánicos y bitácoras técnicas en Orbit.
               </p>
             </div>
+          </div>
 
-            <div className="flex items-center gap-4 text-xs font-medium text-[#EEF2FA] bg-[#0B1633]/70 px-4 py-3 rounded-2xl border border-white/5">
-              <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
-              <span>Sede de Ensayos: Campus Austral (Pilar)</span>
-            </div>
+          <div className="shrink-0">
+            <span className="apple-label-small px-5 py-2 rounded-full bg-white/[0.08] text-white border border-white/20">
+              CONAE 2026 • AUSTRAL
+            </span>
           </div>
         </div>
 

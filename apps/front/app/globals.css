@@ -1,19 +1,27 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
 @config "../tailwind.config.ts";
 
 @theme {
+  --font-sans: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-poppins: 'Poppins', sans-serif;
+
+  --color-orbit-black: #000000;
+  --color-orbit-dark-void: #050711;
+  --color-orbit-dark-deep: #070B18;
   --color-orbit-bg: #0B1633;
   --color-orbit-bg-deep: #060C1E;
   --color-orbit-surface: #17264F;
   --color-orbit-surface-light: #1E3268;
   --color-orbit-surface-subtle: rgba(23, 38, 79, 0.65);
-  --color-orbit-muted: #5A6785;
-  --color-orbit-border: rgba(90, 103, 133, 0.25);
+  --color-orbit-muted: #86868B;
+  --color-orbit-border: rgba(255, 255, 255, 0.12);
   --color-orbit-accent: #C9D6F2;
-  --color-orbit-text: #EEF2FA;
+  --color-orbit-text: #F5F5F7;
+  --color-orbit-white: #FFFFFF;
   --color-orbit-orange: #FF7A1A;
   --color-orbit-orange-hover: #D9620B;
-  --color-orbit-orange-glow: rgba(255, 122, 26, 0.25);
+  --color-orbit-orange-glow: rgba(255, 122, 26, 0.3);
   --color-orbit-success: #10B981;
   --color-orbit-warning: #F59E0B;
   --color-orbit-danger: #EF4444;
@@ -22,63 +30,140 @@
 
 @layer base {
   :root {
-    --orbit-bg: #0B1633;
+    --orbit-bg: #000000;
     --orbit-surface: #17264F;
     --orbit-surface-hover: #1E3268;
-    --orbit-muted: #5A6785;
+    --orbit-muted: #86868B;
     --orbit-accent: #C9D6F2;
-    --orbit-text: #EEF2FA;
+    --orbit-text: #F5F5F7;
     --orbit-orange: #FF7A1A;
     --orbit-orange-hover: #D9620B;
-    --orbit-border: rgba(255, 255, 255, 0.1);
+    --orbit-border: rgba(255, 255, 255, 0.12);
   }
 
   body {
-    background-color: var(--orbit-bg);
-    color: var(--orbit-text);
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+    background-color: #000000;
+    color: #F5F5F7;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: -0.012em;
+    letter-spacing: -0.015em;
     overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    letter-spacing: -0.03em;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
+    letter-spacing: -0.03em;
   }
 }
 
 /* ========================================================================= */
-/* GLASSMORPHISM & ORBIT CARDS                                               */
+/* APPLE TYPOGRAPHY SYSTEM (POPPINS SPECIFICATIONS)                         */
+/* - Títulos: Poppins Bold (60px - 110px)                                    */
+/* - Texto: Poppins Regular (Mínimo 28px)                                   */
+/* - Etiquetas: Poppins Bold en mayúsculas, espaciado amplio (20px - 22px)   */
 /* ========================================================================= */
 
-.orbit-glass {
-  background: rgba(23, 38, 79, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+.apple-title-hero {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: clamp(60px, 8vw, 110px);
+  line-height: 1.03;
+  letter-spacing: -0.04em;
 }
 
-.orbit-glass-nav {
-  background: rgba(11, 22, 51, 0.85);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
+.apple-title-section {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: clamp(60px, 6.5vw, 92px);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+}
+
+.apple-title-card {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: clamp(34px, 4vw, 48px);
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+}
+
+.apple-body-large {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: clamp(28px, 2.6vw, 34px);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+}
+
+.apple-body-regular {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 28px;
+  line-height: 1.5;
+  letter-spacing: -0.012em;
+}
+
+.apple-label {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  font-size: 21px;
+  line-height: 1.25;
+}
+
+.apple-label-small {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+/* ========================================================================= */
+/* APPLE SPACE GLASSMORPHISM & BENTO SURFACES                                */
+/* ========================================================================= */
+
+.apple-glass {
+  background: rgba(23, 38, 79, 0.45);
+  backdrop-filter: blur(28px) saturate(190%);
+  -webkit-backdrop-filter: blur(28px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.apple-glass-nav {
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: saturate(190%) blur(24px);
+  -webkit-backdrop-filter: saturate(190%) blur(24px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.orbit-card {
-  background: #17264F;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.25rem;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+.apple-card {
+  background: linear-gradient(145deg, rgba(23, 38, 79, 0.6) 0%, rgba(11, 22, 51, 0.85) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 2rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.orbit-card:hover {
-  background: #1E3268;
-  border-color: rgba(255, 122, 26, 0.35);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+.apple-card:hover {
+  background: linear-gradient(145deg, rgba(30, 50, 104, 0.75) 0%, rgba(18, 30, 68, 0.95) 100%);
+  border-color: rgba(255, 122, 26, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+}
+
+.apple-card-light {
+  background: #F5F5F7;
+  color: #000000;
+  border-radius: 2rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-glow-orange {
+  box-shadow: 0 0 50px -10px rgba(255, 122, 26, 0.4);
 }
 
 /* ========================================================================= */
@@ -105,7 +190,6 @@
     display: block !important;
   }
 
-  /* Centered Official AuSat Watermark */
   .orbit-watermark-overlay {
     display: flex !important;
     position: fixed;

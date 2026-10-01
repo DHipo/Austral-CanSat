@@ -27,7 +27,7 @@ export default function HomePage() {
   };
 
   return (
-    <main className="bg-[#0B1633] text-[#EEF2FA] min-h-screen">
+    <main className="bg-black text-[#F5F5F7] min-h-screen font-sans">
       {/* Top Persistent Glass Navbar */}
       <Navbar
         onOrbitClick={() => setIsAuthModalOpen(true)}
