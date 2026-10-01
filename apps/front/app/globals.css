@@ -1,0 +1,130 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --orbit-bg: #0B1633;
+    --orbit-surface: #17264F;
+    --orbit-surface-hover: #1E3268;
+    --orbit-muted: #5A6785;
+    --orbit-accent: #C9D6F2;
+    --orbit-text: #EEF2FA;
+    --orbit-orange: #FF7A1A;
+    --orbit-orange-hover: #D9620B;
+    --orbit-border: rgba(255, 255, 255, 0.1);
+  }
+
+  body {
+    background-color: var(--orbit-bg);
+    color: var(--orbit-text);
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.012em;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    letter-spacing: -0.03em;
+    font-weight: 700;
+  }
+}
+
+/* ========================================================================= */
+/* GLASSMORPHISM & ORBIT CARDS                                               */
+/* ========================================================================= */
+
+.orbit-glass {
+  background: rgba(23, 38, 79, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.orbit-glass-nav {
+  background: rgba(11, 22, 51, 0.85);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.orbit-card {
+  background: #17264F;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.orbit-card:hover {
+  background: #1E3268;
+  border-color: rgba(255, 122, 26, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+/* ========================================================================= */
+/* PRINT CSS - OFFICIAL LETTERHEAD & CENTERED WATERMARK FOR TECHNICAL REPORT */
+/* ========================================================================= */
+
+@media print {
+  @page {
+    size: A4;
+    margin: 15mm 15mm 15mm 15mm;
+  }
+
+  body {
+    background-color: #FFFFFF !important;
+    color: #17264F !important;
+    font-size: 11pt !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  /* Centered Official AuSat Watermark */
+  .orbit-watermark-overlay {
+    display: flex !important;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-35deg);
+    font-size: 64pt;
+    font-weight: 900;
+    color: rgba(11, 22, 51, 0.05) !important;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    pointer-events: none;
+    z-index: 9999;
+    white-space: nowrap;
+  }
+
+  .orbit-print-sheet {
+    background: #FFFFFF !important;
+    color: #0B1633 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+
+  .orbit-print-header {
+    border-bottom: 2pt solid #FF7A1A !important;
+    padding-bottom: 8pt !important;
+    margin-bottom: 16pt !important;
+  }
+
+  .orbit-print-meta {
+    background-color: #F8FAFC !important;
+    border: 1pt solid #E2E8F0 !important;
+    color: #1E293B !important;
+    border-radius: 6pt !important;
+    padding: 10pt !important;
+    margin-bottom: 16pt !important;
+  }
+}

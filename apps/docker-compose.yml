@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  orbit-db:
+    image: postgres:16-alpine
+    container_name: orbit-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-orbit_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-orbit_super_secret_password_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-orbit_db}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - orbit_pgdata:/var/lib/postgresql/data
+    networks:
+      - orbit-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-orbit_user} -d ${POSTGRES_DB:-orbit_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  orbit-backend:
+    build:
+      context: .
+      dockerfile: back/Dockerfile
+    container_name: orbit-backend
+    restart: unless-stopped
+    depends_on:
+      orbit-db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://${POSTGRES_USER:-orbit_user}:${POSTGRES_PASSWORD:-orbit_super_secret_password_2026}@orbit-db:5432/${POSTGRES_DB:-orbit_db}?schema=public
+      JWT_SECRET: ${JWT_SECRET:-ausat_conae_2026_super_secure_orbit_jwt_secret_key_austral_engineering}
+      JWT_EXPIRES_IN: 7d
+      COOKIE_NAME: orbit_access_token
+      CORS_ORIGIN: http://localhost:3000,http://localhost:5173
+      UPLOAD_DIR: /app/back/uploads
+      MAX_FILE_SIZE_MB: 25
+    ports:
+      - "3001:3001"
+    volumes:
+      - orbit_uploads:/app/back/uploads
+    networks:
+      - orbit-network
+
+  orbit-frontend:
+    build:
+      context: .
+      dockerfile: front/Dockerfile
+    container_name: orbit-frontend
+    restart: unless-stopped
+    depends_on:
+      - orbit-backend
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      NEXT_PUBLIC_API_URL: http://localhost:3001/api
+    ports:
+      - "3000:3000"
+    networks:
+      - orbit-network
+
+networks:
+  orbit-network:
+    driver: bridge
+
+volumes:
+  orbit_pgdata:
+    driver: local
+  orbit_uploads:
+    driver: local

@@ -1,0 +1,27 @@
+{
+  "name": "ausat-orbit-apps",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Orbit Aerospace Applications Monorepo (Frontend, Backend, Shared Packages)",
+  "workspaces": [
+    "front",
+    "back",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=@orbit/front",
+    "dev:front": "npm run dev --workspace=@orbit/front",
+    "dev:back": "npm run start:dev --workspace=@orbit/back",
+    "build:shared": "npm --prefix packages/shared run build",
+    "build:back": "npm run build --workspace=@orbit/back",
+    "build:front": "npm run build --workspace=@orbit/front",
+    "build": "npm run build:shared && npm run build:back && npm run build:front",
+    "db:generate": "npm run prisma:generate --workspace=@orbit/back",
+    "db:migrate": "npm run prisma:migrate --workspace=@orbit/back",
+    "db:seed": "npm run prisma:seed --workspace=@orbit/back",
+    "prisma:studio": "npm run prisma:studio --workspace=@orbit/back",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f"
+  }
+}

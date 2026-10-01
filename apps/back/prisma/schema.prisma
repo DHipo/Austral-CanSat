@@ -1,0 +1,145 @@
+// Prisma Schema for AuSat Orbit Aerospace Management Platform
+// Universidad Austral - CanSat CONAE 2026
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum UserRole {
+  LEAD
+  AVIONICS
+  FLIGHT_DYNAMICS
+  ADMIN
+}
+
+enum EventCategory {
+  HARDWARE_TEST
+  CONAE_DELIVERY
+  PARACHUTE_TEST
+  MEETING
+  INTEGRATION
+}
+
+enum FlightStage {
+  PAD_IDLE
+  POWERED_ASCENT
+  APOGEE_EJECTION
+  PARACHUTE_DESCENT
+  PARAGLIDER_GLIDE
+  EGG_RELEASE_2M
+  TOUCHDOWN_RECOVERY
+}
+
+enum ReportCategory {
+  INVESTIGATION
+  PDR_CDR
+  MEETING_MINUTES
+  ENVIRONMENTAL_TEST
+  TELEMETRY_LOG
+}
+
+enum ReportStatus {
+  DRAFT
+  IN_REVIEW
+  APPROVED
+  OFFICIAL_ARCHIVED
+}
+
+model User {
+  id                   String          @id @default(uuid())
+  email                String          @unique
+  passwordHash         String
+  name                 String
+  role                 UserRole        @default(LEAD)
+  career               String          @default("Ingeniería Informática")
+  subsystem            String          @default("Aviónica & Sistemas")
+  avatarUrl            String?
+  isAuthorizedTechnical Boolean        @default(true)
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+
+  events               CalendarEvent[] @relation("UserEvents")
+  reports              Report[]        @relation("UserReports")
+
+  @@map("users")
+}
+
+model CalendarEvent {
+  id          String        @id @default(uuid())
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  category    EventCategory @default(MEETING)
+  location    String?       @default("Laboratorio de Aviónica - Universidad Austral")
+  isMilestone Boolean       @default(false)
+  
+  createdById String
+  createdBy   User          @relation("UserEvents", fields: [createdById], references: [id], onDelete: Cascade)
+
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([category])
+  @@index([startDate])
+  @@map("calendar_events")
+}
+
+model Report {
+  id              String             @id @default(uuid())
+  title           String
+  subtitle        String?
+  category        ReportCategory     @default(INVESTIGATION)
+  subsystem       String             @default("General")
+  flightStage     FlightStage?
+  contentMarkdown String             @db.Text
+  objective       String?            @db.Text
+  findings        String?            @db.Text
+  conclusions     String?            @db.Text
+  nextSteps       String?            @db.Text
+  status          ReportStatus       @default(DRAFT)
+  revisionHash    String             @default("")
+  
+  authorId        String
+  author          User               @relation("UserReports", fields: [authorId], references: [id], onDelete: Restrict)
+
+  attachments     ReportAttachment[]
+
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@index([status])
+  @@index([category])
+  @@map("reports")
+}
+
+model ReportAttachment {
+  id           String   @id @default(uuid())
+  reportId     String
+  report       Report   @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  fileName     String
+  originalName String
+  mimeType     String
+  sizeBytes    Int
+  url          String
+  createdAt    DateTime @default(now())
+
+  @@index([reportId])
+  @@map("report_attachments")
+}
+
+model NewsletterSubscriber {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  fullName     String?
+  institution  String?  @default("Universidad Austral")
+  confirmed    Boolean  @default(true)
+  subscribedAt DateTime @default(now())
+
+  @@map("newsletter_subscribers")
+}

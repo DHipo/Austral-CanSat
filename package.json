@@ -1,0 +1,38 @@
+{
+  "name": "ausat-cansat-project",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AuSat (Universidad Austral) CanSat CONAE 2026 Aerospace Project & Orbit Platform",
+  "workspaces": [
+    "apps/front",
+    "apps/back",
+    "apps/packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=@orbit/front",
+    "dev:front": "npm run dev --workspace=@orbit/front",
+    "dev:back": "npm run start:dev --workspace=@orbit/back",
+    "build:shared": "npm --prefix apps/packages/shared run build",
+    "build": "npm run build:shared && npm run build --workspace=@orbit/back && npm run build --workspace=@orbit/front",
+    "lint": "npm run lint --workspaces --if-present",
+    "db:generate": "npm run prisma:generate --workspace=@orbit/back",
+    "db:migrate": "npm run prisma:migrate --workspace=@orbit/back",
+    "db:seed": "npm run prisma:seed --workspace=@orbit/back",
+    "prisma:studio": "npm run prisma:studio --workspace=@orbit/back",
+    "docker:up": "docker compose -f apps/docker-compose.yml up -d --build",
+    "docker:down": "docker compose -f apps/docker-compose.yml down",
+    "docker:logs": "docker compose -f apps/docker-compose.yml logs -f"
+  },
+  "keywords": [
+    "cansat",
+    "conae",
+    "universidad-austral",
+    "orbit",
+    "aerospace",
+    "nestjs",
+    "nextjs",
+    "prisma"
+  ],
+  "author": "AuSat Team - Universidad Austral",
+  "license": "MIT"
+}
