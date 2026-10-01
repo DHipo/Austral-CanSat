@@ -60,13 +60,9 @@ export const Newsletter: React.FC = () => {
           {/* Subtle Ambient Radial */}
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#FF7A1A]/10 rounded-full blur-[140px] pointer-events-none" />
 
-          <div className="inline-block mb-6">
-            <span className={`apple-label text-[#FF7A1A] px-6 py-2 rounded-full border backdrop-blur-xl ${
-              isLight ? 'bg-[#FF7A1A]/10 border-[#FF7A1A]/20' : 'bg-white/[0.06] border-white/15'
-            }`}>
-              Comunidad & Divulgación
-            </span>
-          </div>
+          <p className="text-xs font-bold uppercase tracking-widest text-[#FF7A1A] mb-3">
+            Comunidad & Divulgación
+          </p>
 
           <h3 className={`apple-title-section font-bold mb-6 ${isLight ? 'text-[#0B1633]' : 'text-[#F5F5F7]'}`}>
             Sigue la Trayectoria de AuSat

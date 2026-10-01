@@ -24,20 +24,17 @@ export const Footer: React.FC<FooterProps> = ({ onOrbitClick }) => {
           
           {/* Column 1: Brand & Identity with Official Logo */}
           <div className="md:col-span-1 space-y-3">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3.5">
               <img
                 src="/logo.png"
-                alt="AuSat CanSat Universidad Austral"
-                className="w-11 h-11 object-contain drop-shadow-md"
+                alt="AuSat Universidad Austral"
+                className="w-14 h-14 object-contain drop-shadow-md"
               />
               <div>
-                <div className="flex items-center gap-1.5">
-                  <span className={`text-lg font-bold ${isLight ? 'text-[#0B1633]' : 'text-[#F5F5F7]'}`}>AuSat</span>
-                  <span className="text-[10px] uppercase font-bold text-[#FF7A1A] px-2 py-0.5 rounded-full bg-[#FF7A1A]/20">
-                    Orbit
-                  </span>
-                </div>
-                <p className="text-[10px] text-[#86868B]">Universidad Austral</p>
+                <span className={`text-xl font-bold tracking-tight block ${isLight ? 'text-[#0B1633]' : 'text-[#F5F5F7]'}`}>
+                  AuSat
+                </span>
+                <p className="text-[11px] text-[#86868B]">Universidad Austral</p>
               </div>
             </div>
             <p className="text-xs leading-relaxed text-[#86868B]">

@@ -51,18 +51,8 @@ export const TeamSection: React.FC = () => {
     <section id="equipo" className="py-28 text-[#F5F5F7] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         
-        {/* Apple Section Header with Faculty Seal */}
+        {/* Apple Section Header */}
         <div className="text-center max-w-4xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-xl mb-6 shadow-sm">
-            <img
-              src="/logo_facultad.jpg"
-              alt="Universidad Austral"
-              className="w-5 h-5 rounded-full object-contain bg-white"
-            />
-            <span className="apple-label text-[#FF7A1A]">
-              Facultad de Ingeniería • Universidad Austral
-            </span>
-          </div>
 
           <h2 className={`apple-title-section font-bold mb-4 transition-colors duration-500 ${
             isLight ? 'text-[#0B1633]' : 'text-[#F5F5F7]'
@@ -98,7 +88,7 @@ export const TeamSection: React.FC = () => {
                   }`}>
                     {member.initials}
                   </div>
-                  <span className="apple-label-small px-3.5 py-1 rounded-full bg-[#FF7A1A]/20 text-[#FF7A1A] border border-[#FF7A1A]/40 font-bold">
+                  <span className="text-xs font-bold uppercase tracking-wider text-[#FF7A1A]">
                     {member.badge}
                   </span>
                 </div>
@@ -189,10 +179,10 @@ export const TeamSection: React.FC = () => {
               alt="Universidad Austral"
               className="h-8 w-auto rounded-lg bg-white p-0.5 shadow-sm"
             />
-            <span className={`apple-label-small px-4 py-2 rounded-full border ${
-              isLight ? 'bg-black/5 text-[#0B1633] border-black/10' : 'bg-white/[0.08] text-white border-white/20'
+            <span className={`text-xs font-bold uppercase tracking-wider ${
+              isLight ? 'text-[#0B1633]' : 'text-[#C9D6F2]'
             }`}>
-              CONAE 2026 • AUSTRAL
+              CONAE 2026 • Austral
             </span>
           </div>
         </div>

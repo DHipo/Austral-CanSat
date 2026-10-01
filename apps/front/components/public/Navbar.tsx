@@ -30,45 +30,33 @@ export const Navbar: React.FC<NavbarProps> = ({ onOrbitClick, onNavigateSection 
     }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
         
-        {/* Brand: Dual Logos (AuSat Official Emblem + Universidad Austral Faculty Logo) */}
+        {/* Brand: Dual Logos (Enlarged AuSat Official Emblem + Universidad Austral Faculty Logo) */}
         <div 
           onClick={() => scrollToSection('hero')} 
-          className="flex items-center gap-3.5 cursor-pointer group"
+          className="flex items-center gap-4 cursor-pointer group"
         >
-          {/* AuSat Emblem */}
+          {/* AuSat Emblem - Enlarged */}
           <img
             src="/logo.png"
-            alt="AuSat CanSat"
-            className="w-11 h-11 object-contain drop-shadow-[0_2px_12px_rgba(255,122,26,0.35)] group-hover:scale-105 transition-transform"
+            alt="AuSat"
+            className="w-14 h-14 object-contain drop-shadow-[0_2px_14px_rgba(255,122,26,0.4)] group-hover:scale-105 transition-transform"
           />
 
           {/* Divider */}
-          <div className={`h-7 w-[1px] ${isLight ? 'bg-black/15' : 'bg-white/20'}`} />
+          <div className={`h-8 w-[1px] ${isLight ? 'bg-black/15' : 'bg-white/20'}`} />
 
           {/* Universidad Austral Faculty Logo */}
-          <div className="h-9 w-9 rounded-xl bg-white p-1 shadow-sm flex items-center justify-center border border-black/5 group-hover:scale-105 transition-transform">
+          <div className="h-10 w-10 rounded-xl bg-white p-1.5 shadow-sm flex items-center justify-center border border-black/5 group-hover:scale-105 transition-transform">
             <img
               src="/logo_facultad.jpg"
-              alt="Facultad de Ingeniería - Universidad Austral"
+              alt="Universidad Austral"
               className="w-full h-full object-contain"
             />
           </div>
 
-          <div>
-            <div className="flex items-center gap-2">
-              <span className={`text-lg font-bold tracking-tight ${isLight ? 'text-[#0B1633]' : 'text-[#F5F5F7]'}`}>
-                AuSat
-              </span>
-              <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full border ${
-                isLight ? 'bg-[#0B1633]/10 text-[#0B1633] border-[#0B1633]/20' : 'bg-white/10 text-[#C9D6F2] border-white/10'
-              }`}>
-                CanSat 2026
-              </span>
-            </div>
-            <p className={`text-[11px] font-medium -mt-0.5 ${isLight ? 'text-[#5A6785]' : 'text-[#86868B]'}`}>
-              Facultad de Ingeniería • Univ. Austral
-            </p>
-          </div>
+          <span className={`text-xl font-bold tracking-tight ${isLight ? 'text-[#0B1633]' : 'text-[#F5F5F7]'}`}>
+            AuSat
+          </span>
         </div>
 
         {/* Desktop Navigation Links */}

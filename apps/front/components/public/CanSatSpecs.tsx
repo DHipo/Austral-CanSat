@@ -132,11 +132,9 @@ export const CanSatSpecs: React.FC = () => {
         
         {/* Apple Section Header */}
         <div className="text-center max-w-4xl mx-auto mb-20">
-          <div className="inline-block mb-6">
-            <span className="apple-label text-[#FF7A1A] px-6 py-2 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-xl">
-              Ingeniería de Vuelo
-            </span>
-          </div>
+          <p className="text-xs font-bold uppercase tracking-widest text-[#FF7A1A] mb-3">
+            Ingeniería de Vuelo
+          </p>
           
           <h2 className={`apple-title-section font-bold mb-4 transition-colors duration-500 ${
             isLight ? 'text-[#0B1633]' : 'text-[#F5F5F7]'
@@ -215,7 +213,7 @@ export const CanSatSpecs: React.FC = () => {
             
             {/* Header info */}
             <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-              <span className="apple-label-small px-3.5 py-1.5 rounded-full bg-[#FF7A1A]/20 text-[#FF7A1A] border border-[#FF7A1A]/40 font-bold">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#FF7A1A]">
                 {current.badge}
               </span>
               <span className={`text-xs font-mono ${isLight ? 'text-[#5A6785]' : 'text-[#86868B]'}`}>
@@ -264,9 +262,9 @@ export const CanSatSpecs: React.FC = () => {
         {/* CONAE Mission Stages Timeline */}
         <div id="mision" className="mt-8">
           <div className="text-center max-w-3xl mx-auto mb-14">
-            <span className="apple-label text-[#FF7A1A] px-6 py-2 rounded-full bg-white/[0.06] border border-white/15 inline-block mb-3">
+            <p className="text-xs font-bold uppercase tracking-widest text-[#FF7A1A] mb-3">
               Cronograma Oficial
-            </span>
+            </p>
             <h3 className={`apple-title-section font-bold ${isLight ? 'text-[#0B1633]' : 'text-[#F5F5F7]'}`}>
               Etapas del Certamen CONAE
             </h3>
@@ -291,15 +289,15 @@ export const CanSatSpecs: React.FC = () => {
                 >
                   <div>
                     <div className="flex items-center justify-between mb-3">
-                      <span className="apple-label-small text-[#FF7A1A]">
+                      <span className="text-xs font-bold uppercase tracking-wider text-[#FF7A1A]">
                         {stage.phase}
                       </span>
                       {isCompleted && (
                         <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
                       )}
                       {isCurrent && (
-                        <span className="apple-label-small px-2 py-0.5 rounded-full bg-[#FF7A1A]/20 text-[#FF7A1A] border border-[#FF7A1A]/40 text-[10px]">
-                          EN CURSO
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#FF7A1A]">
+                          En Curso
                         </span>
                       )}
                       {!isCompleted && !isCurrent && (

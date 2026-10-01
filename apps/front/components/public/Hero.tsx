@@ -23,43 +23,38 @@ export const Hero: React.FC<HeroProps> = ({
     <section className="relative pt-36 pb-24 md:pt-44 md:pb-32 overflow-hidden text-center">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 relative z-10">
 
-        {/* Dual Institutional Branding: AuSat Medal + Universidad Austral Faculty Logo */}
+        {/* Dual Institutional Branding: Enlarged AuSat Medal + Minimalist Universidad Austral Faculty Logo */}
         <motion.div
           initial={{ opacity: 0, scale: 0.92, y: -12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-wrap items-center justify-center gap-5 sm:gap-6 mb-10"
+          className="flex items-center justify-center gap-6 sm:gap-10 mb-12"
         >
-          {/* AuSat Metallic Emblem */}
+          {/* AuSat Metallic Emblem - Enlarged */}
           <div 
             className="relative group cursor-pointer" 
             onClick={() => onSpecsClick?.() || onExploreClick?.()}
           >
-            <div className={`absolute inset-0 rounded-full blur-2xl transition-opacity ${
-              isLight ? 'bg-[#FF7A1A]/20 opacity-40' : 'bg-gradient-to-r from-[#FF7A1A]/30 to-[#17264F]/50 opacity-60'
+            <div className={`absolute inset-0 rounded-full blur-3xl transition-opacity ${
+              isLight ? 'bg-[#FF7A1A]/20 opacity-50' : 'bg-gradient-to-r from-[#FF7A1A]/30 to-[#17264F]/50 opacity-70'
             }`} />
             <img
               src="/logo.png"
-              alt="AuSat Emblema Oficial CanSat CONAE"
-              className="relative w-28 h-28 sm:w-36 sm:h-36 object-contain drop-shadow-[0_14px_35px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-all duration-300"
+              alt="AuSat Emblema Oficial"
+              className="relative w-44 h-44 sm:w-56 sm:h-56 md:w-64 md:h-64 object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] group-hover:scale-105 transition-all duration-300"
             />
           </div>
 
-          {/* Universidad Austral Faculty Seal Badge */}
-          <div className="flex flex-col items-center sm:items-start text-center sm:text-left">
-            <div className="p-2 sm:p-2.5 rounded-2xl bg-white shadow-lg border border-black/5 mb-2 hover:scale-105 transition-transform">
-              <img
-                src="/logo_facultad.jpg"
-                alt="Facultad de Ingeniería - Universidad Austral"
-                className="h-10 sm:h-12 w-auto object-contain"
-              />
-            </div>
-            <div className="text-[11px] font-bold uppercase tracking-wider text-[#FF7A1A]">
-              Facultad de Ingeniería
-            </div>
-            <div className={`text-[12px] font-medium ${isLight ? 'text-[#4B5563]' : 'text-[#86868B]'}`}>
-              Certamen Aeroespacial CanSat CONAE 2026
-            </div>
+          {/* Minimalist Divider */}
+          <div className={`h-20 sm:h-28 w-[1px] ${isLight ? 'bg-black/10' : 'bg-white/15'}`} />
+
+          {/* Universidad Austral Faculty Logo */}
+          <div className="p-3.5 sm:p-5 rounded-3xl bg-white shadow-xl border border-black/5 hover:scale-105 transition-transform flex items-center justify-center">
+            <img
+              src="/logo_facultad.jpg"
+              alt="Universidad Austral"
+              className="h-16 sm:h-22 w-auto object-contain"
+            />
           </div>
         </motion.div>
 
