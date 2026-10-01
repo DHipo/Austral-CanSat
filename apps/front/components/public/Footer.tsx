@@ -100,10 +100,10 @@ export const Footer: React.FC<FooterProps> = ({ onOrbitClick }) => {
             </p>
             <button
               onClick={onOrbitClick}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/[0.08] hover:bg-white/[0.15] text-[#F5F5F7] border border-white/15 hover:border-white/30 transition-all text-xs font-bold cursor-pointer"
+              className="apple-metallic-btn px-6 py-2 text-xs font-bold cursor-pointer"
             >
-              <ShieldCheck className="w-3.5 h-3.5 text-[#FF7A1A]" />
-              Entrar a Orbit
+              <Satellite className="w-3.5 h-3.5 text-[#FF7A1A]" />
+              <span>Orbit</span>
             </button>
           </div>
 

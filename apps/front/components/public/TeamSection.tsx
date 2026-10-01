@@ -44,7 +44,7 @@ export const TeamSection: React.FC = () => {
   ];
 
   return (
-    <section id="equipo" className="py-36 bg-gradient-to-b from-[#050711] via-[#000000] to-[#070B18] text-[#F5F5F7] relative">
+    <section id="equipo" className="py-28 text-[#F5F5F7] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         
         {/* Apple Section Header */}

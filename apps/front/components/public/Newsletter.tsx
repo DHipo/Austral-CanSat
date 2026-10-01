@@ -44,7 +44,7 @@ export const Newsletter: React.FC = () => {
   };
 
   return (
-    <section id="newsletter" className="py-36 bg-gradient-to-b from-[#070B18] via-[#050711] to-[#000000] text-[#F5F5F7] relative">
+    <section id="newsletter" className="py-28 text-[#F5F5F7] relative">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         
         <div className="rounded-[36px] bg-gradient-to-br from-[#17264F]/60 via-[#0B1633]/80 to-[#000000] border border-white/15 p-10 sm:p-16 backdrop-blur-2xl shadow-2xl relative overflow-hidden text-center">

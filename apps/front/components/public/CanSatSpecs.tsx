@@ -124,7 +124,7 @@ export const CanSatSpecs: React.FC = () => {
   const current = subsystems[activeSubsystem];
 
   return (
-    <section id="subsistemas" className="py-36 bg-gradient-to-b from-[#000000] via-[#0B1633] to-[#050711] text-[#F5F5F7] relative">
+    <section id="subsistemas" className="py-28 text-[#F5F5F7] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         
         {/* Apple Section Header */}

@@ -20,7 +20,7 @@ export default function OrbitDashboardPage() {
       <div className="rounded-[32px] bg-gradient-to-r from-[#17264F]/80 via-[#0B1633] to-[#070B18] border border-white/15 p-8 sm:p-10 backdrop-blur-2xl shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2.5 mb-3">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-ping" />
+            <span className="w-2.5 h-2.5 rounded-full bg-[#10B981]" />
             <span className="apple-label-small text-[#10B981]">
               Sistema Operativo • Telemetría Enlace 915 MHz
             </span>

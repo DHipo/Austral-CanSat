@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { InteractiveBackground } from '../../components/public/InteractiveBackground';
 import { Navbar } from '../../components/public/Navbar';
 import { Hero } from '../../components/public/Hero';
 import { CanSatSpecs } from '../../components/public/CanSatSpecs';
@@ -27,32 +28,38 @@ export default function HomePage() {
   };
 
   return (
-    <main className="bg-black text-[#F5F5F7] min-h-screen font-sans">
-      {/* Top Persistent Glass Navbar */}
-      <Navbar
-        onOrbitClick={() => setIsAuthModalOpen(true)}
-        onNavigateSection={scrollToSection}
-      />
+    <main className="relative bg-black text-[#F5F5F7] min-h-screen font-sans selection:bg-[#FF7A1A]/30 selection:text-white overflow-x-hidden">
+      {/* Dynamic Animated Mesh & Mouse Reactive Interactive Background */}
+      <InteractiveBackground />
 
-      {/* Cinematic Apple-Style Hero */}
-      <div id="hero">
-        <Hero
-          onSpecsClick={() => scrollToSection('subsistemas')}
-          onOrbitAccessClick={() => setIsAuthModalOpen(true)}
+      {/* Page Content Layers */}
+      <div className="relative z-10">
+        {/* Top Persistent Glass Navbar */}
+        <Navbar
+          onOrbitClick={() => setIsAuthModalOpen(true)}
+          onNavigateSection={scrollToSection}
         />
+
+        {/* Cinematic Apple-Style Hero */}
+        <div id="hero">
+          <Hero
+            onSpecsClick={() => scrollToSection('subsistemas')}
+            onOrbitAccessClick={() => setIsAuthModalOpen(true)}
+          />
+        </div>
+
+        {/* CanSat Technical Specifications & CONAE Timeline */}
+        <CanSatSpecs />
+
+        {/* 3 Core Universidad Austral Students Section */}
+        <TeamSection />
+
+        {/* Newsletter Outreach Subscription */}
+        <Newsletter />
+
+        {/* Institutional Footer */}
+        <Footer onOrbitClick={() => setIsAuthModalOpen(true)} />
       </div>
-
-      {/* CanSat Technical Specifications & CONAE Timeline */}
-      <CanSatSpecs />
-
-      {/* 3 Core Universidad Austral Students Section */}
-      <TeamSection />
-
-      {/* Newsletter Outreach Subscription */}
-      <Newsletter />
-
-      {/* Institutional Footer */}
-      <Footer onOrbitClick={() => setIsAuthModalOpen(true)} />
 
       {/* Orbit Authentication Modal */}
       <OrbitAuthModal
