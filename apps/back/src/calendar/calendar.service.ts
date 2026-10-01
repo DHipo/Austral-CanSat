@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateCalendarEventDto, UpdateCalendarEventDto } from './dto/calendar.dto';
 import { EventCategory } from '@prisma/client';
@@ -63,6 +63,8 @@ export class CalendarService {
   }
 
   async create(dto: CreateCalendarEventDto, userId: string) {
+    this.assertValidRange(new Date(dto.startDate), new Date(dto.endDate));
+
     return this.prisma.calendarEvent.create({
       data: {
         title: dto.title,
@@ -70,7 +72,7 @@ export class CalendarService {
         startDate: new Date(dto.startDate),
         endDate: new Date(dto.endDate),
         category: dto.category,
-        location: dto.location || 'Laboratorio de Aviónica - Univ. Austral',
+        location: dto.location?.trim() || null,
         isMilestone: dto.isMilestone ?? false,
         createdById: userId,
       },
@@ -88,7 +90,11 @@ export class CalendarService {
   }
 
   async update(id: string, dto: UpdateCalendarEventDto) {
-    await this.findOne(id);
+    const current = await this.findOne(id);
+    this.assertValidRange(
+      dto.startDate ? new Date(dto.startDate) : current.startDate,
+      dto.endDate ? new Date(dto.endDate) : current.endDate,
+    );
 
     const data: any = {};
     if (dto.title) data.title = dto.title;
@@ -96,7 +102,7 @@ export class CalendarService {
     if (dto.startDate) data.startDate = new Date(dto.startDate);
     if (dto.endDate) data.endDate = new Date(dto.endDate);
     if (dto.category) data.category = dto.category;
-    if (dto.location !== undefined) data.location = dto.location;
+    if (dto.location !== undefined) data.location = dto.location.trim() || null;
     if (dto.isMilestone !== undefined) data.isMilestone = dto.isMilestone;
 
     return this.prisma.calendarEvent.update({
@@ -121,5 +127,11 @@ export class CalendarService {
       where: { id },
     });
     return { success: true, message: `Evento ${id} eliminado.` };
+  }
+
+  private assertValidRange(start: Date, end: Date) {
+    if (end < start) {
+      throw new BadRequestException('La fecha de fin no puede ser anterior a la de inicio.');
+    }
   }
 }

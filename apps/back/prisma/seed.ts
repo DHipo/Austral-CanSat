@@ -77,53 +77,86 @@ async function main() {
 
   // 3. Pre-seed Mission Calendar Events
   console.log('📅 Seeding CanSat CONAE Mission Calendar Events...');
+  // Eventos de ejemplo del plan del equipo (sin datos técnicos inventados).
   const missionEvents = [
     {
-      title: 'Entrega Informe PDR CONAE (Preliminary Design Review)',
-      description: 'Envío formal del documento técnico PDR ante la comisión evaluadora de CONAE.',
-      startDate: new Date('2026-06-15T18:00:00Z'),
-      endDate: new Date('2026-06-15T23:59:00Z'),
-      category: EventCategory.CONAE_DELIVERY,
-      location: 'Plataforma Virtual CONAE',
-      isMilestone: true,
+      title: 'Reunión semanal del equipo',
+      description: 'Avance por subsistema y bloqueos de la semana.',
+      startDate: new Date('2026-10-06T21:00:00-03:00'),
+      endDate: new Date('2026-10-06T22:00:00-03:00'),
+      category: EventCategory.MEETING,
+      location: 'Meet',
+      isMilestone: false,
       createdById: bautista.id,
     },
     {
-      title: 'Ensayo Drop Test 30G & Estructura CanSat',
-      description: 'Prueba de impacto y rigidez estructural cilíndrica con dummy de huevo (60g).',
-      startDate: new Date('2026-06-28T14:00:00Z'),
-      endDate: new Date('2026-06-28T18:00:00Z'),
+      title: 'Prueba de autonomía con celdas 18650',
+      description: 'Descarga continua del banco de baterías con carga simulada para validar 2 h de operación.',
+      startDate: new Date('2026-10-10T15:00:00-03:00'),
+      endDate: new Date('2026-10-10T18:00:00-03:00'),
       category: EventCategory.HARDWARE_TEST,
-      location: 'Laboratorio de Materiales - Univ. Austral',
+      location: 'Laboratorio - Universidad Austral',
       isMilestone: false,
       createdById: mariaPaz.id,
     },
     {
-      title: 'Prueba de Despliegue de Paraglider y Actuadores',
-      description: 'Ensayo en túnel de viento y pruebas de deflexión con servos MG90S para control de descenso.',
-      startDate: new Date('2026-07-08T10:00:00Z'),
-      endDate: new Date('2026-07-08T16:00:00Z'),
+      title: 'Reunión semanal del equipo',
+      startDate: new Date('2026-10-13T21:00:00-03:00'),
+      endDate: new Date('2026-10-13T22:00:00-03:00'),
+      category: EventCategory.MEETING,
+      location: 'Meet',
+      isMilestone: false,
+      createdById: bautista.id,
+    },
+    {
+      title: 'Drop test (~30 G)',
+      description: 'Ensayo de caída para verificar anclajes y montaje de componentes. Grabar en video.',
+      startDate: new Date('2026-10-24T10:00:00-03:00'),
+      endDate: new Date('2026-10-24T13:00:00-03:00'),
+      category: EventCategory.HARDWARE_TEST,
+      location: 'Laboratorio - Universidad Austral',
+      isMilestone: false,
+      createdById: joaquin.id,
+    },
+    {
+      title: 'Primer ensayo de despliegue del paraglider',
+      description: 'Suelta desde altura con payload de masa equivalente.',
+      startDate: new Date('2026-11-07T09:00:00-03:00'),
+      endDate: new Date('2026-11-07T13:00:00-03:00'),
       category: EventCategory.PARACHUTE_TEST,
-      location: 'Campus Universidad Austral (Zona Abierta Pilar)',
+      location: 'Campus Pilar',
       isMilestone: true,
       createdById: joaquin.id,
     },
     {
-      title: 'Reunión Semanal de Sincronización Técnica AuSat',
-      description: 'Revisión de avance en bus I2C, telemetría LoRa 915 MHz y calibración del barómetro BMP280.',
-      startDate: new Date('2026-07-14T21:00:00Z'),
-      endDate: new Date('2026-07-14T22:30:00Z'),
-      category: EventCategory.MEETING,
-      location: 'Meet Virtual AuSat',
-      isMilestone: false,
+      title: 'Entrega PDR (Preliminary Design Review)',
+      description: 'Documento de diseño preliminar para la CONAE.',
+      startDate: new Date('2026-11-20T23:59:00-03:00'),
+      endDate: new Date('2026-11-20T23:59:00-03:00'),
+      category: EventCategory.CONAE_DELIVERY,
+      location: 'Plataforma CONAE',
+      isMilestone: true,
       createdById: bautista.id,
+    },
+    {
+      title: 'Integración en banco: aviónica + energía',
+      startDate: new Date('2026-11-28T14:00:00-03:00'),
+      endDate: new Date('2026-11-28T19:00:00-03:00'),
+      category: EventCategory.INTEGRATION,
+      location: 'Laboratorio - Universidad Austral',
+      isMilestone: false,
+      createdById: mariaPaz.id,
     },
   ];
 
+  // Idempotente: volver a correr el seed no duplica eventos.
   for (const event of missionEvents) {
-    await prisma.calendarEvent.create({
-      data: event,
+    const exists = await prisma.calendarEvent.findFirst({
+      where: { title: event.title, startDate: event.startDate },
     });
+    if (!exists) {
+      await prisma.calendarEvent.create({ data: event });
+    }
   }
 
   // 4. Pre-seed Technical Reports & Telemetry Documentation
