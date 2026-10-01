@@ -50,6 +50,11 @@ export function roleLabel(user: { email: string; role: UserRole }): string {
   return ORBIT_TEAM.find((m) => m.email === user.email.toLowerCase())?.role ?? USER_ROLE[user.role] ?? user.role;
 }
 
+/** Nombre corto del equipo ("María Paz"), o el primer nombre si no es del equipo. */
+export function shortName(user: { name: string; email: string }): string {
+  return ORBIT_TEAM.find((m) => m.email === user.email.toLowerCase())?.shortName ?? firstName(user.name);
+}
+
 export function firstName(name: string): string {
   return name.trim().split(/\s+/)[0] ?? name;
 }

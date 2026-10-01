@@ -1,56 +1,70 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import { ReportStatus } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import * as fs from 'fs';
-import * as path from 'path';
+import { UPLOAD_DIR, removeUploadedFile, resolveUploadPath } from './upload-dir';
 
 @Injectable()
 export class FilesService {
-  private readonly uploadDir: string;
-
   constructor(private readonly prisma: PrismaService) {
-    this.uploadDir = process.env.UPLOAD_DIR || path.join(process.cwd(), 'uploads');
-    if (!fs.existsSync(this.uploadDir)) {
-      fs.mkdirSync(this.uploadDir, { recursive: true });
+    if (!fs.existsSync(UPLOAD_DIR)) {
+      fs.mkdirSync(UPLOAD_DIR, { recursive: true });
     }
   }
 
-  async attachToReport(
-    reportId: string,
-    file: Express.Multer.File,
-  ) {
+  async attachToReport(reportId: string, file: Express.Multer.File) {
     if (!file) {
       throw new BadRequestException('No se ha subido ningún archivo.');
     }
 
-    const report = await this.prisma.report.findUnique({
-      where: { id: reportId },
-    });
+    const report = reportId
+      ? await this.prisma.report.findUnique({ where: { id: reportId }, select: { status: true } })
+      : null;
 
-    if (!report) {
-      throw new BadRequestException(`Reporte con ID ${reportId} no existe.`);
+    // Multer ya escribió el archivo: si no se puede asociar, se borra.
+    if (!report || report.status === ReportStatus.OFFICIAL_ARCHIVED) {
+      await removeUploadedFile(file.filename);
+      throw new BadRequestException(
+        report ? 'El informe está archivado y no admite cambios.' : `Reporte con ID ${reportId} no existe.`,
+      );
     }
 
-    const fileUrl = `/api/files/${file.filename}`;
-
-    const attachment = await this.prisma.reportAttachment.create({
+    return this.prisma.reportAttachment.create({
       data: {
         reportId,
         fileName: file.filename,
         originalName: file.originalname,
         mimeType: file.mimetype,
         sizeBytes: file.size,
-        url: fileUrl,
+        url: `/api/files/${file.filename}`,
       },
     });
-
-    return attachment;
   }
 
-  getFilePath(filename: string): string {
-    const filePath = path.join(this.uploadDir, filename);
-    if (!fs.existsSync(filePath)) {
-      throw new BadRequestException('Archivo no encontrado.');
+  /** Solo se sirven archivos registrados como adjuntos y dentro de la carpeta de uploads. */
+  async getAttachmentFile(fileName: string) {
+    const attachment = await this.prisma.reportAttachment.findFirst({ where: { fileName } });
+    const filePath = attachment && resolveUploadPath(attachment.fileName);
+    if (!attachment || !filePath || !fs.existsSync(filePath)) {
+      throw new NotFoundException('Archivo no encontrado.');
     }
-    return filePath;
+    return { attachment, filePath };
+  }
+
+  async removeAttachment(id: string) {
+    const attachment = await this.prisma.reportAttachment.findUnique({
+      where: { id },
+      include: { report: { select: { status: true } } },
+    });
+    if (!attachment) {
+      throw new NotFoundException('Adjunto no encontrado.');
+    }
+    if (attachment.report.status === ReportStatus.OFFICIAL_ARCHIVED) {
+      throw new BadRequestException('El informe está archivado y no admite cambios.');
+    }
+
+    await this.prisma.reportAttachment.delete({ where: { id } });
+    await removeUploadedFile(attachment.fileName);
+    return { success: true };
   }
 }

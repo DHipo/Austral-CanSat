@@ -12,7 +12,7 @@ function calculateRevisionHash(title: string, content: string, authorEmail: stri
 }
 
 async function main() {
-  console.log('🚀 [AuSat Orbit] Initializing database seed...');
+  console.log('[AuSat Orbit] Initializing database seed...');
 
   // 1. Hash passwords with bcrypt
   const salt = await bcrypt.genSalt(10);
@@ -52,7 +52,7 @@ async function main() {
     },
   ];
 
-  console.log('👤 Seeding 3 verified Universidad Austral technical users...');
+  console.log('Seeding 3 verified Universidad Austral technical users...');
   const seededUsers = [];
   for (const user of technicalUsers) {
     const upserted = await prisma.user.upsert({
@@ -76,7 +76,7 @@ async function main() {
   const joaquin = seededUsers[2];
 
   // 3. Pre-seed Mission Calendar Events
-  console.log('📅 Seeding CanSat CONAE Mission Calendar Events...');
+  console.log('Seeding CanSat CONAE Mission Calendar Events...');
   // Eventos de ejemplo del plan del equipo (sin datos técnicos inventados).
   const missionEvents = [
     {
@@ -160,67 +160,99 @@ async function main() {
   }
 
   // 4. Pre-seed Technical Reports & Telemetry Documentation
-  console.log('📝 Seeding Technical Mission Reports...');
-  const report1Content = `# AuSat CanSat 2026 - Arquitectura de Aviónica y Telemetría
-
-## 1. Resumen Ejecutivo
-Este informe técnico documenta el diseño preliminar del bus de telemetría y sensores para el CanSat AuSat de la Universidad Austral para la competencia CONAE 2026.
-
-## 2. Subsistema de Sensores
-- **Computadora de Vuelo:** ESP32-S3 Dual-Core Xtensa LX7 @ 240MHz.
-- **IMU:** MPU-6050 (Acelerómetro 3 ejes ±16g, Giroscopio ±2000°/s).
-- **Altímetro Barométrico:** BMP280 vía I2C a 400kHz.
-- **Transceptor RF:** LoRa SX1262 a 915 MHz con potencia 100mW (normativa ENACOM).
-- **Sensor de Proximidad de Suelo:** ToF VL53L0X para activación del mecanismo de liberación del huevo a 2.0 metros.
-
-## 3. Matriz de Riesgos y Mitigaciones
-| Riesgo | Severidad | Mitigación |
-|---|---|---|
-| Reset por vibración en ascenso | Alta | Capacitores de tántalo en rail de 3.3V y watchdog por hardware |
-| Rotura del huevo en liberación | Crítica | Sistema de pistón con amortiguador de doble resorte progresivo |
-| Pérdida de enlace RF | Media | Tasa de transmisión adaptativa a 1Hz con buffering local en memoria flash SPI |
-`;
-
-  const report1Hash = calculateRevisionHash('Arquitectura de Aviónica y Telemetría', report1Content, bautista.email);
-
-  const report1 = await prisma.report.create({
-    data: {
-      title: 'Arquitectura de Aviónica, Sensores y Telemetría LoRa',
-      subtitle: 'Especificación del sistema embebido ESP32-S3 y protocolo de enlace a 915 MHz',
+  console.log('Seeding Technical Mission Reports...');
+  // Informes de ejemplo del equipo (sin datos técnicos inventados).
+  const missionReports = [
+    {
+      title: 'Resumen de la competencia CanSat 2025',
+      subtitle: 'Fases, entregables, requisitos y ensayos obligatorios',
       category: ReportCategory.INVESTIGATION,
-      subsystem: 'Aviónica & Sistemas',
-      flightStage: FlightStage.PAD_IDLE,
-      contentMarkdown: report1Content,
-      objective: 'Diseñar una plataforma de aviónica tolerante a fallos para la adquisición de telemetría y control de servos.',
-      findings: 'El ESP32-S3 ofrece suficiente rendimiento para fusionar datos IMU con filtro de Kalman mientras modula paquetes LoRa a 1Hz.',
-      conclusions: 'Arquitectura validada en banco de pruebas con tasa de error de paquete < 0.2% a 1.2 km de línea de vista.',
-      nextSteps: 'Rutear PCB de 4 capas con plano de masa térmico.',
       status: ReportStatus.APPROVED,
-      revisionHash: report1Hash,
-      authorId: bautista.id,
-      attachments: {
-        create: [
-          {
-            fileName: 'telemetry_spec_v1.csv',
-            originalName: 'telemetry_spec_v1.csv',
-            mimeType: 'text/csv',
-            sizeBytes: 14200,
-            url: '/uploads/telemetry_spec_v1.csv',
-          },
-          {
-            fileName: 'schematic_esp32_avionics.png',
-            originalName: 'schematic_esp32_avionics.png',
-            mimeType: 'image/png',
-            sizeBytes: 420000,
-            url: '/uploads/schematic_esp32_avionics.png',
-          },
-        ],
-      },
+      subsystem: 'General & Gestión',
+      author: bautista,
+      contentMarkdown: [
+        '## Concepto de operaciones',
+        '',
+        '1. Ascenso como nariz del cohete.',
+        '2. Separación en apogeo con paracaídas (**≤ 15 m/s**).',
+        '3. Liberación del payload al 80% del apogeo con paraglider (~5 m/s).',
+        '4. Liberación del huevo a **2 m** del suelo.',
+        '5. Baliza audible al aterrizar.',
+      ].join('\n'),
+      objective: 'Entender qué se va a pedir, los entregables, las fases y los ensayos necesarios.',
+      findings:
+        'Masa 1000 g ± 10 g. Ø136 mm × 250 mm. Operación ≥ 2 h, sin LiPo. Telemetría ASCII a 1 Hz por XBee. Ensayos: drop, térmico, vibración y vacío.',
+      conclusions:
+        'El foco está en el control del paraglider y la entrega del huevo. El margen de masa obliga a controlarla desde el diseño.',
+      nextSteps: 'Analizar CanSats de años anteriores y empezar la investigación por subsistema.',
     },
-  });
+    {
+      title: 'Presupuesto de masa preliminar',
+      subtitle: 'Objetivo 1000 g ± 10 g (CanSat + contenedor)',
+      category: ReportCategory.PDR_CDR,
+      status: ReportStatus.DRAFT,
+      subsystem: 'Estructura & Mecánica',
+      author: mariaPaz,
+      contentMarkdown: 'Primer reparto de masa por subsistema. Se completa a medida que se eligen componentes.',
+    },
+    {
+      title: 'Mecanismos de liberación del huevo a 2 m',
+      subtitle: 'Relevamiento de soluciones de equipos anteriores',
+      category: ReportCategory.INVESTIGATION,
+      status: ReportStatus.IN_REVIEW,
+      subsystem: 'Mecanismo de carga (huevo)',
+      flightStage: FlightStage.EGG_RELEASE_2M,
+      author: joaquin,
+      contentMarkdown:
+        'Se relevan mecanismos de retención y liberación (servo, electroimán, hilo térmico) y cómo detectar los 2 m sobre el suelo.',
+      objective: 'Definir candidatos para el mecanismo de liberación y el sensor de altura de activación.',
+    },
+    {
+      title: 'Selección de celdas 18650 y autonomía de 2 h',
+      subtitle: 'Alternativas a LiPo (prohibidas por reglamento)',
+      category: ReportCategory.INVESTIGATION,
+      status: ReportStatus.IN_REVIEW,
+      subsystem: 'Energía',
+      author: mariaPaz,
+      contentMarkdown:
+        'El reglamento prohíbe baterías LiPo y exige al menos 2 h de operación. Se comparan celdas 18650 en empaque metálico según capacidad, masa y corriente máxima.',
+      objective: 'Elegir una configuración de celdas que cubra 2 h con margen y respete el presupuesto de masa.',
+      findings: 'Consumo estimado a validar en banco.',
+    },
+    {
+      title: 'Minuta reunión semanal #12',
+      subtitle: 'Estado de subsistemas y próximos ensayos',
+      category: ReportCategory.MEETING_MINUTES,
+      status: ReportStatus.DRAFT,
+      subsystem: 'General & Gestión',
+      author: joaquin,
+      contentMarkdown: [
+        'Asistentes: Bautista, María Paz, Joaquín.',
+        '',
+        '- Se revisó el presupuesto de masa preliminar.',
+        '- Se definió fecha tentativa para el drop test.',
+        '- Pendiente: cotizar celdas 18650.',
+      ].join('\n'),
+      nextSteps: 'Cerrar fecha del drop test y comprar celdas para la prueba de autonomía.',
+    },
+  ];
+
+  // Idempotente: volver a correr el seed no duplica informes.
+  for (const { author, ...report } of missionReports) {
+    const exists = await prisma.report.findFirst({ where: { title: report.title } });
+    if (!exists) {
+      await prisma.report.create({
+        data: {
+          ...report,
+          revisionHash: calculateRevisionHash(report.title, report.contentMarkdown, author.email),
+          authorId: author.id,
+        },
+      });
+    }
+  }
 
   // 5. Pre-seed Newsletter Subscribers
-  console.log('✉️ Seeding Newsletter Subscribers...');
+  console.log('Seeding Newsletter Subscribers...');
   await prisma.newsletterSubscriber.upsert({
     where: { email: 'comunidad@austral.edu.ar' },
     update: {},
@@ -232,12 +264,12 @@ Este informe técnico documenta el diseño preliminar del bus de telemetría y s
     },
   });
 
-  console.log('✅ [AuSat Orbit] Database seed successfully completed!');
+  console.log('[AuSat Orbit] Database seed successfully completed!');
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error during database seed:', e);
+    console.error('Error during database seed:', e);
     process.exit(1);
   })
   .finally(async () => {

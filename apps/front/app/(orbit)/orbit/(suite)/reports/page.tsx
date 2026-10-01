@@ -1,29 +1,47 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { FileText, Paperclip, Plus, Search } from 'lucide-react';
 import { ReportCategory, ReportStatus } from '@orbit/shared';
 import { Avatar, ButtonLink, Card, EmptyState, Input, Notice, PageHeader, Select, StatusText } from '@/components/orbit/ui';
 import { REPORT_CATEGORY, REPORT_STATUS } from '@/lib/orbit/labels';
-import { MOCK_REPORTS } from '@/lib/orbit/mock';
-import { getMember } from '@/lib/orbit/team';
+import { listReports, type Report } from '@/lib/orbit/reports';
+import { shortName } from '@/lib/orbit/team';
 import { formatDate } from '@/lib/orbit/format';
 
 export default function OrbitReportsPage() {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<ReportCategory | ''>('');
   const [status, setStatus] = useState<ReportStatus | ''>('');
+  const [all, setAll] = useState<Report[]>([]);
+  const [loadState, setLoadState] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [loadError, setLoadError] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    setLoadState('loading');
+    try {
+      setAll(await listReports());
+      setLoadState('ready');
+    } catch (err) {
+      setLoadError(err instanceof Error ? err.message : 'No se pudieron cargar los informes.');
+      setLoadState('error');
+    }
+  }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   const reports = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return MOCK_REPORTS.filter(
+    return all.filter(
       (r) =>
         (!category || r.category === category) &&
         (!status || r.status === status) &&
         (!q || `${r.title} ${r.subtitle ?? ''} ${r.subsystem}`.toLowerCase().includes(q)),
     ).sort((a, b) => +new Date(b.updatedAt) - +new Date(a.updatedAt));
-  }, [query, category, status]);
+  }, [all, query, category, status]);
 
   const hasFilters = !!(query || category || status);
 
@@ -41,7 +59,14 @@ export default function OrbitReportsPage() {
         }
       />
 
-      <Notice>Informes de ejemplo. El guardado real llega cuando se conecte la API de informes.</Notice>
+      {loadState === 'error' && (
+        <Notice>
+          {loadError}{' '}
+          <button onClick={load} className="font-semibold text-brand hover:underline cursor-pointer">
+            Reintentar
+          </button>
+        </Notice>
+      )}
 
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative flex-1">
@@ -73,7 +98,11 @@ export default function OrbitReportsPage() {
       </div>
 
       <Card>
-        {reports.length === 0 ? (
+        {loadState === 'loading' ? (
+          <div className="flex justify-center py-16">
+            <div className="h-7 w-7 animate-spin rounded-full border-2 border-line border-t-brand" aria-label="Cargando" />
+          </div>
+        ) : reports.length === 0 ? (
           <EmptyState
             icon={FileText}
             title={hasFilters ? 'Ningún informe coincide' : 'Todavía no hay informes'}
@@ -82,19 +111,18 @@ export default function OrbitReportsPage() {
         ) : (
           <ul className="divide-y divide-line">
             {reports.map((r) => {
-              const author = getMember(r.authorId);
               const st = REPORT_STATUS[r.status];
               return (
                 <li key={r.id}>
                   <Link href={`/orbit/reports/${r.id}`} className="flex items-start gap-4 px-6 py-5 transition-colors hover:bg-fg/[0.04] sm:items-center">
-                    <Avatar name={author?.name ?? 'AuSat'} className="mt-0.5 sm:mt-0" />
+                    <Avatar name={r.author?.name ?? 'AuSat'} className="mt-0.5 sm:mt-0" />
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <span className="truncate text-base font-semibold text-fg sm:text-lg">{r.title}</span>
-                        {r.attachmentsCount > 0 && (
+                        {r.attachments.length > 0 && (
                           <span className="inline-flex shrink-0 items-center gap-0.5 text-xs text-fg-subtle">
                             <Paperclip className="h-3 w-3" />
-                            {r.attachmentsCount}
+                            {r.attachments.length}
                           </span>
                         )}
                       </div>
@@ -104,7 +132,7 @@ export default function OrbitReportsPage() {
                         <span>·</span>
                         <span>{r.subsystem}</span>
                         <span>·</span>
-                        <span>{author?.shortName ?? 'Equipo'}</span>
+                        <span>{r.author ? shortName(r.author) : 'Equipo'}</span>
                         <span>·</span>
                         <span>{formatDate(r.updatedAt)}</span>
                       </div>

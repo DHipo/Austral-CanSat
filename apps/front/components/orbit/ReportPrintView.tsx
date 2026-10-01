@@ -1,13 +1,15 @@
 'use client';
 
 import React from 'react';
-import { Printer, ArrowLeft, ShieldCheck, Check, Copy } from 'lucide-react';
+import { Printer, ArrowLeft, ShieldCheck, Check, Copy, Paperclip } from 'lucide-react';
 import { ORBIT_TEAM } from '../../lib/orbit/team';
 import { FLIGHT_STAGE, REPORT_CATEGORY, REPORT_STATUS } from '../../lib/orbit/labels';
+import { formatFileSize } from '../../lib/orbit/reports';
+import { Markdown } from './Markdown';
 import { Button } from './ui';
 
 // Muestra la etiqueta legible si el valor es un código conocido (ej. APPROVED → Aprobado).
-function label(map: Record<string, string | { label: string }>, value?: string) {
+function label(map: Record<string, string | { label: string }>, value?: string | null) {
   if (!value) return undefined;
   const entry = map[value];
   if (!entry) return value;
@@ -17,15 +19,15 @@ function label(map: Record<string, string | { label: string }>, value?: string) 
 export interface ReportPrintData {
   id: string;
   title: string;
-  subtitle?: string;
+  subtitle?: string | null;
   category: string;
   subsystem: string;
-  flightStage?: string;
+  flightStage?: string | null;
   contentMarkdown: string;
-  objective?: string;
-  findings?: string;
-  conclusions?: string;
-  nextSteps?: string;
+  objective?: string | null;
+  findings?: string | null;
+  conclusions?: string | null;
+  nextSteps?: string | null;
   status: string;
   revisionHash: string;
   createdAt: string;
@@ -35,14 +37,18 @@ export interface ReportPrintData {
     career?: string;
     email?: string;
   };
+  attachments?: { id: string; originalName: string; sizeBytes: number; url: string }[];
 }
 
 interface ReportPrintViewProps {
   report: ReportPrintData;
   onBack?: () => void;
+  backLabel?: string;
+  /** Acciones extra en la barra superior (editar, cambiar estado…). No se imprimen. */
+  actions?: React.ReactNode;
 }
 
-export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack }) => {
+export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack, backLabel = 'Volver', actions }) => {
   const [copiedHash, setCopiedHash] = React.useState(false);
 
   const handlePrint = () => {
@@ -73,10 +79,11 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-fg-muted hover:text-fg cursor-pointer"
         >
           <ArrowLeft className="h-3.5 w-3.5" />
-          Volver
+          {backLabel}
         </button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {actions}
           <Button size="sm" variant="secondary" onClick={handleCopyHash} title="Copiar hash de revisión">
             {copiedHash ? <Check className="h-3.5 w-3.5 text-ok" /> : <Copy className="h-3.5 w-3.5" />}
             {copiedHash ? 'Hash copiado' : 'Copiar hash'}
@@ -115,7 +122,7 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
                   <span className="text-2xl sm:text-3xl font-black text-[#0B1633] tracking-tight">
                     AuSat <span className="text-[#FF7A1A]">Orbit</span>
                   </span>
-                  <span className="text-xs font-bold uppercase tracking-widest px-2 py-0.5 rounded bg-[#0B1633] text-white">
+                  <span className="text-xs font-bold uppercase tracking-widest text-[#5A6785]">
                     Oficial
                   </span>
                 </div>
@@ -129,7 +136,7 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
             </div>
 
             <div className="text-right">
-              <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded bg-[#17264F] text-[#EEF2FA]">
+              <span className="text-xs font-bold uppercase tracking-wider text-[#0B1633]">
                 {label(REPORT_STATUS, report.status)}
               </span>
               <p className="text-[11px] text-[#5A6785] mt-1.5 font-mono">
@@ -199,8 +206,8 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
                 <h2 className="text-xs uppercase tracking-wider font-bold text-[#0B1633] border-l-4 border-[#FF7A1A] pl-3 mb-2">
                   1. Objetivo Técnico y Alcance
                 </h2>
-                <div className="bg-slate-50/60 p-4 rounded-lg border border-slate-100 text-slate-700 whitespace-pre-line">
-                  {report.objective}
+                <div className="bg-slate-50/60 p-4 rounded-lg border border-slate-100 text-slate-700">
+                  <Markdown source={report.objective} />
                 </div>
               </div>
             )}
@@ -209,9 +216,7 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
               <h2 className="text-xs uppercase tracking-wider font-bold text-[#0B1633] border-l-4 border-[#FF7A1A] pl-3 mb-2">
                 2. Desarrollo & Memoria de Ingeniería
               </h2>
-              <div className="prose prose-slate max-w-none text-slate-800 whitespace-pre-line">
-                {report.contentMarkdown}
-              </div>
+              <Markdown source={report.contentMarkdown} className="text-slate-800" />
             </div>
 
             {report.findings && (
@@ -219,8 +224,8 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
                 <h2 className="text-xs uppercase tracking-wider font-bold text-[#0B1633] border-l-4 border-[#FF7A1A] pl-3 mb-2">
                   3. Mediciones, Curvas y Hallazgos
                 </h2>
-                <div className="bg-slate-50/60 p-4 rounded-lg border border-slate-100 text-slate-700 whitespace-pre-line">
-                  {report.findings}
+                <div className="bg-slate-50/60 p-4 rounded-lg border border-slate-100 text-slate-700">
+                  <Markdown source={report.findings} />
                 </div>
               </div>
             )}
@@ -230,9 +235,7 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
                 <h2 className="text-xs uppercase tracking-wider font-bold text-[#0B1633] border-l-4 border-[#FF7A1A] pl-3 mb-2">
                   4. Conclusiones de Ingeniería
                 </h2>
-                <div className="text-slate-700 whitespace-pre-line">
-                  {report.conclusions}
-                </div>
+                <Markdown source={report.conclusions} className="text-slate-700" />
               </div>
             )}
 
@@ -241,9 +244,27 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
                 <h2 className="text-xs uppercase tracking-wider font-bold text-[#0B1633] border-l-4 border-[#FF7A1A] pl-3 mb-2">
                   5. Plan de Acción y Hitos CONAE
                 </h2>
-                <div className="text-slate-700 whitespace-pre-line">
-                  {report.nextSteps}
-                </div>
+                <Markdown source={report.nextSteps} className="text-slate-700" />
+              </div>
+            )}
+
+            {report.attachments && report.attachments.length > 0 && (
+              <div>
+                <h2 className="text-xs uppercase tracking-wider font-bold text-[#0B1633] border-l-4 border-[#FF7A1A] pl-3 mb-2">
+                  Anexos
+                </h2>
+                <ul className="space-y-1.5 text-slate-700">
+                  {report.attachments.map((a, idx) => (
+                    <li key={a.id} className="flex items-center gap-2">
+                      <Paperclip className="h-3.5 w-3.5 shrink-0 text-slate-400" />
+                      <span className="font-mono text-xs text-slate-500">A{idx + 1}</span>
+                      <a href={a.url} target="_blank" rel="noopener noreferrer" className="truncate font-medium text-[#17264F] underline-offset-2 hover:underline">
+                        {a.originalName}
+                      </a>
+                      <span className="shrink-0 text-xs text-slate-400">{formatFileSize(a.sizeBytes)}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
 

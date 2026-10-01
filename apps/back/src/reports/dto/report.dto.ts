@@ -64,11 +64,6 @@ export class CreateReportDto {
   @IsString()
   @IsOptional()
   nextSteps?: string;
-
-  @ApiPropertyOptional({ enum: ReportStatus, example: ReportStatus.DRAFT })
-  @IsEnum(ReportStatus)
-  @IsOptional()
-  status?: ReportStatus;
 }
 
 export class UpdateReportDto {
@@ -92,10 +87,10 @@ export class UpdateReportDto {
   @IsOptional()
   subsystem?: string;
 
-  @ApiPropertyOptional({ enum: FlightStage })
+  @ApiPropertyOptional({ enum: FlightStage, nullable: true, description: 'null quita la etapa de vuelo' })
   @IsEnum(FlightStage)
   @IsOptional()
-  flightStage?: FlightStage;
+  flightStage?: FlightStage | null;
 
   @ApiPropertyOptional()
   @IsString()

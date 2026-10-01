@@ -71,8 +71,8 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3001;
   await app.listen(port);
-  console.log(`🚀 Orbit Backend running on: http://localhost:${port}/api`);
-  console.log(`📚 Orbit Swagger OpenAPI Docs available on: http://localhost:${port}/api/docs`);
+  console.log(`Orbit Backend running on: http://localhost:${port}/api`);
+  console.log(`Orbit Swagger OpenAPI Docs available on: http://localhost:${port}/api/docs`);
 }
 
 bootstrap();
