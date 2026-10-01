@@ -162,8 +162,8 @@ export function OrbitShell({ children }: { children: React.ReactNode }) {
     <div className="relative min-h-screen bg-canvas font-sans text-fg selection:bg-brand/25">
       {/* Resplandor ambiente, igual que la landing */}
       <div className="no-print pointer-events-none fixed inset-0 overflow-hidden" aria-hidden="true">
-        <div className="animate-ambient-mesh absolute -right-32 -top-40 h-[520px] w-[520px] rounded-full bg-brand/[0.08] blur-[140px]" />
-        <div className="animate-ambient-mesh-slow absolute -bottom-48 left-1/4 h-[480px] w-[480px] rounded-full bg-[#17264F]/40 blur-[140px]" />
+        <div className="animate-ambient-mesh absolute -right-32 -top-40 h-[520px] w-[520px] rounded-full bg-halo-brand blur-[140px]" />
+        <div className="animate-ambient-mesh-slow absolute -bottom-48 left-1/4 h-[480px] w-[480px] rounded-full bg-halo-blue blur-[140px]" />
       </div>
 
       {/* Sidebar desktop */}

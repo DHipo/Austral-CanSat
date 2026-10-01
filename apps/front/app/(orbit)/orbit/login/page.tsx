@@ -45,8 +45,8 @@ function LoginForm() {
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-canvas px-4 py-12 font-sans text-fg">
       <div className="pointer-events-none fixed inset-0" aria-hidden="true">
-        <div className="animate-ambient-mesh absolute -right-32 -top-40 h-[520px] w-[520px] rounded-full bg-brand/[0.10] blur-[140px]" />
-        <div className="animate-ambient-mesh-slow absolute -bottom-48 -left-24 h-[480px] w-[480px] rounded-full bg-[#17264F]/50 blur-[140px]" />
+        <div className="animate-ambient-mesh absolute -right-32 -top-40 h-[520px] w-[520px] rounded-full bg-halo-brand blur-[140px]" />
+        <div className="animate-ambient-mesh-slow absolute -bottom-48 -left-24 h-[480px] w-[480px] rounded-full bg-halo-blue blur-[140px]" />
       </div>
 
       <div className="relative w-full max-w-md">
