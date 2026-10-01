@@ -1,6 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.ts";
+
+@theme {
+  --color-orbit-bg: #0B1633;
+  --color-orbit-bg-deep: #060C1E;
+  --color-orbit-surface: #17264F;
+  --color-orbit-surface-light: #1E3268;
+  --color-orbit-surface-subtle: rgba(23, 38, 79, 0.65);
+  --color-orbit-muted: #5A6785;
+  --color-orbit-border: rgba(90, 103, 133, 0.25);
+  --color-orbit-accent: #C9D6F2;
+  --color-orbit-text: #EEF2FA;
+  --color-orbit-orange: #FF7A1A;
+  --color-orbit-orange-hover: #D9620B;
+  --color-orbit-orange-glow: rgba(255, 122, 26, 0.25);
+  --color-orbit-success: #10B981;
+  --color-orbit-warning: #F59E0B;
+  --color-orbit-danger: #EF4444;
+  --color-orbit-cyan: #06B6D4;
+}
 
 @layer base {
   :root {

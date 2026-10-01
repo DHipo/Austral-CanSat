@@ -5,14 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
-    "dev:vite": "vite",
     "build": "next build",
-    "build:vite": "tsc -b && vite build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@orbit/shared": "file:../packages/shared",
+    "@tailwindcss/postcss": "^4.3.3",
     "clsx": "^2.1.1",
     "framer-motion": "^12.4.7",
     "lucide-react": "^0.475.0",
@@ -23,13 +22,10 @@
     "tailwind-merge": "^3.0.1"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.9",
     "@types/node": "^22.13.5",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "@vitejs/plugin-react": "^4.3.4",
     "tailwindcss": "^4.0.9",
-    "typescript": "~5.7.2",
-    "vite": "^6.2.0"
+    "typescript": "~5.7.2"
   }
 }
