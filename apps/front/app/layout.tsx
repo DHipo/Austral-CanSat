@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { ThemeProvider } from '../context/ThemeContext';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -34,8 +35,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" className="dark scroll-smooth">
-      <body className="bg-black text-[#F5F5F7] min-h-screen selection:bg-[#FF7A1A]/30 selection:text-white antialiased font-sans">
-        {children}
+      <body className="bg-black text-[#F5F5F7] min-h-screen selection:bg-[#FF7A1A]/30 selection:text-white antialiased font-sans transition-colors duration-500">
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

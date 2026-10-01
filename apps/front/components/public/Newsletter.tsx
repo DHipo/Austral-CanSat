@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react';
 import { Mail, CheckCircle2, AlertCircle, Send, Loader2 } from 'lucide-react';
+import { useTheme } from '@/context/ThemeContext';
 
 export const Newsletter: React.FC = () => {
+  const { theme } = useTheme();
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
@@ -43,26 +45,34 @@ export const Newsletter: React.FC = () => {
     }
   };
 
+  const isLight = theme === 'light';
+
   return (
-    <section id="newsletter" className="py-28 text-[#F5F5F7] relative">
+    <section id="newsletter" className={`py-28 relative transition-colors duration-500 ${isLight ? 'text-[#0B1633]' : 'text-[#F5F5F7]'}`}>
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         
-        <div className="rounded-[36px] bg-gradient-to-br from-[#17264F]/60 via-[#0B1633]/80 to-[#000000] border border-white/15 p-10 sm:p-16 backdrop-blur-2xl shadow-2xl relative overflow-hidden text-center">
+        <div className={`rounded-[36px] p-10 sm:p-16 backdrop-blur-2xl transition-all duration-500 relative overflow-hidden text-center ${
+          isLight
+            ? 'bg-white/80 border border-black/[0.08] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.06)]'
+            : 'bg-gradient-to-br from-[#17264F]/60 via-[#0B1633]/80 to-[#000000] border border-white/15 shadow-2xl'
+        }`}>
           
           {/* Subtle Ambient Radial */}
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#FF7A1A]/12 rounded-full blur-[140px] pointer-events-none" />
+          <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#FF7A1A]/10 rounded-full blur-[140px] pointer-events-none" />
 
           <div className="inline-block mb-6">
-            <span className="apple-label text-[#FF7A1A] px-6 py-2 rounded-full bg-white/[0.06] border border-white/15 backdrop-blur-xl">
+            <span className={`apple-label text-[#FF7A1A] px-6 py-2 rounded-full border backdrop-blur-xl ${
+              isLight ? 'bg-[#FF7A1A]/10 border-[#FF7A1A]/20' : 'bg-white/[0.06] border-white/15'
+            }`}>
               Comunidad & Divulgación
             </span>
           </div>
 
-          <h3 className="apple-title-section text-[#F5F5F7] font-bold mb-6">
+          <h3 className={`apple-title-section font-bold mb-6 ${isLight ? 'text-[#0B1633]' : 'text-[#F5F5F7]'}`}>
             Sigue la Trayectoria de AuSat
           </h3>
 
-          <p className="apple-body-large text-[#C9D6F2] font-normal leading-relaxed mb-12 max-w-3xl mx-auto">
+          <p className={`apple-body-large font-normal leading-relaxed mb-12 max-w-3xl mx-auto ${isLight ? 'text-[#4B5563]' : 'text-[#C9D6F2]'}`}>
             Recibe actualizaciones periódicas sobre los ensayos de paraglider guiado, avances del informe PDR y el lanzamiento en cohete sonda CONAE.
           </p>
 
@@ -74,7 +84,11 @@ export const Newsletter: React.FC = () => {
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Nombre y Apellido (opcional)"
-                className="px-6 py-4 rounded-full bg-white/[0.06] border border-white/15 focus:border-[#FF7A1A] text-base text-[#F5F5F7] placeholder-[#86868B] focus:outline-none transition-colors"
+                className={`px-6 py-4 rounded-full border text-base focus:outline-none focus:border-[#FF7A1A] transition-colors ${
+                  isLight
+                    ? 'bg-black/[0.03] border-black/10 text-[#0B1633] placeholder-[#86868B]'
+                    : 'bg-white/[0.06] border-white/15 text-[#F5F5F7] placeholder-[#86868B]'
+                }`}
               />
               <input
                 type="email"
@@ -82,7 +96,11 @@ export const Newsletter: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="tu.correo@ejemplo.com"
-                className="flex-grow px-6 py-4 rounded-full bg-white/[0.06] border border-white/15 focus:border-[#FF7A1A] text-base text-[#F5F5F7] placeholder-[#86868B] focus:outline-none transition-colors"
+                className={`flex-grow px-6 py-4 rounded-full border text-base focus:outline-none focus:border-[#FF7A1A] transition-colors ${
+                  isLight
+                    ? 'bg-black/[0.03] border-black/10 text-[#0B1633] placeholder-[#86868B]'
+                    : 'bg-white/[0.06] border-white/15 text-[#F5F5F7] placeholder-[#86868B]'
+                }`}
               />
               <button
                 type="submit"

@@ -24,30 +24,30 @@ async function main() {
       email: 'bdhipolito@austral.edu.ar',
       name: "Bautista D'Hipólito",
       role: UserRole.LEAD,
-      career: 'Ingeniería Informática',
+      career: 'Ingeniería Informática (3er año)',
       subsystem: 'Arquitectura, Aviónica & Sistemas',
       passwordHash: await bcrypt.hash('Orbit2026!Lead', salt),
       avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250',
       isAuthorizedTechnical: true,
     },
     {
-      email: 'mfernandez@austral.edu.ar',
-      name: 'Mateo Fernández',
+      email: 'mfogliato@austral.edu.ar',
+      name: 'María Paz Fogliato',
       role: UserRole.AVIONICS,
-      career: 'Ingeniería Informática',
+      career: 'Ingeniería Informática (2do año)',
       subsystem: 'Aviónica, Sensores & Hardware LoRa',
-      passwordHash: await bcrypt.hash('Orbit2026!Hardware', salt),
-      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=250',
+      passwordHash: await bcrypt.hash('Orbit2026!Avionics', salt),
+      avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=250',
       isAuthorizedTechnical: true,
     },
     {
-      email: 'srossi@austral.edu.ar',
-      name: 'Sofía Rossi',
+      email: 'jviani@austral.edu.ar',
+      name: 'Joaquín Viani',
       role: UserRole.FLIGHT_DYNAMICS,
-      career: 'Ingeniería Industrial',
+      career: 'Ingeniería Informática (1er año)',
       subsystem: 'Recuperación, Paraglider & Aerodinámica',
       passwordHash: await bcrypt.hash('Orbit2026!Dynamics', salt),
-      avatarUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=250',
+      avatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=250',
       isAuthorizedTechnical: true,
     },
   ];
@@ -72,8 +72,8 @@ async function main() {
   }
 
   const bautista = seededUsers[0];
-  const mateo = seededUsers[1];
-  const sofia = seededUsers[2];
+  const mariaPaz = seededUsers[1];
+  const joaquin = seededUsers[2];
 
   // 3. Pre-seed Mission Calendar Events
   console.log('📅 Seeding CanSat CONAE Mission Calendar Events...');
@@ -96,7 +96,7 @@ async function main() {
       category: EventCategory.HARDWARE_TEST,
       location: 'Laboratorio de Materiales - Univ. Austral',
       isMilestone: false,
-      createdById: mateo.id,
+      createdById: mariaPaz.id,
     },
     {
       title: 'Prueba de Despliegue de Paraglider y Actuadores',
@@ -106,7 +106,7 @@ async function main() {
       category: EventCategory.PARACHUTE_TEST,
       location: 'Campus Universidad Austral (Zona Abierta Pilar)',
       isMilestone: true,
-      createdById: sofia.id,
+      createdById: joaquin.id,
     },
     {
       title: 'Reunión Semanal de Sincronización Técnica AuSat',

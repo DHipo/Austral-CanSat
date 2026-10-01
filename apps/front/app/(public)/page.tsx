@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useTheme } from '../../context/ThemeContext';
 import { InteractiveBackground } from '../../components/public/InteractiveBackground';
 import { Navbar } from '../../components/public/Navbar';
 import { Hero } from '../../components/public/Hero';
@@ -12,6 +13,7 @@ import { Footer } from '../../components/public/Footer';
 import { OrbitAuthModal } from '../../components/orbit/OrbitAuthModal';
 
 export default function HomePage() {
+  const { theme } = useTheme();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const router = useRouter();
 
@@ -27,8 +29,12 @@ export default function HomePage() {
     }
   };
 
+  const isLight = theme === 'light';
+
   return (
-    <main className="relative bg-black text-[#F5F5F7] min-h-screen font-sans selection:bg-[#FF7A1A]/30 selection:text-white overflow-x-hidden">
+    <main className={`relative min-h-screen font-sans transition-colors duration-500 overflow-x-hidden ${
+      isLight ? 'bg-transparent text-[#0B1633] selection:bg-[#FF7A1A]/20' : 'bg-transparent text-[#F5F5F7] selection:bg-[#FF7A1A]/30'
+    }`}>
       {/* Dynamic Animated Mesh & Mouse Reactive Interactive Background */}
       <InteractiveBackground />
 

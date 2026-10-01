@@ -24,20 +24,20 @@ export const OrbitAuthModal: React.FC<OrbitAuthModalProps> = ({
   const quickUsers = [
     {
       name: "Bautista D'Hipólito",
-      role: 'Líder & Sistemas',
+      role: 'Líder & Sistemas (3er año)',
       email: 'bdhipolito@austral.edu.ar',
       pass: 'Orbit2026!Lead',
     },
     {
-      name: 'Mateo Fernández',
-      role: 'Aviónica & Hardware',
-      email: 'mfernandez@austral.edu.ar',
-      pass: 'Orbit2026!Hardware',
+      name: 'María Paz Fogliato',
+      role: 'Aviónica & HW (2do año)',
+      email: 'mfogliato@austral.edu.ar',
+      pass: 'Orbit2026!Avionics',
     },
     {
-      name: 'Sofía Rossi',
-      role: 'Dinámica & Paraglider',
-      email: 'srossi@austral.edu.ar',
+      name: 'Joaquín Viani',
+      role: 'Dinámica & Vuelo (1er año)',
+      email: 'jviani@austral.edu.ar',
       pass: 'Orbit2026!Dynamics',
     },
   ];
