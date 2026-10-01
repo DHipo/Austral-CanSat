@@ -28,6 +28,86 @@
   --color-orbit-cyan: #06B6D4;
 }
 
+/* ========================================================================= */
+/* ORBIT APP — SEMANTIC TOKENS (light / dark)                                */
+/* Usar estas clases en la suite /orbit: bg-canvas, bg-panel, text-fg,       */
+/* text-fg-muted, border-line, bg-brand, text-ok, etc.                       */
+/* ========================================================================= */
+
+:root {
+  --o-canvas: #000000;
+  --o-chrome: rgba(0, 0, 0, 0.72);
+  --o-panel: #0B1633;
+  --o-panel-2: rgba(23, 38, 79, 0.55);
+  --o-panel-hover: rgba(255, 255, 255, 0.05);
+  --o-line: rgba(255, 255, 255, 0.10);
+  --o-line-strong: rgba(255, 255, 255, 0.20);
+  --o-fg: #F5F5F7;
+  --o-fg-muted: #C9D6F2;
+  --o-fg-subtle: #86868B;
+  --o-brand: #FF7A1A;
+  --o-brand-hover: #D9620B;
+  --o-brand-fg: #FFFFFF;
+  --o-ok: #10B981;
+  --o-warn: #F59E0B;
+  --o-err: #EF4444;
+  --o-info: #06B6D4;
+  --o-plum: #A855F7;
+}
+
+html.light {
+  --o-canvas: #F5F5F7;
+  --o-chrome: rgba(255, 255, 255, 0.8);
+  --o-panel: #FFFFFF;
+  --o-panel-2: #EEF1F6;
+  --o-panel-hover: rgba(11, 22, 51, 0.04);
+  --o-line: rgba(0, 0, 0, 0.08);
+  --o-line-strong: rgba(0, 0, 0, 0.16);
+  --o-fg: #0B1633;
+  --o-fg-muted: #4B5563;
+  --o-fg-subtle: #5A6785;
+  --o-ok: #059669;
+  --o-warn: #B45309;
+  --o-err: #DC2626;
+  --o-info: #0891B2;
+  --o-plum: #7C3AED;
+}
+
+/* Superficie de tarjeta de Orbit: mismo lenguaje que las cards de la landing */
+.orbit-card {
+  background: linear-gradient(180deg, rgba(23, 38, 79, 0.45) 0%, rgba(11, 22, 51, 0.65) 100%);
+  border: 1px solid var(--o-line);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 12px 32px -14px rgba(0, 0, 0, 0.7);
+}
+
+html.light .orbit-card {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+}
+
+@theme inline {
+  --color-canvas: var(--o-canvas);
+  --color-chrome: var(--o-chrome);
+  --color-panel: var(--o-panel);
+  --color-panel-2: var(--o-panel-2);
+  --color-panel-hover: var(--o-panel-hover);
+  --color-line: var(--o-line);
+  --color-line-strong: var(--o-line-strong);
+  --color-fg: var(--o-fg);
+  --color-fg-muted: var(--o-fg-muted);
+  --color-fg-subtle: var(--o-fg-subtle);
+  --color-brand: var(--o-brand);
+  --color-brand-hover: var(--o-brand-hover);
+  --color-brand-fg: var(--o-brand-fg);
+  --color-ok: var(--o-ok);
+  --color-warn: var(--o-warn);
+  --color-err: var(--o-err);
+  --color-info: var(--o-info);
+  --color-plum: var(--o-plum);
+}
+
 @layer base {
   :root {
     --orbit-bg: #000000;

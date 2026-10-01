@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useTheme } from '../../context/ThemeContext';
 import { InteractiveBackground } from '../../components/public/InteractiveBackground';
@@ -10,17 +10,13 @@ import { CanSatSpecs } from '../../components/public/CanSatSpecs';
 import { TeamSection } from '../../components/public/TeamSection';
 import { Newsletter } from '../../components/public/Newsletter';
 import { Footer } from '../../components/public/Footer';
-import { OrbitAuthModal } from '../../components/orbit/OrbitAuthModal';
 
 export default function HomePage() {
   const { theme } = useTheme();
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const router = useRouter();
 
-  const handleOrbitSuccess = (_userData?: any) => {
-    // Navigate to the private Orbit dashboard
-    router.push('/orbit');
-  };
+  // El middleware redirige a /orbit/login si no hay sesión.
+  const goToOrbit = () => router.push('/orbit');
 
   const scrollToSection = (id: string) => {
     const el = document.getElementById(id);
@@ -42,7 +38,7 @@ export default function HomePage() {
       <div className="relative z-10">
         {/* Top Persistent Glass Navbar */}
         <Navbar
-          onOrbitClick={() => setIsAuthModalOpen(true)}
+          onOrbitClick={goToOrbit}
           onNavigateSection={scrollToSection}
         />
 
@@ -50,7 +46,7 @@ export default function HomePage() {
         <div id="hero">
           <Hero
             onSpecsClick={() => scrollToSection('subsistemas')}
-            onOrbitAccessClick={() => setIsAuthModalOpen(true)}
+            onOrbitAccessClick={goToOrbit}
           />
         </div>
 
@@ -64,15 +60,8 @@ export default function HomePage() {
         <Newsletter />
 
         {/* Institutional Footer */}
-        <Footer onOrbitClick={() => setIsAuthModalOpen(true)} />
+        <Footer onOrbitClick={goToOrbit} />
       </div>
-
-      {/* Orbit Authentication Modal */}
-      <OrbitAuthModal
-        isOpen={isAuthModalOpen}
-        onClose={() => setIsAuthModalOpen(false)}
-        onSuccess={handleOrbitSuccess}
-      />
     </main>
   );
 }

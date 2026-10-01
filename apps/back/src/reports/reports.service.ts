@@ -349,14 +349,14 @@ export class ReportsService {
     </div>
     <div>
       <div class="signature-line">
-        <strong>Mateo Fernández</strong><br/>
-        Aviónica & Sensores
+        <strong>María Paz Fogliato</strong><br/>
+        Aviónica & Hardware
       </div>
     </div>
     <div>
       <div class="signature-line">
-        <strong>Sofía Rossi</strong><br/>
-        Recuperación & Aerodinámica
+        <strong>Joaquín Viani</strong><br/>
+        Dinámica & Vuelo
       </div>
     </div>
   </div>

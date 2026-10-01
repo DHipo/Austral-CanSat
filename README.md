@@ -29,7 +29,7 @@
 graph TB
   subgraph ClientLayer ["Capa de Clientes & Navegación"]
     PublicUser["Visitante / Institución\n(Público)"]
-    AustralTeam["3 Ingenieros Univ. Austral\n(Bautista, Mateo, Sofía)"]
+    AustralTeam["3 Ingenieros Univ. Austral\n(Bautista, María Paz, Joaquín)"]
   end
 
   subgraph FrontendApp ["apps/front (Next.js 15 App Router)"]
@@ -137,17 +137,29 @@ npm run dev:back
 npm run dev:front
 ```
 
+### 4.5 Opción C: PostgreSQL local (sin Docker)
+Con un PostgreSQL instalado en la máquina, crear el usuario y la base una sola vez (como superusuario `postgres`). `CREATEDB` hace falta para la shadow database de `prisma migrate dev`:
+```bash
+psql -U postgres -c "CREATE ROLE orbit_user WITH LOGIN PASSWORD 'orbit_super_secret_password_2026' CREATEDB;"
+psql -U postgres -c "CREATE DATABASE orbit_db OWNER orbit_user;"
+```
+Copiar `apps/.env.example` a `apps/back/.env` (solo hace falta `DATABASE_URL`) y seguir con los pasos 2 a 4 de la opción B.
+
+> El front siempre llama a `/api` en su mismo origen y Next lo reenvía al backend (`BACKEND_INTERNAL_URL`, por defecto `http://localhost:3001`). Así la cookie de sesión queda en el dominio del front y el middleware puede proteger `/orbit`.
+
 ---
 
 ## 5. Usuarios Técnicos Sembrados (Acceso a Orbit)
 
 El script `apps/back/prisma/seed.ts` inicializa a los 3 integrantes oficiales de la Universidad Austral con contraseñas encriptadas mediante `bcrypt` y autorización estricta:
 
-| Integrante | Rol Técnico | Email Institucional | Contraseña Inicial |
-|---|---|---|---|
-| **Bautista D'Hipólito** | Líder de Proyecto & Sistemas | `bdhipolito@austral.edu.ar` | `Orbit2026!Lead` |
-| **Mateo Fernández** | Aviónica, Sensores & LoRa | `mfernandez@austral.edu.ar` | `Orbit2026!Hardware` |
-| **Sofía Rossi** | Recuperación, Paraglider & Carga | `srossi@austral.edu.ar` | `Orbit2026!Dynamics` |
+| Integrante | Rol Técnico | Email Institucional |
+|---|---|---|
+| **Bautista D'Hipólito** | Líder de Proyecto & Sistemas | `bdhipolito@austral.edu.ar` |
+| **María Paz Fogliato** | Aviónica & Hardware | `mfogliato@austral.edu.ar` |
+| **Joaquín Viani** | Dinámica & Vuelo | `jviani@austral.edu.ar` |
+
+> Las contraseñas iniciales de desarrollo están en `seed.ts` y no se publican acá. Cambialas antes de cualquier despliegue real.
 
 ---
 

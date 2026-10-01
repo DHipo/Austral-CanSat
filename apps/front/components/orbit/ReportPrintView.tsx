@@ -2,6 +2,17 @@
 
 import React from 'react';
 import { Printer, ArrowLeft, ShieldCheck, Check, Copy } from 'lucide-react';
+import { ORBIT_TEAM } from '../../lib/orbit/team';
+import { FLIGHT_STAGE, REPORT_CATEGORY, REPORT_STATUS } from '../../lib/orbit/labels';
+import { Button } from './ui';
+
+// Muestra la etiqueta legible si el valor es un código conocido (ej. APPROVED → Aprobado).
+function label(map: Record<string, string | { label: string }>, value?: string) {
+  if (!value) return undefined;
+  const entry = map[value];
+  if (!entry) return value;
+  return typeof entry === 'string' ? entry : entry.label;
+}
 
 export interface ReportPrintData {
   id: string;
@@ -53,40 +64,32 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
   });
 
   return (
-    <div className="min-h-screen bg-[#060C1E] text-[#EEF2FA] py-8 px-4 sm:px-6">
+    <div className="space-y-4">
       
       {/* On-screen control bar (Hidden during print) */}
-      <div className="no-print max-w-4xl mx-auto mb-6 flex flex-wrap items-center justify-between gap-4 p-4 rounded-2xl bg-[#17264F] border border-white/10 backdrop-blur-md shadow-lg">
+      <div className="no-print flex flex-wrap items-center justify-between gap-3">
         <button
           onClick={onBack}
-          className="inline-flex items-center gap-2 text-sm text-[#C9D6F2] hover:text-white transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-fg-muted hover:text-fg cursor-pointer"
         >
-          <ArrowLeft className="w-4 h-4" />
-          Volver al panel Orbit
+          <ArrowLeft className="h-3.5 w-3.5" />
+          Volver
         </button>
 
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleCopyHash}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg bg-[#0B1633] text-[#C9D6F2] border border-white/10 hover:border-[#FF7A1A]/50 transition-colors"
-            title="Copiar hash SHA-256 de integridad"
-          >
-            {copiedHash ? <Check className="w-3.5 h-3.5 text-[#10B981]" /> : <Copy className="w-3.5 h-3.5" />}
-            {copiedHash ? 'Hash copiado' : 'Copiar Hash SHA-256'}
-          </button>
-
-          <button
-            onClick={handlePrint}
-            className="inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold rounded-full bg-[#FF7A1A] hover:bg-[#D9620B] text-white shadow-md shadow-[#FF7A1A]/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
-          >
-            <Printer className="w-4 h-4" />
-            Imprimir / Exportar PDF
-          </button>
+        <div className="flex items-center gap-2">
+          <Button size="sm" variant="secondary" onClick={handleCopyHash} title="Copiar hash de revisión">
+            {copiedHash ? <Check className="h-3.5 w-3.5 text-ok" /> : <Copy className="h-3.5 w-3.5" />}
+            {copiedHash ? 'Hash copiado' : 'Copiar hash'}
+          </Button>
+          <Button size="sm" variant="primary" onClick={handlePrint}>
+            <Printer className="h-3.5 w-3.5" />
+            Imprimir / PDF
+          </Button>
         </div>
       </div>
 
       {/* Official Printable Sheet Container */}
-      <div className="orbit-print-sheet max-w-4xl mx-auto bg-white text-[#0B1633] rounded-2xl p-8 sm:p-14 shadow-2xl relative overflow-hidden print:p-0 print:m-0 print:rounded-none print:shadow-none">
+      <div className="orbit-print-sheet max-w-4xl mx-auto bg-white ring-1 ring-line text-[#0B1633] rounded-[28px] p-8 sm:p-14 shadow-2xl relative overflow-hidden print:p-0 print:m-0 print:rounded-none print:shadow-none">
         
         {/* Centered Watermark Overlay */}
         <div 
@@ -127,7 +130,7 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
 
             <div className="text-right">
               <span className="inline-block px-3 py-1 text-xs font-bold uppercase tracking-wider rounded bg-[#17264F] text-[#EEF2FA]">
-                {report.status}
+                {label(REPORT_STATUS, report.status)}
               </span>
               <p className="text-[11px] text-[#5A6785] mt-1.5 font-mono">
                 DOC-REF: {report.id.toUpperCase()}
@@ -160,7 +163,7 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
               </div>
               <div>
                 <span className="font-semibold text-slate-900 inline-block w-28">Categoría:</span>
-                <span className="font-medium text-[#FF7A1A]">{report.category}</span>
+                <span className="font-medium text-[#FF7A1A]">{label(REPORT_CATEGORY, report.category)}</span>
               </div>
               <div>
                 <span className="font-semibold text-slate-900 inline-block w-28">Subsistema:</span>
@@ -168,7 +171,7 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
               </div>
               <div>
                 <span className="font-semibold text-slate-900 inline-block w-28">Etapa de Misión:</span>
-                <span>{report.flightStage || 'N/A (General)'}</span>
+                <span>{label(FLIGHT_STAGE, report.flightStage) || 'N/A (General)'}</span>
               </div>
               <div>
                 <span className="font-semibold text-slate-900 inline-block w-28">Universidad:</span>
@@ -253,41 +256,17 @@ export const ReportPrintView: React.FC<ReportPrintViewProps> = ({ report, onBack
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
-              <div>
-                <div className="h-14 flex items-end justify-center pb-2 font-serif italic text-slate-400">
-                  B. D'Hipólito
+              {ORBIT_TEAM.map((m) => (
+                <div key={m.id}>
+                  <div className="h-14" />
+                  <div className="border-t border-slate-400 pt-2 text-xs font-bold text-slate-900">
+                    {m.name}
+                  </div>
+                  <div className="text-[11px] text-slate-500">
+                    {m.role}
+                  </div>
                 </div>
-                <div className="border-t border-slate-400 pt-2 text-xs font-bold text-slate-900">
-                  Bautista D'Hipólito
-                </div>
-                <div className="text-[11px] text-slate-500">
-                  Líder de Proyecto & Sistemas
-                </div>
-              </div>
-
-              <div>
-                <div className="h-14 flex items-end justify-center pb-2 font-serif italic text-slate-400">
-                  M. Fernández
-                </div>
-                <div className="border-t border-slate-400 pt-2 text-xs font-bold text-slate-900">
-                  Mateo Fernández
-                </div>
-                <div className="text-[11px] text-slate-500">
-                  Aviónica & Sensores
-                </div>
-              </div>
-
-              <div>
-                <div className="h-14 flex items-end justify-center pb-2 font-serif italic text-slate-400">
-                  S. Rossi
-                </div>
-                <div className="border-t border-slate-400 pt-2 text-xs font-bold text-slate-900">
-                  Sofía Rossi
-                </div>
-                <div className="text-[11px] text-slate-500">
-                  Recuperación & Aerodinámica
-                </div>
-              </div>
+              ))}
             </div>
           </div>
 

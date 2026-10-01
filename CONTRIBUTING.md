@@ -44,8 +44,8 @@ Utilizamos el estándar de **Conventional Commits** adaptado a la arquitectura d
    - Formato: `<usuario>/<tipo>-<alcance>-<nombre-breve>`
    - Ejemplos:
      - `bdhipolito/feat-back-jwt-httponly-guard`
-     - `mfernandez/feat-front-cansat-telemetry-specs`
-     - `srossi/fix-front-calendar-tag-filtering`
+     - `mfogliato/feat-front-cansat-telemetry-specs`
+     - `jviani/fix-front-calendar-tag-filtering`
 
 ---
 
