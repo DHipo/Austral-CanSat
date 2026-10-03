@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  orbit-db:
+    image: postgres:16-alpine
+    container_name: orbit-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-orbit_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Error: POSTGRES_PASSWORD must be defined in apps/.env}
+      POSTGRES_DB: ${POSTGRES_DB:-orbit_db}
+    volumes:
+      - orbit_pgdata:/var/lib/postgresql/data
+    networks:
+      - orbit-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-orbit_admin} -d ${POSTGRES_DB:-orbit_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  orbit-backend:
+    build:
+      context: .
+      dockerfile: back/Dockerfile
+    container_name: orbit-backend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:3001"
+    depends_on:
+      orbit-db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://${POSTGRES_USER:-orbit_admin}:${POSTGRES_PASSWORD}@orbit-db:5432/${POSTGRES_DB:-orbit_db}?schema=public
+      JWT_SECRET: ${JWT_SECRET:?Error: JWT_SECRET must be defined in apps/.env}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN:-7d}
+      COOKIE_NAME: ${COOKIE_NAME:-orbit_access_token}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
+      UPLOAD_DIR: /app/back/uploads
+      MAX_FILE_SIZE_MB: ${MAX_FILE_SIZE_MB:-25}
+    volumes:
+      - orbit_uploads:/app/back/uploads
+    networks:
+      - orbit-network
+
+  orbit-frontend:
+    build:
+      context: .
+      dockerfile: front/Dockerfile
+    container_name: orbit-frontend
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3000:3000"
+    depends_on:
+      - orbit-backend
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+    networks:
+      - orbit-network
+
+networks:
+  orbit-network:
+    driver: bridge
+
+volumes:
+  orbit_pgdata:
+  orbit_uploads:

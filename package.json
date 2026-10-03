@@ -21,7 +21,12 @@
     "prisma:studio": "npm run prisma:studio --workspace=@orbit/back",
     "docker:up": "docker compose -f apps/docker-compose.yml up -d --build",
     "docker:down": "docker compose -f apps/docker-compose.yml down",
-    "docker:logs": "docker compose -f apps/docker-compose.yml logs -f"
+    "docker:logs": "docker compose -f apps/docker-compose.yml logs -f",
+    "docker:prod:up": "docker compose -f apps/docker-compose.prod.yml --env-file apps/.env up -d --build",
+    "docker:prod:down": "docker compose -f apps/docker-compose.prod.yml down",
+    "docker:prod:logs": "docker compose -f apps/docker-compose.prod.yml logs -f",
+    "db:prod:migrate": "docker compose -f apps/docker-compose.prod.yml exec orbit-backend npx prisma migrate deploy",
+    "db:prod:seed": "docker compose -f apps/docker-compose.prod.yml exec orbit-backend npm run prisma:seed"
   },
   "keywords": [
     "cansat",
