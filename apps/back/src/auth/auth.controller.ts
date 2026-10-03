@@ -14,6 +14,7 @@ import { Response, Request } from 'express';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { OrbitAuthGuard } from './auth.guard';
+import { CurrentUser, AuthenticatedUser } from './current-user.decorator';
 
 @ApiTags('Authentication (Orbit Private System)')
 @Controller('auth')
@@ -50,8 +51,7 @@ export class AuthController {
   @ApiOperation({ summary: 'Obtener perfil del usuario técnico autenticado' })
   @ApiResponse({ status: 200, description: 'Perfil retornado.' })
   @ApiResponse({ status: 401, description: 'No autenticado.' })
-  async getProfile(@Req() req: Request) {
-    const user = req['user'];
+  async getProfile(@CurrentUser() user: AuthenticatedUser) {
     return this.authService.getMe(user.id);
   }
 }

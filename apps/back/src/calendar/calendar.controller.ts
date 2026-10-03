@@ -14,6 +14,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@ne
 import { CalendarService } from './calendar.service';
 import { CreateCalendarEventDto, UpdateCalendarEventDto } from './dto/calendar.dto';
 import { OrbitAuthGuard } from '../auth/auth.guard';
+import { CurrentUser, AuthenticatedUser } from '../auth/current-user.decorator';
 import { EventCategory } from '@prisma/client';
 import { Request } from 'express';
 
@@ -51,9 +52,8 @@ export class CalendarController {
   @ApiResponse({ status: 201, description: 'Evento creado exitosamente.' })
   async createEvent(
     @Body() dto: CreateCalendarEventDto,
-    @Req() req: Request,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    const user = req['user'];
     return this.calendarService.create(dto, user.id);
   }
 

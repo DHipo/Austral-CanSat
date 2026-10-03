@@ -16,6 +16,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@ne
 import { ReportsService } from './reports.service';
 import { CreateReportDto, UpdateReportDto } from './dto/report.dto';
 import { OrbitAuthGuard } from '../auth/auth.guard';
+import { CurrentUser, AuthenticatedUser } from '../auth/current-user.decorator';
 import { ReportCategory, ReportStatus } from '@prisma/client';
 import { Request, Response } from 'express';
 
@@ -53,9 +54,8 @@ export class ReportsController {
   @ApiResponse({ status: 201, description: 'Reporte creado y sellado con hash.' })
   async createReport(
     @Body() dto: CreateReportDto,
-    @Req() req: Request,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    const user = req['user'];
     return this.reportsService.create(dto, user.id);
   }
 
@@ -64,9 +64,8 @@ export class ReportsController {
   async updateReport(
     @Param('id') id: string,
     @Body() dto: UpdateReportDto,
-    @Req() req: Request,
+    @CurrentUser() user: AuthenticatedUser,
   ) {
-    const user = req['user'];
     return this.reportsService.update(id, dto, user.id);
   }
 
