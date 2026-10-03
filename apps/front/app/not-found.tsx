@@ -1,3 +1,5 @@
+import React from 'react';
+
 export default function NotFound() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#0B1633] text-[#EEF2FA] px-4 text-center">

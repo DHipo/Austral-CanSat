@@ -1,6 +1,9 @@
 'use client';
 
+import React from 'react';
+
 export default function ErrorPage({
+  error: _error,
   reset,
 }: {
   error: Error & { digest?: string };
